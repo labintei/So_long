@@ -6,7 +6,7 @@
 /*   By: labintei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/26 10:50:11 by labintei          #+#    #+#             */
-/*   Updated: 2021/04/05 15:35:56 by labintei         ###   ########.fr       */
+/*   Updated: 2021/04/05 12:11:55 by labintei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,9 @@ void		f_compare(struct s_env *env, double x1,double y1,double x, double y, doubl
 		fin = (cald(x1, env->play.x,y1, env->play.y));
 		o = fin;
 		drawcol1(env, &fin, a, color, x1, y1);
-		return(dray_angle_sprite(env,a, o));
+		return ;
+		/*
+		return(dray_angle_sprite(env,a, o));*/
 	}
 	if(cald(x1, env->play.x, y1, env->play.y) >= cald(x, env->play.x, y, env->play.y) || \
 	a == env->var[3] || a == env->var[4])
@@ -63,7 +65,8 @@ void		f_compare(struct s_env *env, double x1,double y1,double x, double y, doubl
 		fin = (cald(x, env->play.x, y, env->play.y));
 		o = fin;
 		drawcol1(env, &fin, a, color, x, y);
-		return(dray_angle_sprite(env,a, o));
+		return ;
+		//return(dray_angle_sprite(env,a, o));
 	}
 	return ;
 }
