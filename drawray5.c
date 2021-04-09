@@ -6,7 +6,7 @@
 /*   By: labintei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/26 10:50:11 by labintei          #+#    #+#             */
-/*   Updated: 2021/04/05 15:35:56 by labintei         ###   ########.fr       */
+/*   Updated: 2021/04/09 16:44:39 by labintei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,15 +87,17 @@ void	drawcol1(struct	s_env *env, double *d, double a, int color, double x, doubl
 
 void	dvarconst(struct s_env *env)
 {
-	env->var[0] = ((M_PI * 2) / 360) * 90 / env->l.r[0];
-	env->var[1] = ((int)env->l.r[0]/2) * env->var[0];
+	env->var[0] = (((M_PI/2)) / env->l.r[0]);
+	env->var[1] = (env->l.r[0]/2) * env->var[0];
 	env->var[2] = 2 * M_PI;
 	env->var[3] = 3 * (M_PI/2);
 	env->var[4] = M_PI/2;
 	return ;
 }
 
-
+/* x->lim = ((x - res[0]) / 2) * (1 + tan(env->play.pa - a));
+ * delta angle = 1/tan(2/(x - env->l.r[0]))
+     */
 void	drawfov(struct	s_env *env)
 {
 	double	angle;
@@ -106,7 +108,7 @@ void	drawfov(struct	s_env *env)
 	i = 0;
 	while(env->nbray < (env->l.r[0]))
 	{	
-		angle -= (angle >= env->var[2])? env->var[2]: 0;
+		angle -= (angle >= env->var[2])? env->var[2] : 0;
 		angle += (angle < 0)? env->var[2] : 0;
 		dray(env,angle);
 		angle += env->var[0];

@@ -6,7 +6,7 @@
 /*   By: labintei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/13 12:48:04 by labintei          #+#    #+#             */
-/*   Updated: 2021/04/07 16:48:00 by labintei         ###   ########.fr       */
+/*   Updated: 2021/04/09 16:05:30 by labintei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,57 +35,6 @@ void	my_put_pixel(struct	s_img	*i, int x, int y, int color)
 	return ;
 }
 
-void	drawdir_bis_6(struct s_env *env, double x1,double y1)
-{
-	double  x;
-	double	y;
-	char	c;
-
-	c = 0;
-	
-	x = x1 * env->pas;
-	y = y1 * env->pas;
-	while(c == 0 && env->l.map[(int)(y/env->pas)] != 0 && env->l.map[(int)y/env->pas][(int)(x/env->pas)] != '\0')
-	{
-		if(x >= 0 && x < env->l.r[0] && y >= 0 && y < env->l.r[1])
-		{
-			if(env->l.map[(int)(y/env->pas)][(int)(x/env->pas)] != '1')
-				my_put_pixel(&(env->i),x, y, create_trtgb(0,250,0,0));
-			if(env->l.map[(int)(y/env->pas)][(int)(x/env->pas)] == '1')
-				c++;
-		}
-		x += cos(env->play.pa - (M_PI/2));
-		y += sin(env->play.pa - (M_PI/2));
-	}
-	return ;
-}
-
-void	drawdir_bis_7(struct s_env *env, double x1, double y1)
-{
-	double  x;
-	double	y;
-	char	c;
-
-	c = 0;
-	
-	x = x1 * env->pas;
-	y = y1 * env->pas;
-	while(c == 0 && env->l.map[(int)(y/env->pas)] != 0 && env->l.map[(int)y/env->pas][(int)(x/env->pas)] != '\0')
-	{
-		if(x >= 0 && x < env->l.r[0] && y >= 0 && y < env->l.r[1])
-		{
-			if(env->l.map[(int)(y/env->pas)][(int)(x/env->pas)] != '1')
-				my_put_pixel(&(env->i),x, y, create_trtgb(0,0,250,0));
-			if(env->l.map[(int)(y/env->pas)][(int)(x/env->pas)] == '1')
-				c++;
-		}
-		x -= cos(env->play.pa - (M_PI/2));
-		y -= sin(env->play.pa - (M_PI/2));
-	}
-	return ;
-}
-
-
 void	drawdir_bis_1(struct s_env *env)
 {
 	double  x;
@@ -110,35 +59,6 @@ void	drawdir_bis_1(struct s_env *env)
 	}
 	return ;
 }
-/*
-void	drawdir_bis_3(struct s_env *env)
-{
-	double  x;
-	double	y;
-	char	c;
-
-	c = 0;
-	
-	x = env->play.x * env->pas;
-	y = env->play.y * env->pas;
-	while(c == 0 && env->l.map[(int)(y/env->pas)] != 0 && env->l.map[(int)y/env->pas][(int)(x/env->pas)] != '\0')
-	{
-		if(x >= 0 && x < env->l.r[0] && y >= 0 && y < env->l.r[1])
-		{
-			if(env->l.map[(int)(y/env->pas)][(int)(x/env->pas)] != '1')
-				my_put_pixel(&(env->i),x, y, create_trtgb(0,0,250,0));
-			if(env->l.map[(int)(y/env->pas)][(int)(x/env->pas)] == '1')
-				c++;
-		}
-		x -= cos(env->play.pa - (M_PI/2));
-		y -= sin(env->play.pa - (M_PI/2));
-	}
-	return ;
-}*/
-
-/* POUR LA TANGENTE        x -= cos(env->play.pa + (M_PI/2)) y += sin(env->play.pa - (M_PI/2))*/
-/* POUR La TANGENTE        x += cos(env->play.pa + (M_PI/2)) y -= sin(env->play.pa - (M_PI/2))*/
-
 
 void	drawdir(struct s_env *env)
 {
@@ -162,8 +82,7 @@ void	drawdir(struct s_env *env)
 		x += cos(env->play.pa);
 		y += sin(env->play.pa);
 	}
-	drawdir_bis_1(env);/*
-	drawdir_bis_3(env);*/
+	drawdir_bis_1(env);
 	return ;
 }
 
@@ -428,8 +347,7 @@ int			f_key(int	keycode, struct s_env	*env)
 	}
 	if(keycode == KEY_ESC)
 		mlx_destroy_window(env->p.mlx, env->p.mlx_win);
-	drawfov(env);/*
-	draw_minimap(env, 1);*/
+	drawfov(env);
 	draw_player(env);
 	mlx_put_image_to_window(env->p.mlx, env->p.mlx_win, env->i.img, 0,0);
 	mlx_loop(env->p.mlx);
