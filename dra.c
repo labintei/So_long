@@ -6,7 +6,7 @@
 /*   By: labintei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/01 11:41:40 by labintei          #+#    #+#             */
-/*   Updated: 2021/04/09 16:14:42 by labintei         ###   ########.fr       */
+/*   Updated: 2021/04/10 12:58:37 by labintei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,26 +58,18 @@ double		cald_bis(struct s_env *env, double x, double y)
 	return(sqrt(pow(x - env->play.x, 2) + pow(y - env->play.y, 2)));
 }
 
-void		drawcol_sprite(struct s_env *env,double x,int *i)
+void		drawcol_sprite(struct s_env *env,double x, double y, int *i)
 {
+	(void)y;
+	(void)x;
 	int		start;
 	int		color;
-	double	xmur;
-	double	hmur;
-	double	ch;
-	float	cx;
-	float	cy;
 	
-	xmur = x - ((int)x);
-	hmur = (i[0] - i[1]);
-	cx = fabs(xmur * ((float)env->t[4].width));
-	ch = fabs(((float)env->t[4].height / ((float)hmur)));
 	start = i[0];
 	start = (start < 0)? 0 : start;
 	while(start >= 0 && start < env->l.r[1] && start <= i[1])
 	{
-		cy = (start - i[0])* ch;
-		color = index_color(cx, cy,&(env->t[4]));
+		color = create_trtgb(0,150,150,20);
 		my_put_pixel(&(env->i), env->nbray, start, color);
 		start++;
 	}
@@ -100,45 +92,46 @@ void		draw_line_sprite_1(double x, double y,struct s_env *env,double a)
 	hmur = (double)env->l.r[1] / dist;
 	i[0] = (env->l.r[1]/2) - (hmur/2);
 	i[1] = (env->l.r[1]/2) + (hmur/2);
-	drawcol_sprite(env,y, i);
+	drawcol_sprite(env,x,y, i);
 	return ;
 }
 
-void		draw_line_sprite(double x, double y,struct s_env *env,double a)
+void		draw_line_sprite_5(double x, double y,struct s_env *env,double a)
 {
 	double	dist;
 	double	hmur;
-	double	angle;
+//	double	angle;
 	int		i[2];
-
-	angle = env->play.pa - a;
-	angle -= (angle >= 2 * M_PI)? 2*M_PI : 0;
-	angle += (angle < 0)? 2 * M_PI : 0;
+	(void)a;
+//	angle = env->play.pa - a;
+//	angle -= (angle >= 2 * M_PI)? 2*M_PI : 0;
+//	angle += (angle < 0)? 2 * M_PI : 0;
 	dist = cald_bis(env, x, y);
-	dist *= (angle != M_PI/2 && angle != (3*M_PI/2))? cos(angle) : 1;
+//	dist *= (angle != M_PI/2 && angle != (3*M_PI/2))? cos(angle) : 1;*/
 	hmur = (double)env->l.r[1] / dist;
 	i[0] = (env->l.r[1]/2) - (hmur/2);
 	i[1] = (env->l.r[1]/2) + (hmur/2);
-	drawcol_sprite(env,x, i);
+	drawcol_sprite(env,y,x, i);
 	return ;
 }
+
 
 void		draw_line_sprite_4(double x, double y,struct s_env *env,double a)
 {
 	double	dist;
 	double	hmur;
-	double	angle;
+//	double	angle;
 	int		i[2];
-
-	angle = env->play.pa - a;
-	angle -= (angle >= 2 * M_PI)? 2*M_PI : 0;
-	angle += (angle < 0)? 2 * M_PI : 0;
+	(void)a;
+//	angle = env->play.pa - a;
+//	angle -= (angle >= 2 * M_PI)? 2*M_PI : 0;
+//	angle += (angle < 0)? 2 * M_PI : 0;
 	dist = cald_bis(env, x, y);
-	dist *= (angle != M_PI/2 && angle != (3*M_PI/2))? cos(angle) : 1;
+//	dist *= (angle != M_PI/2 && angle != (3*M_PI/2))? cos(angle) : 1;*/
 	hmur = (double)env->l.r[1] / dist;
 	i[0] = (env->l.r[1]/2) - (hmur/2);
 	i[1] = (env->l.r[1]/2) + (hmur/2);
-	drawcol_sprite(env,y, i);
+	drawcol_sprite(env,x,y, i);
 	return ;
 }
 
@@ -171,15 +164,16 @@ void		checkboth(struct s_env *env, double *i, double d, double a)
 		{
 			testy = s[0] - ((int)s[0]);
 			drawcarre((((int)(s[0])) + 0.5 +((testy - 0.5) * cos(env->play.pa + M_PI/2))) * env->pas, (((int)s[1]) + 0.5  + ((testy - 0.5) * sin(env->play.pa + M_PI/2))) * env->pas, 5,env,create_trtgb(0,250,150,0));
-			draw_line_sprite((((int)(s[0])) + 0.5 +((testy - 0.5) * cos(env->play.pa + M_PI/2))), (((int)s[1]) + 0.5  + ((testy - 0.5) * sin(env->play.pa + M_PI/2))),env,a); 
+			draw_line_sprite_4((((int)(s[0])) + 0.5 +((testy - 0.5) * cos(env->play.pa + M_PI/2))), (((int)s[1]) + 0.5  + ((testy - 0.5) * sin(env->play.pa + M_PI/2))),env,a); 
 
 		}
+	/* AFFICHAGE OK*/
 	if(ca(env,s[2],s[3]))
 		if(env->l.map[(int)s[3]][(int)s[2]] == '2' && cald_bis(env,s[2],s[3]) < d)
 		{
 			testx = s[3] - ((int)s[3]);
 			drawcarre((((int)(s[2])) + 0.5 + ((testx - 0.5) * cos(env->play.pa + M_PI/2))) * env->pas, (((int)s[3])+ 0.5 + ((testx - 0.5) * sin(env->play.pa + M_PI/2))) * env->pas, 5,env,create_trtgb(0,0,150,0));
-			draw_line_sprite_4((((int)(s[2])) + 0.5 + ((testx - 0.5) * cos(env->play.pa + M_PI/2))) , (((int)s[3])+ 0.5 + ((testx - 0.5) * sin(env->play.pa + M_PI/2))) ,env,a);
+			draw_line_sprite_5((((int)(s[2])) + 0.5 + ((testx - 0.5) * cos(env->play.pa + M_PI/2))) , (((int)s[3])+ 0.5 + ((testx - 0.5) * sin(env->play.pa + M_PI/2))) ,env,a);
 
 		}
 	return ;
@@ -205,15 +199,16 @@ void		dray_angle_sprite(struct s_env *env, double a, double d)
 		{
 			testy = s[0] - ((int)s[0]);
 			drawcarre((((int)(s[0])) + 0.5 +((testy - 0.5) * cos(env->play.pa + M_PI/2))) * env->pas, (((int)s[1]) + 0.5  + ((testy - 0.5) * sin(env->play.pa + M_PI/2))) * env->pas, 5,env,create_trtgb(0,250,150,0));
-			draw_line_sprite((((int)(s[0])) + 0.5 +((testy - 0.5) * cos(env->play.pa + M_PI/2))), (((int)s[1]) + 0.5  + ((testy - 0.5) * sin(env->play.pa + M_PI/2))),env,a); 
+			draw_line_sprite_4((((int)(s[0])) + 0.5 +((testy - 0.5) * cos(env->play.pa + M_PI/2))), (((int)s[1]) + 0.5  + ((testy - 0.5) * sin(env->play.pa + M_PI/2))),env,a); 
 
 		}
+	/* AFFICHAGE OK*/
 	if(ca(env,s[2],s[3]))
 		if(env->l.map[(int)s[3]][(int)s[2]] == '2' && cald_bis(env,s[2],s[3]) < d)
 		{
 			testx = s[3] - ((int)s[3]);
 			drawcarre((((int)(s[2])) + 0.5 + ((testx - 0.5) * cos(env->play.pa + M_PI/2))) * env->pas, (((int)s[3])+ 0.5 + ((testx - 0.5) * sin(env->play.pa + M_PI/2))) * env->pas, 5,env,create_trtgb(0,0,150,0));
-			draw_line_sprite_4((((int)(s[2])) + 0.5 + ((testx - 0.5) * cos(env->play.pa + M_PI/2))) , (((int)s[3])+ 0.5 + ((testx - 0.5) * sin(env->play.pa + M_PI/2))) ,env,a);
+			draw_line_sprite_5((((int)(s[2])) + 0.5 + ((testx - 0.5) * cos(env->play.pa + M_PI/2))) , (((int)s[3])+ 0.5 + ((testx - 0.5) * sin(env->play.pa + M_PI/2))) ,env,a);
 		}
 	return ;
 }

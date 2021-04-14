@@ -6,7 +6,7 @@
 /*   By: labintei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 10:06:25 by labintei          #+#    #+#             */
-/*   Updated: 2021/04/04 10:35:58 by labintei         ###   ########.fr       */
+/*   Updated: 2021/04/12 14:01:28 by labintei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,11 +153,11 @@ void	ft_put_map(struct s_list *l, int min, int max, int j, int ligne)
 	o = 0;
 	
 	printf("\nLIGNE%d   |\n", ligne);
-	if(!(l->map = malloc(sizeof(char *) * ligne + 1)))
+	if(!(l->map = malloc(sizeof(char *) * (ligne + 1))))
 		return ;
 	while(l->stock[t] && t <= j && i <= ligne)
 	{
-		if(!(((l->map)[i]) = (malloc(sizeof(char) * (max - min) + 1))))
+		if(!(((l->map)[i]) = (malloc(sizeof(char) * ((max - min) + 1)))))
 			return ;
 		t += min;
 		o = 0;
@@ -209,26 +209,38 @@ void	ft_putstr(char *s)
 	return ;
 }
 
+void	free_string(char *s)
+{
+	int		i;
+
+	i = 0;
+	while(s[i])
+	{
+		s[i] = 0;
+		i++;
+	}
+	return ;
+}
+
+
 void	treat_map(struct s_list *l)
 {
 	int		n;
 	int		i;
-	int		buf;
-	char *s;
+	char s[10000];
 
 	i = -1;
-	buf = 100000;
-	l ->stock = NULL;
+	l ->stock = NULL;/*
 	s = NULL;
-	s = malloc((sizeof(char) * buf + 1));
-	s[buf] = '\0';
-	n = read(l->fd, s, buf);
+	s = malloc((sizeof(char) * (buf + 1)));*/
+	//s[buf] = '\0';
+	n = read(l->fd, s, 10000);
 	l->stock = malloc((sizeof(char)) * (n + 1));
 	while(s[++i] && s[i] != '\0')
 		(l->stock)[i] = s[i];
-	(l->stock)[i] = '\0';
-	s[n] = '\0';
-	free(s);
+	(l->stock)[i] = '\0';/*
+	free_string(s);
+	free(s);*/
 	map(l);
 	return ;
 }
@@ -366,7 +378,7 @@ void	map(struct s_list *l)
 	i = 0;
 	l->r[0] = -1;
 	l->r[1] = -1;
-	while(l->stock[i])
+	while(l->stock[i] != '\0')
 	{
 		while(l->n < 8)
 		{
@@ -377,7 +389,7 @@ void	map(struct s_list *l)
 			if((l->stock)[i] && ft_find(l->stock[i], "NSWE"))
 				ft_dir(l, l->stock, &i);
 		}
-		if((l->stock[i]) && l->s && l->no && l->ea && l->we && l->so)
+		if((l->stock[i] != '\0') && l->s && l->no && l->ea && l->we && l->so)
 		{
 			l->stock += i;
 			i = 0;
@@ -424,17 +436,18 @@ char	check_map(struct s_list *l)
 void	openmap(char	*dir)
 {
 	int		fd;
-	char **line;
+	//char **line = NULL;
 	static struct s_env  env;
 	int		i;
 	
-	i = 0;
-	line = malloc((sizeof(char*) * 1));
-	*line = NULL;
+	i = 0;/*
+	line = malloc((sizeof(char**)));
+	line = NULL;*/
 	env.l.n = 0;
 	fd = open(dir, O_RDONLY);
-	if(fd < 0 || read(fd, *line, 0) < 0 || !line)
-		return(ft_putstr("Error\n"));
+	//if(fd < 0 || read(fd, *line, 0) < 0 || !line)
+	//	return(ft_putstr("Error\n"));
+	//	CHECKER LE FD ???//
 	env.l.fd = fd;
 	treat_map(&(env.l));
 	printf("NO %s", env.l.no);

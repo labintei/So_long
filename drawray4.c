@@ -6,7 +6,7 @@
 /*   By: labintei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/26 10:50:11 by labintei          #+#    #+#             */
-/*   Updated: 2021/04/05 15:37:38 by labintei         ###   ########.fr       */
+/*   Updated: 2021/04/13 13:06:11 by labintei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,17 +68,20 @@ void	check_hori(struct s_env *env,double *x,double *y)
 void	dray(struct	s_env *env, double a)
 {
 	double	i[4];
+	double	angle;
 
-	dvar(env, a);
-	init_envi(env, a);
+	angle = (a >= 2 * M_PI)? a - 2*M_PI : a;
+	angle += (angle < 0)?  2*M_PI : 0;
+	dvar(env, angle);
+	init_envi(env, angle);
 	init_i(env, i);
-	if(a != 0 && a != M_PI)
+	if(angle != 0 && angle != M_PI)
 	{
 		if(i[0] > 0 && i[0] < env->xmax && i[1] > 0 && i[1] < env->ymax)
 			if(env->l.map[(int)i[1]][(int)i[0]] != '1')
 				check_hori(env, &(i[0]), &(i[1]));
 	}
-	if(a != env->var[3] && a != env->var[4])
+	if(angle != env->var[3] && angle != env->var[4])
 	{
 		if(i[2] > 0 && i[2] < env->xmax && i[3] > 0 && i[3] < env->ymax)
 			if(env->l.map[(int)i[3]][(int)i[2]] != '1')

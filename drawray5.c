@@ -6,11 +6,14 @@
 /*   By: labintei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/26 10:50:11 by labintei          #+#    #+#             */
-/*   Updated: 2021/04/09 16:44:39 by labintei         ###   ########.fr       */
+/*   Updated: 2021/04/14 15:35:22 by labintei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "map.h"
+
+void	drawcol1_2(struct	s_env *env, double *d, double a, int color, double x, double y);
+
 
 int			index_color(int x, int y, struct s_texture *text)
 {
@@ -46,39 +49,42 @@ void		f_compare(struct s_env *env, double x1,double y1,double x, double y, doubl
 	double		fin;
 	double		o;
 	int			color;
+	double		x2;
 
 	if(cald(x1, env->play.x, y1, env->play.y) < cald(x, env->play.x, y, env->play.y) || \
 	a == 0 || a == M_PI)
 	{
 		color = (x1 > env->play.x)? 1 : 2;
-		fin = (cald(x1, env->play.x,y1, env->play.y));
+		x2 = ceil(x1);
+		fin = (cald(x2, env->play.x,y1, env->play.y));
 		o = fin;
-		drawcol1(env, &fin, a, color, x1, y1);
-		return(dray_angle_sprite(env,a, o));
+		drawcol1(env, &fin, a, color, x2, y1);
+		return ;
+		/*return(dray_angle_sprite(env,a, o));*/
 	}
 	if(cald(x1, env->play.x, y1, env->play.y) >= cald(x, env->play.x, y, env->play.y) || \
 	a == env->var[3] || a == env->var[4])
 	{
 		color = (y > env->play.y)? 3 : 4;
-		fin = (cald(x, env->play.x, y, env->play.y));
+		x2 = ceil(y);
+		fin = (cald(x, env->play.x, x2, env->play.y));
 		o = fin;
-		drawcol1(env, &fin, a, color, x, y);
-		return(dray_angle_sprite(env,a, o));
+		drawcol1(env, &fin, a, color, x, x2);
+		return ;
+		/*return(dray_angle_sprite(env,a, o));*/
 	}
 	return ;
 }
+
 
 void	drawcol1(struct	s_env *env, double *d, double a, int color, double x, double y)
 {
 	double	hmur;
 	int		i[2];
-	double	angle;
-
-	angle = env->play.pa - a;
-	angle -= (angle >= 2 * M_PI)? 2*M_PI: 0;
-	angle += (angle < 0)? 2*M_PI : 0;
-	*d = *d * cos(angle);
-	hmur = (double)env->l.r[1] / *d;
+	double	dist;
+	
+	dist = *d * cos((a > env->play.pa)? a - env->play.pa : env->play.pa - a);
+	hmur = (int)(env->l.r[1] / dist);
 	i[0] = (env->l.r[1]/2) - (hmur / 2);
 	i[1] = (env->l.r[1]/2) + (hmur / 2);
 	drawcol2(env, i, color,x,y);
@@ -101,18 +107,34 @@ void	dvarconst(struct s_env *env)
 void	drawfov(struct	s_env *env)
 {
 	double	angle;
-	int			i;
+	double	dist;
+	double	delta;
+	double	test = M_PI/4;
+	env->play.pa += (env->play.pa < 0)? 2*M_PI : 0;
+	env->play.pa -= (env->play.pa > 2*M_PI)? 2*M_PI : 0;
 
+	dist = env->l.r[0] / (2 * tan(M_PI/4));
+	//printf("\n DIST%f \n",(float)dist);
 	env->nbray = 0;
-	angle = env->play.pa - env->var[1];
-	i = 0;
-	while(env->nbray < (env->l.r[0]))
-	{	
-		angle -= (angle >= env->var[2])? env->var[2] : 0;
-		angle += (angle < 0)? env->var[2] : 0;
-		dray(env,angle);
-		angle += env->var[0];
+	angle = env->play.pa - M_PI/4;
+	while(env->nbray <= env->l.r[0]/2)
+	{
+		dray(env, angle);
 		env->nbray++;
+		delta = test - fabs((atan(abs(((int)env->l.r[0]/2) - env->nbray) / dist)));
+		test -= fabs(delta);
+		//printf("  test %f ", (float)(test));
+		angle += fabs(delta);
+	}
+	test = 0;
+	while(env->nbray < env->l.r[0])
+	{
+		dray(env, angle);
+		env->nbray++;
+		delta = fabs((atan(((int)env->nbray - env->l.r[0]/2) / dist))) - test;
+		test += fabs(delta);
+		angle += fabs(delta);
+
 	}
 	return ;
 }
