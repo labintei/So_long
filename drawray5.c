@@ -12,9 +12,6 @@
 
 #include "map.h"
 
-void	drawcol1_2(struct	s_env *env, double *d, double a, int color, double x, double y);
-
-
 int			index_color(int x, int y, struct s_texture *text)
 {
 	int		index;
@@ -22,7 +19,6 @@ int			index_color(int x, int y, struct s_texture *text)
 	index = (y * text->line_lenght + x * (text->bits_per_pixels / 8));
 	return(((int *)text->addr)[index/4]);
 }
-
 
 void		f_load_texture(struct	s_env *env)
 {
@@ -59,8 +55,7 @@ void		f_compare(struct s_env *env, double x1,double y1,double x, double y, doubl
 		fin = (cald(x2, env->play.x,y1, env->play.y));
 		o = fin;
 		drawcol1(env, &fin, a, color, x2, y1);
-		return ;
-		/*return(dray_angle_sprite(env,a, o));*/
+		return(dray_angle_sprite(env,a, o));
 	}
 	if(cald(x1, env->play.x, y1, env->play.y) >= cald(x, env->play.x, y, env->play.y) || \
 	a == env->var[3] || a == env->var[4])
@@ -70,12 +65,10 @@ void		f_compare(struct s_env *env, double x1,double y1,double x, double y, doubl
 		fin = (cald(x, env->play.x, x2, env->play.y));
 		o = fin;
 		drawcol1(env, &fin, a, color, x, x2);
-		return ;
-		/*return(dray_angle_sprite(env,a, o));*/
+		return(dray_angle_sprite(env,a, o));
 	}
 	return ;
 }
-
 
 void	drawcol1(struct	s_env *env, double *d, double a, int color, double x, double y)
 {
@@ -101,9 +94,6 @@ void	dvarconst(struct s_env *env)
 	return ;
 }
 
-/* x->lim = ((x - res[0]) / 2) * (1 + tan(env->play.pa - a));
- * delta angle = 1/tan(2/(x - env->l.r[0]))
-     */
 void	drawfov(struct	s_env *env)
 {
 	double	angle;
@@ -113,8 +103,11 @@ void	drawfov(struct	s_env *env)
 	env->play.pa += (env->play.pa < 0)? 2*M_PI : 0;
 	env->play.pa -= (env->play.pa > 2*M_PI)? 2*M_PI : 0;
 
+	env->lim[0] = cos(env->play.pa + M_PI/2);
+	env->lim[1] = sin(env->play.pa + M_PI/2);
+
+
 	dist = env->l.r[0] / (2 * tan(M_PI/4));
-	//printf("\n DIST%f \n",(float)dist);
 	env->nbray = 0;
 	angle = env->play.pa - M_PI/4;
 	while(env->nbray <= env->l.r[0]/2)
@@ -123,7 +116,6 @@ void	drawfov(struct	s_env *env)
 		env->nbray++;
 		delta = test - fabs((atan(abs(((int)env->l.r[0]/2) - env->nbray) / dist)));
 		test -= fabs(delta);
-		//printf("  test %f ", (float)(test));
 		angle += fabs(delta);
 	}
 	test = 0;
@@ -249,9 +241,7 @@ void	drawcolW(struct	s_env *env, int *i, double x)
 		i[0]++;
 	}
 	return ;
-
 }
-
 
 void	drawcol2(struct s_env *env,int *i, int color, double x, double y)
 {

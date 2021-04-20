@@ -88,6 +88,7 @@ typedef struct		s_env
 	double		diff[4];
 	double		var[5];
 	double		envi[4];
+	double		lim[2];
 	double		tang;
 	/* 0 NORD 1 SUD 2 WEST 3 EAST 4 SPRITE*/
 }					t_env;
