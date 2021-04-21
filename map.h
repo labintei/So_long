@@ -6,7 +6,7 @@
 /*   By: labintei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 10:12:07 by labintei          #+#    #+#             */
-/*   Updated: 2021/04/07 14:27:11 by labintei         ###   ########.fr       */
+/*   Updated: 2021/04/21 14:23:57 by labintei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,8 +88,7 @@ typedef struct		s_env
 	double		diff[4];
 	double		var[5];
 	double		envi[4];
-	double		lim[2];
-	double		tang;
+	double		fov[20000];
 	/* 0 NORD 1 SUD 2 WEST 3 EAST 4 SPRITE*/
 }					t_env;
 
@@ -145,5 +144,10 @@ void	init_i(struct s_env *env, double *i);
 
 void	drawdir_bis_6(struct s_env *env, double x,double y);
 void	drawdir_bis_7(struct s_env *env, double x,double y);
+
+
+void	stock_drawfov(struct	s_env *env);
+void	drawfov_bis(struct	s_env *env);
+
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: labintei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/26 10:50:11 by labintei          #+#    #+#             */
-/*   Updated: 2021/04/14 15:35:22 by labintei         ###   ########.fr       */
+/*   Updated: 2021/04/21 16:09:16 by labintei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,39 +94,56 @@ void	dvarconst(struct s_env *env)
 	return ;
 }
 
-void	drawfov(struct	s_env *env)
+void	stock_drawfov(struct	s_env *env)
+{
+	double	dist;
+	double	test = M_PI/4;
+	int		n;
+	double	l[4000];
+	
+	l[0] = 0;
+	n = 0;
+	dist = env->l.r[0] / (2 * tan(M_PI/4));
+	while(n <= (env->l.r[0]/2))
+	{
+		n++;
+		l[n] = test - fabs((atan(abs(((int)env->l.r[0]/2) - n) / dist)));
+		test -= fabs(l[n]);
+	}
+	test = 0;
+	while(n <= env->l.r[0])
+	{
+		n++;
+		l[n] = fabs((atan((n - env->l.r[0]/2) / dist))) - test;
+		test += fabs(l[n]);
+	}
+	n = -1;
+	while(++n <= ((int)(env->l.r[0]/2)))
+		env->fov[n] = l[n];
+	return ;
+}
+
+void	drawfov_bis(struct	s_env *env)
 {
 	double	angle;
-	double	dist;
-	double	delta;
-	double	test = M_PI/4;
+	int		n;
+
 	env->play.pa += (env->play.pa < 0)? 2*M_PI : 0;
 	env->play.pa -= (env->play.pa > 2*M_PI)? 2*M_PI : 0;
-
-	env->lim[0] = cos(env->play.pa + M_PI/2);
-	env->lim[1] = sin(env->play.pa + M_PI/2);
-
-
-	dist = env->l.r[0] / (2 * tan(M_PI/4));
 	env->nbray = 0;
 	angle = env->play.pa - M_PI/4;
 	while(env->nbray <= env->l.r[0]/2)
 	{
 		dray(env, angle);
 		env->nbray++;
-		delta = test - fabs((atan(abs(((int)env->l.r[0]/2) - env->nbray) / dist)));
-		test -= fabs(delta);
-		angle += fabs(delta);
+		angle += fabs(env->fov[env->nbray]);
 	}
-	test = 0;
-	while(env->nbray < env->l.r[0])
+	n = env->nbray;
+	while(env->nbray < (env->l.r[0]))
 	{
 		dray(env, angle);
 		env->nbray++;
-		delta = fabs((atan(((int)env->nbray - env->l.r[0]/2) / dist))) - test;
-		test += fabs(delta);
-		angle += fabs(delta);
-
+		angle += fabs(env->fov[--n]);
 	}
 	return ;
 }
