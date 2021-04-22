@@ -6,7 +6,7 @@
 /*   By: labintei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/13 12:48:04 by labintei          #+#    #+#             */
-/*   Updated: 2021/04/21 16:11:00 by labintei         ###   ########.fr       */
+/*   Updated: 2021/04/22 16:32:47 by labintei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -284,7 +284,7 @@ void		draw_player(struct s_env *env)
 		if(x >= 0 && x < env->l.r[0] && y >= 0 && y < env->l.r[1])
 		{
 			if(env->l.map[(int)(y/env->pas)][(int)(x/env->pas)] != '1')
-				my_put_pixel(&(env->i),x, y, create_trtgb(0,250,250,250));
+				my_put_pixel(&(env->i),x, y, create_trtgb(0,0,250,250));
 			if(env->l.map[(int)(y/env->pas)][(int)(x/env->pas)] == '1')
 				c++;
 		}
