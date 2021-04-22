@@ -6,7 +6,7 @@
 /*   By: labintei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/01 11:41:40 by labintei          #+#    #+#             */
-/*   Updated: 2021/04/22 16:54:51 by labintei         ###   ########.fr       */
+/*   Updated: 2021/04/22 17:02:17 by labintei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,13 @@ void		draw_line_sprite_6(double x, double y,struct s_env *env,double a)
 //	((int)env->play.y == (int)y) ? dbis = 0 : dbis;
 
 	drawcarre((x + d + ((diffy) * cos(env->play.pa + M_PI/2))) * env->pas, ((int)y + dbis + ((diffy) * sin(env->play.pa + M_PI/2))) * env->pas, 5, env, create_trtgb(0,150,0,0));
-	dist = sqrt(pow(fabs(((int)x) - env->play.x) + 0.5 , 2) + pow(fabs(((int)y) - env->play.y) + 0.5, 2));
+
+	testx = x + d + ((diffy) * cos(env->play.pa + M_PI/2));
+	testy = (int)y + dbis + ((diffy) * sin(env->play.pa + M_PI/2));
+
+
+	dist = sqrt(pow(testx - env->play.x, 2) + pow(testy - env->play.y, 2));
+	//dist = sqrt(pow(fabs(((int)x) - env->play.x) + 0.5 , 2) + pow(fabs(((int)y) - env->play.y) + 0.5, 2));
 	hmur = (double)env->l.r[1] / dist;
 	i[0] = (env->l.r[1]/2) - (hmur/2);
 	i[1] = (env->l.r[1]/2) + (hmur/2);
@@ -163,10 +169,14 @@ void		draw_line_sprite_5(double x, double y,struct s_env *env,double a)
 //	((int)env->play.y == (int)y) ? d = 0 : d;
 	if(testx < co || testx > 1 - co || testy < si || testy > 1 - si)
 		return ;
+	testx = ((int)x + d + ((diffx) * cos(env->play.pa + M_PI/2)));
+	testy = (y + dbis + ((diffx) * sin(env->play.pa + M_PI/2)));
+
 
 	drawcarre(((int)x + d + ((diffx) * cos(env->play.pa + M_PI/2))) * env->pas, (y + dbis + ((diffx) * sin(env->play.pa + M_PI/2))) * env->pas, 5, env, create_trtgb(0,150,0,0));
 //	drawcarre((x) * env->pas, (y + d) * env->pas, 5, env, create_trtgb(0,150,0,0));
-	dist = sqrt(pow(fabs(((int)x) - env->play.x) + 0.5 , 2) + pow(fabs(((int)y) - env->play.y) + 0.5, 2));
+//	dist = sqrt(pow(fabs(((int)x) - env->play.x) + 0.5 , 2) + pow(fabs(((int)y) - env->play.y) + 0.5, 2));
+	dist = sqrt(pow(testx - env->play.x, 2) + pow(testy - env->play.y, 2));
 	hmur = (double)env->l.r[1] / dist;
 	i[0] = (env->l.r[1]/2) - (hmur/2);
 	i[1] = (env->l.r[1]/2) + (hmur/2);
