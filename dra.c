@@ -91,92 +91,36 @@ void		drawcol_sprite1(struct s_env *env, int *i)
 	return ;
 }
 
-void		draw_line_sprite_6(double x, double y,struct s_env *env,double a)
-{
-	double	dist;
-	double	hmur;
-	int		i[2];
-//	double	diffx;
-	double diffy;
-	double	co;
-	double	si;
-	double	d;
-	double	dbis;
-
-	double	testx;
-	double	testy;
-
-	diffy = (a > M_PI/2 && a < (3 * M_PI/2))? 0.5 - (fabs(y - ((int)y))) : fabs(y - ((int)y)) - 0.5;
-	si = (1 - fabs(sin(env->play.pa + M_PI/2)))/2;
-	co = (1 - fabs(cos(env->play.pa + M_PI/2)))/2;
-
-	d = ((int)env->play.x < x)? 0.5 : -0.5;
-	d = ((int)env->play.x == x)? 0 : d;
-	dbis = ((int)env->play.y < y)?  0.5 :  0.5;
-	testx = x + d + ((diffy) * cos(env->play.pa + M_PI/2));
-	testx = fabs(testx - (int)testx);
-	testy = (int)y + dbis + ((diffy) * sin(env->play.pa + M_PI/2));
-	testy = fabs(testy - (int)testy);
-	if(testx < co || testx > 1 - co || testy < si || testy > 1 - si)
-		return ;
-//	((int)env->play.y == (int)y) ? dbis = 0 : dbis;
-
-	drawcarre((x + d + ((diffy) * cos(env->play.pa + M_PI/2))) * env->pas, ((int)y + dbis + ((diffy) * sin(env->play.pa + M_PI/2))) * env->pas, 5, env, create_trtgb(0,150,0,0));
-
-	testx = x + d + ((diffy) * cos(env->play.pa + M_PI/2));
-	testy = (int)y + dbis + ((diffy) * sin(env->play.pa + M_PI/2));
-
-
-	dist = sqrt(pow(testx - env->play.x, 2) + pow(testy - env->play.y, 2));
-	//dist = sqrt(pow(fabs(((int)x) - env->play.x) + 0.5 , 2) + pow(fabs(((int)y) - env->play.y) + 0.5, 2));
-	hmur = (double)env->l.r[1] / dist;
-	i[0] = (env->l.r[1]/2) - (hmur/2);
-	i[1] = (env->l.r[1]/2) + (hmur/2);
-	drawcol_sprite(env,i);
-	return ;
-}
-
-
-
-
 void		draw_line_sprite_5(double x, double y,struct s_env *env,double a)
 {
 	double	dist;
 	double	hmur;
 	int		i[2];
-	double	diffx;
-	double	co;
-	double	si;
-
-	double		d;
-	double		dbis;
+	double		co;
+	double		si;
 	
-	double		testx;
-	double		testy;
+	double		fx;
+	double		fy;
+	double		de;
 
+	co = fabs((1 - cos(env->play.pa + M_PI/2)) /2);
+	si = fabs((1 - sin(env->play.pa + M_PI/2)) /2);
 
-	diffx = (a > 0 && a < M_PI)? 0.5 -fabs(x - (int)x) : fabs(x - ((int)x)) - 0.5;
-	co = (1 - fabs(cos(env->play.pa + M_PI/2)))/2;
-	si = (1 - fabs(sin(env->play.pa + M_PI/2)))/2;
+	de = (cos(a) * sin(env->play.pa + M_PI/2) - (cos(env->play.pa + M_PI/2) * sin(a)));
+	fx = ((env->play.y * cos(a) - env->play.x * sin(a)) * cos(env->play.pa + M_PI/2) - (cos(a)*(((int)y + 0.5) * cos(env->play.pa + M_PI/2) - ((int)x + 0.5) * sin(env->play.pa + M_PI/2))))/ de;
+	fy = (-sin(a) * (((int)y + 0.5) * cos(env->play.pa +M_PI/2) - ((int)x + 0.5) * sin(env->play.pa + M_PI/2)) + (env->play.y * cos(a) - env->play.x * sin(a)) * sin(env->play.pa + M_PI/2))/de;
 
-	d =  0.5;
-	dbis = ((int)env->play.y < y)?  0.5 : -0.5;
+	double	diffx;
+	double	diffy;
+	diffx = fabs(fx - (int)fx);
+	diffy = fabs(fy - (int)fy);
 
-	testx = ((int)x + d + ((diffx) * cos(env->play.pa + M_PI/2)));
-	testx = fabs(testx - (int)testx);
-	testy = (y + dbis + ((diffx) * sin(env->play.pa + M_PI/2)));
-	testy = fabs(testy - (int)testy);
-//	((int)env->play.y == (int)y) ? d = 0 : d;
-	if(testx < co || testx > 1 - co || testy < si || testy > 1 - si)
+	if((int)fx != (int)(x) || (int)fy != (int)y || sqrt(pow(diffx - 0.5,2) + pow(diffy - 0.5,2)) > 0.5)
 		return ;
-	testx = ((int)x + d + ((diffx) * cos(env->play.pa + M_PI/2)));
-	testy = (y + dbis + ((diffx) * sin(env->play.pa + M_PI/2)));
-
-
-	drawcarre(((int)x + d + ((diffx) * cos(env->play.pa + M_PI/2))) * env->pas, (y + dbis + ((diffx) * sin(env->play.pa + M_PI/2))) * env->pas, 5, env, create_trtgb(0,150,0,0));
-//	drawcarre((x) * env->pas, (y + d) * env->pas, 5, env, create_trtgb(0,150,0,0));
-//	dist = sqrt(pow(fabs(((int)x) - env->play.x) + 0.5 , 2) + pow(fabs(((int)y) - env->play.y) + 0.5, 2));
-	dist = sqrt(pow(testx - env->play.x, 2) + pow(testy - env->play.y, 2));
+	
+	dist = sqrt(pow(fx - env->play.x, 2) + pow(fy - env->play.y, 2));
+	dist *= cos(env->play.pa - a);
+//	drawcarre(fx * env->pas, fy * env->pas, 3,env, create_trtgb(0,120,60,165));
 	hmur = (double)env->l.r[1] / dist;
 	i[0] = (env->l.r[1]/2) - (hmur/2);
 	i[1] = (env->l.r[1]/2) + (hmur/2);
@@ -211,7 +155,7 @@ void		checkboth(struct s_env *env, double *i, double d, double a)
 		if(env->l.map[(int)s[1]][(int)s[0]] == '2' && cald_bis(env,s[0],s[1]) < d)
 		{
 			x = (s[0] - ((int)s[0]));
-			drawcarre(s[0] * env->pas, s[1] * env->pas, 4, env ,create_trtgb(0,0,0,200));
+			//drawcarre(s[0] * env->pas, s[1] * env->pas, 4, env ,create_trtgb(0,0,0,200));
 			draw_line_sprite_5(s[0] , s[1] , env, a);
 		}
 	/* AFFICHAGE OK*/
@@ -220,8 +164,8 @@ void		checkboth(struct s_env *env, double *i, double d, double a)
 		{
 			e = (a > M_PI/2 && a < (3*M_PI/2))? -1 : 0;
 			y = (s[3] - (int)s[3]);
-			drawcarre(s[2] * env->pas, s[3] * env->pas, 2, env, create_trtgb(0,150,20,30));
-			draw_line_sprite_6(s[2],  s[3], env, a);
+			//drawcarre(s[2] * env->pas, s[3] * env->pas, 2, env, create_trtgb(0,150,20,30));
+			draw_line_sprite_5(s[2],  s[3], env, a);
 		}
 	return ;
 }
@@ -261,7 +205,7 @@ void		dray_angle_sprite(struct s_env *env, double a, double d)
 		if(env->l.map[(int)s[1]][(int)s[0]] == '2' && cald_bis(env,s[0],s[1]) < d)
 		{
 				x = (s[0] - ((int)s[0]));
-				drawcarre(s[0] * env->pas, s[1] * env->pas, 2, env, create_trtgb(0,50,20,30));
+				//drawcarre(s[0] * env->pas, s[1] * env->pas, 2, env, create_trtgb(0,50,20,30));
 				draw_line_sprite_5(s[0] , s[1], env, angle);
 		}
 	/* AFFICHAGE OK*/
@@ -270,8 +214,8 @@ void		dray_angle_sprite(struct s_env *env, double a, double d)
 		if(env->l.map[(int)s[3]][(int)s[2]] == '2' && cald_bis(env,s[2],s[3]) < d - 0.00001)
 		{
 			y = (s[3] - (int)s[3]);
-			drawcarre(s[2] * env->pas, s[3] * env->pas, 2, env, create_trtgb(0,150,20,30));
-			draw_line_sprite_6(s[2],  s[3] , env, angle);
+			//drawcarre(s[2] * env->pas, s[3] * env->pas, 2, env, create_trtgb(0,150,20,30));
+			draw_line_sprite_5(s[2],  s[3] , env, angle);
 
 		}
 	return ;
