@@ -6,7 +6,7 @@
 /*   By: labintei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/13 12:48:04 by labintei          #+#    #+#             */
-/*   Updated: 2021/04/22 16:32:47 by labintei         ###   ########.fr       */
+/*   Updated: 2021/04/26 14:57:36 by labintei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -349,6 +349,8 @@ int			f_key(int	keycode, struct s_env	*env)
 		mlx_destroy_window(env->p.mlx, env->p.mlx_win);
 	drawfov_bis(env);
 	draw_player(env);
+//	draw_minimap(env, 1);
+//	draw_player(env);
 	mlx_put_image_to_window(env->p.mlx, env->p.mlx_win, env->i.img, 0,0);
 	mlx_loop(env->p.mlx);
 	return(1);

@@ -6,7 +6,7 @@
 /*   By: labintei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/26 10:50:11 by labintei          #+#    #+#             */
-/*   Updated: 2021/04/21 16:09:16 by labintei         ###   ########.fr       */
+/*   Updated: 2021/04/26 14:58:42 by labintei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ void	drawcol1(struct	s_env *env, double *d, double a, int color, double x, doubl
 	double	dist;
 	
 	dist = *d * cos((a > env->play.pa)? a - env->play.pa : env->play.pa - a);
-	hmur = (int)(env->l.r[1] / dist);
+	hmur = (int)(env->l.r[1] / (dist * 2));
 	i[0] = (env->l.r[1]/2) - (hmur / 2);
 	i[1] = (env->l.r[1]/2) + (hmur / 2);
 	drawcol2(env, i, color,x,y);

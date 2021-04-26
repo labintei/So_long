@@ -6,7 +6,7 @@
 /*   By: labintei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/01 11:41:40 by labintei          #+#    #+#             */
-/*   Updated: 2021/04/22 17:02:17 by labintei         ###   ########.fr       */
+/*   Updated: 2021/04/26 16:53:26 by labintei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,24 +75,35 @@ void		drawcol_sprite(struct s_env *env, int *i)
 }
 
 
-void		drawcol_sprite1(struct s_env *env, int *i)
+void		drawcol_sprite1(struct s_env *env, int *i, double d)
 {
 	int		start;
 	int		color;
-	
+	double	cx;
+	double	cy;
+	double	ch;
+	int		hmur;
+
+	hmur = i[1] - i[0];
+	cx = d * env->t[4].width;
+	ch = ((float)env->t[4].height)/ ((float)hmur);
 	start = i[0];
 	start = (start < 0)? 0 : start;
 	while(start >= 0 && start < env->l.r[1] && start <= i[1])
 	{
-		color = create_trtgb(0,0,150,0);
-		my_put_pixel(&(env->i), env->nbray, start, color);
+		cy = (start - i[0]) * ch;
+		color = index_color(cx, cy, &(env->t[4]));
+		//if(color & 0x00FFFFF)
+			my_put_pixel(&(env->i), env->nbray, start, color);
 		start++;
 	}
 	return ;
 }
 
-void		draw_line_sprite_5(double x, double y,struct s_env *env,double a)
+int		draw_line_sprite_5(double x, double y,struct s_env *env,double a)
 {
+	//x += 0.0001;
+	//y += 0.0001;
 	double	dist;
 	double	hmur;
 	int		i[2];
@@ -112,20 +123,24 @@ void		draw_line_sprite_5(double x, double y,struct s_env *env,double a)
 
 	double	diffx;
 	double	diffy;
+	double	d;
 	diffx = fabs(fx - (int)fx);
 	diffy = fabs(fy - (int)fy);
 
-	if((int)fx != (int)(x) || (int)fy != (int)y || sqrt(pow(diffx - 0.5,2) + pow(diffy - 0.5,2)) > 0.5)
-		return ;
+	if((int)fx != (int)x || (int)fy != (int)y || (d = sqrt(pow(fx - ((int)x + 0.5), 2) + pow(fy - ((int)y + 0.5), 2))) > 0.5)
+		return(0);
 	
-	dist = sqrt(pow(fx - env->play.x, 2) + pow(fy - env->play.y, 2));
-	dist *= cos(env->play.pa - a);
+	dist = sqrt(pow(((int)x - env->play.x) + 0.5, 2) + pow(((int)y - env->play.y) + 0.5, 2));
 //	drawcarre(fx * env->pas, fy * env->pas, 3,env, create_trtgb(0,120,60,165));
-	hmur = (double)env->l.r[1] / dist;
+
+	d = sqrt(pow(diffx - (1 - co), 2) + pow(diffy - (1 - si), 2));
+	hmur = (double)env->l.r[1] / (dist * 2);
 	i[0] = (env->l.r[1]/2) - (hmur/2);
 	i[1] = (env->l.r[1]/2) + (hmur/2);
-	drawcol_sprite1(env,i);
-	return ;
+	drawcol_sprite1(env,i,d);
+	drawcarre(fx * env->pas, fy * env->pas, 3,env, create_trtgb(0,120,60,165));
+
+	return(1);
 }
 
 void		dvar(struct s_env *env, double a)
@@ -166,6 +181,7 @@ void		checkboth(struct s_env *env, double *i, double d, double a)
 			y = (s[3] - (int)s[3]);
 			//drawcarre(s[2] * env->pas, s[3] * env->pas, 2, env, create_trtgb(0,150,20,30));
 			draw_line_sprite_5(s[2],  s[3], env, a);
+				return ;
 		}
 	return ;
 }
@@ -200,9 +216,18 @@ void		dray_angle_sprite(struct s_env *env, double a, double d)
 	init_stock_1(i,s);
 	init_stock_2(i,s);
 	if((cald_bis(env, i[0], i[1]) <  d) || (cald_bis(env, i[2], i[3]) < d))
-		checkboth(env,i,d,angle);
+		checkboth(env,i,d,angle);/*
+	if(ca(env, s[0], s[1]) && ca(env, s[2], s[3]) && (int)s[0] == (int)s[2] && (int)s[1] == (int)s[3])
+		if(env->l.map[(int)s[1]][(int)s[0]] == '2')
+		{
+			if((fabs(s[0] - env->play.x) + fabs(s[1] - env->play.y)) < (fabs(s[2] - env->play.x) + fabs(s[3] - env->play.y)))
+				draw_line_sprite_5(s[0] , s[1], env, angle);
+			else
+				draw_line_sprite_5(s[2],  s[3] , env, angle);
+			return ;
+		}*/
 	if(ca(env,s[0],s[1]))
-		if(env->l.map[(int)s[1]][(int)s[0]] == '2' && cald_bis(env,s[0],s[1]) < d)
+		if(env->l.map[(int)s[1]][(int)s[0]] == '2' && cald_bis(env,s[0],s[1]) < d - 0.00001)
 		{
 				x = (s[0] - ((int)s[0]));
 				//drawcarre(s[0] * env->pas, s[1] * env->pas, 2, env, create_trtgb(0,50,20,30));
@@ -216,7 +241,6 @@ void		dray_angle_sprite(struct s_env *env, double a, double d)
 			y = (s[3] - (int)s[3]);
 			//drawcarre(s[2] * env->pas, s[3] * env->pas, 2, env, create_trtgb(0,150,20,30));
 			draw_line_sprite_5(s[2],  s[3] , env, angle);
-
 		}
 	return ;
 }
