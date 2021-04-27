@@ -6,36 +6,11 @@
 /*   By: labintei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/01 11:41:40 by labintei          #+#    #+#             */
-/*   Updated: 2021/04/26 16:53:26 by labintei         ###   ########.fr       */
+/*   Updated: 2021/04/27 14:36:29 by labintei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "map.h"
-
-
-void		init_stock_0(double *s)
-{
-	s[0] = -1;
-	s[1] = -1;
-	s[2] = -1;
-	s[3] = -1;
-	return ;
-}
-
-void		init_stock_1(double *i,double *s)
-{
-	s[0] = i[0];
-	s[1] = i[1];
-	return ;
-}
-
-void		init_stock_2(double *i,double *s)
-{
-	s[2] = i[2];
-	s[3] = i[3];
-	return ;
-}
 
 void		ajout_diff(struct s_env *env, double *i)
 {
@@ -58,18 +33,25 @@ double		cald_bis(struct s_env *env, double x, double y)
 	return(sqrt(pow(x - env->play.x, 2) + pow(y - env->play.y, 2)));
 }
 
-void		drawcol_sprite(struct s_env *env, int *i)
+void		tri_w(struct s_env *env, double **w)
 {
-	int		start;
-	int		color;
-	
-	start = i[0];
-	start = (start < 0)? 0 : start;
-	while(start >= 0 && start < env->l.r[1] && start <= i[1])
+	double	temp[2];
+	int		n;
+
+	n = 0;
+	while(w[n] && w[n + 1])
 	{
-		color = create_trtgb(0,150,0,0);
-		my_put_pixel(&(env->i), env->nbray, start, color);
-		start++;
+		if((fabs(w[n][0] - env->play.x) + fabs(w[n][1] - env->play.y)) \
+		> (fabs(w[n + 1][0] - env->play.x) + fabs(w[n + 1][1] - env->play.y)))
+		{
+			temp[0] = w[n + 1][0];
+			temp[1] = w[n + 1][1];
+			w[n + 1][0] = w[n][0];
+			w[n + 1][1] = w[n][1];
+			w[n][0] = temp[0];
+			w[n][1] = temp[1];
+		}
+		n++;
 	}
 	return ;
 }
@@ -93,54 +75,11 @@ void		drawcol_sprite1(struct s_env *env, int *i, double d)
 	{
 		cy = (start - i[0]) * ch;
 		color = index_color(cx, cy, &(env->t[4]));
-		//if(color & 0x00FFFFF)
+		if(color & 0x00FFFFF)
 			my_put_pixel(&(env->i), env->nbray, start, color);
 		start++;
 	}
 	return ;
-}
-
-int		draw_line_sprite_5(double x, double y,struct s_env *env,double a)
-{
-	//x += 0.0001;
-	//y += 0.0001;
-	double	dist;
-	double	hmur;
-	int		i[2];
-	double		co;
-	double		si;
-	
-	double		fx;
-	double		fy;
-	double		de;
-
-	co = fabs((1 - cos(env->play.pa + M_PI/2)) /2);
-	si = fabs((1 - sin(env->play.pa + M_PI/2)) /2);
-
-	de = (cos(a) * sin(env->play.pa + M_PI/2) - (cos(env->play.pa + M_PI/2) * sin(a)));
-	fx = ((env->play.y * cos(a) - env->play.x * sin(a)) * cos(env->play.pa + M_PI/2) - (cos(a)*(((int)y + 0.5) * cos(env->play.pa + M_PI/2) - ((int)x + 0.5) * sin(env->play.pa + M_PI/2))))/ de;
-	fy = (-sin(a) * (((int)y + 0.5) * cos(env->play.pa +M_PI/2) - ((int)x + 0.5) * sin(env->play.pa + M_PI/2)) + (env->play.y * cos(a) - env->play.x * sin(a)) * sin(env->play.pa + M_PI/2))/de;
-
-	double	diffx;
-	double	diffy;
-	double	d;
-	diffx = fabs(fx - (int)fx);
-	diffy = fabs(fy - (int)fy);
-
-	if((int)fx != (int)x || (int)fy != (int)y || (d = sqrt(pow(fx - ((int)x + 0.5), 2) + pow(fy - ((int)y + 0.5), 2))) > 0.5)
-		return(0);
-	
-	dist = sqrt(pow(((int)x - env->play.x) + 0.5, 2) + pow(((int)y - env->play.y) + 0.5, 2));
-//	drawcarre(fx * env->pas, fy * env->pas, 3,env, create_trtgb(0,120,60,165));
-
-	d = sqrt(pow(diffx - (1 - co), 2) + pow(diffy - (1 - si), 2));
-	hmur = (double)env->l.r[1] / (dist * 2);
-	i[0] = (env->l.r[1]/2) - (hmur/2);
-	i[1] = (env->l.r[1]/2) + (hmur/2);
-	drawcol_sprite1(env,i,d);
-	drawcarre(fx * env->pas, fy * env->pas, 3,env, create_trtgb(0,120,60,165));
-
-	return(1);
 }
 
 void		dvar(struct s_env *env, double a)
@@ -152,95 +91,115 @@ void		dvar(struct s_env *env, double a)
 	return ;
 }
 
-void		checkboth(struct s_env *env, double *i, double d, double a)
+void		print_w(struct s_env *env, double *w, double a)
 {
-	double	s[4];
-	double	x;
-	double y;
+	int		i[2];
+	double	dist;
+	double	diffx;
+	double	diffy;
+	double	d;
+	double	hmur;
+	double		co;
+	double		si;
 
-	double e;
-	e = 0;
-	init_stock_0(s);
+	diffx = fabs(w[0] - (int)w[0]);
+	diffy = fabs(w[1] - (int)w[1]);
+	co = fabs((1 - cos(env->play.pa + M_PI/2)) /2);
+	si = fabs((1 - sin(env->play.pa + M_PI/2)) /2);
+	d = sqrt(pow(diffx - (1 - co), 2) + pow(diffy - (1 - si), 2));
+	dist = sqrt(pow(w[0] - env->play.x, 2) + pow(w[1] - env->play.y, 2));
+	dist *= (cos(env->play.pa - a) != 0)? cos(env->play.pa -a) : 1;
+	hmur = (double)env->l.r[1] / (dist * 2);
+	i[0] = (env->l.r[1]/2) - (hmur/2);
+	i[1] = (env->l.r[1]/2) + (hmur/2);
+	drawcol_sprite1(env,i,d);
+	drawcarre(w[0] * env->pas, w[1]*env->pas, 3, env, create_trtgb(0, 120,140,130));
+	return ;
+}
+
+void		stock_w(struct s_env *env, double **w,int *n, double x, double y, double a)
+{
+	double		fx;
+	double		fy;
+	double		de;
+	double		f;
+
+	de = (cos(a) * sin(env->play.pa + M_PI/2) - (cos(env->play.pa + M_PI/2) * sin(a)));
+	fx = ((env->play.y * cos(a) - env->play.x * sin(a)) * cos(env->play.pa + M_PI/2) - (cos(a)*(((int)y + 0.5) * cos(env->play.pa + M_PI/2) - ((int)x + 0.5) * sin(env->play.pa + M_PI/2))))/ de;
+	fy = (-sin(a) * (((int)y + 0.5) * cos(env->play.pa +M_PI/2) - ((int)x + 0.5) * sin(env->play.pa + M_PI/2)) + (env->play.y * cos(a) - env->play.x * sin(a)) * sin(env->play.pa + M_PI/2))/de;
+	if((int)fx != (int)x || (int)fy != (int)y || (f = sqrt(pow(fx - ((int)x + 0.5), 2) + pow(fy - ((int)y + 0.5), 2))) > 0.5)
+		return ;
+	w[*n] = malloc((sizeof(double)) * 2);
+	w[*n][0] = fx;
+	w[*n][1] = fy;
+	(*n)++;
+	return ;
+}
+
+void		checkboth(struct s_env *env, double *i, double d, double a, int *n, double **w)
+{
 	ajout_diff(env, i);
-	init_stock_1(i,s);
-	init_stock_2(i,s);
-	if(cald_bis(env,i[0],i[1]) < d  || cald_bis(env,i[2],i[3]) < d)
-		checkboth(env, i, d, a);
-	if(ca(env,s[0],s[1]))
-		if(env->l.map[(int)s[1]][(int)s[0]] == '2' && cald_bis(env,s[0],s[1]) < d)
-		{
-			x = (s[0] - ((int)s[0]));
-			//drawcarre(s[0] * env->pas, s[1] * env->pas, 4, env ,create_trtgb(0,0,0,200));
-			draw_line_sprite_5(s[0] , s[1] , env, a);
-		}
-	/* AFFICHAGE OK*/
-	if(ca(env,s[2],s[3]))
-		if(env->l.map[(int)s[3]][(int)s[2]] == '2' && cald_bis(env,s[2],s[3]) < d)
-		{
-			e = (a > M_PI/2 && a < (3*M_PI/2))? -1 : 0;
-			y = (s[3] - (int)s[3]);
-			//drawcarre(s[2] * env->pas, s[3] * env->pas, 2, env, create_trtgb(0,150,20,30));
-			draw_line_sprite_5(s[2],  s[3], env, a);
-				return ;
-		}
+	if(ca(env,i[0],i[1]))
+		if(env->l.map[(int)i[1]][(int)i[0]] == '2' && cald_bis(env,i[0],i[1]) < d - 0.0001)
+			stock_w(env, w, n, i[0], i[1], a);
+	if(ca(env,i[2],i[3]))
+		if(env->l.map[(int)i[3]][(int)i[2]] == '2' && cald_bis(env,i[2],i[3]) < d - 0.0001)
+			stock_w(env, w, n, i[2], i[3], a);
+	if(cald_bis(env,i[0],i[1]) < d - 0.0001  || cald_bis(env,i[2],i[3]) < d - 0.0001)
+		checkboth(env, i, d ,a, n, w);
 	return ;
 }
 
-void		init_i_2(struct s_env *env, double *i, double a)
+void		free_w(double **w)
 {
-	a += (a < 0)? 2 * M_PI : 0;
-	a -= (a > 2 * M_PI)? 2 * M_PI : 0;
-	i[1] = (a > M_PI)? ((int)env->play.y) - 0.00001 : ((int)env->play.y) + 1;
-	i[0] = (a != 0 && a != M_PI)? (env->play.x - (((env->play.y - i[1]) / sin(a)) * cos(a))) : 0;
-	i[2] = (a > env->var[4] && a < env->var[3])? ((int)env->play.x) - 0.00001 : ((int)env->play.x) + 1;
-	i[3] = (a != env->var[3] && a != env->var[4])? env->play.y - (((env->play.x - i[2] )/cos(a)) * sin(a)) : 0;
+	int		n;
+
+	n = -1;
+	while(w[++n])
+	{	
+		w[n][0] = 0;
+		w[n][1] = 0;
+		free(w[n]);
+	}
 	return ;
 }
-
 
 void		dray_angle_sprite(struct s_env *env, double a, double d)
 {
 	double	i[4];
-	double	s[4];
+	double	**w;
 	double	angle;
-	double	x;
-	double	y;
+	int		n;
 
 	angle = a;
 	angle -= (a > 2 * M_PI)? 2*M_PI : 0;
 	angle += (a < 0)? 2 * M_PI : 0;
-
-
+	n = 0;
+	w = malloc(sizeof(double*) * (2*(ceil(d + 1))));
 	init_i(env,i);
-	init_stock_0(s);
-	init_stock_1(i,s);
-	init_stock_2(i,s);
-	if((cald_bis(env, i[0], i[1]) <  d) || (cald_bis(env, i[2], i[3]) < d))
-		checkboth(env,i,d,angle);/*
-	if(ca(env, s[0], s[1]) && ca(env, s[2], s[3]) && (int)s[0] == (int)s[2] && (int)s[1] == (int)s[3])
-		if(env->l.map[(int)s[1]][(int)s[0]] == '2')
+	if(ca(env,i[0],i[1]))
+		if(env->l.map[(int)i[1]][(int)i[0]] == '2' && cald_bis(env,i[0],i[1]) < d - 0.0001)
 		{
-			if((fabs(s[0] - env->play.x) + fabs(s[1] - env->play.y)) < (fabs(s[2] - env->play.x) + fabs(s[3] - env->play.y)))
-				draw_line_sprite_5(s[0] , s[1], env, angle);
-			else
-				draw_line_sprite_5(s[2],  s[3] , env, angle);
-			return ;
-		}*/
-	if(ca(env,s[0],s[1]))
-		if(env->l.map[(int)s[1]][(int)s[0]] == '2' && cald_bis(env,s[0],s[1]) < d - 0.00001)
-		{
-				x = (s[0] - ((int)s[0]));
-				//drawcarre(s[0] * env->pas, s[1] * env->pas, 2, env, create_trtgb(0,50,20,30));
-				draw_line_sprite_5(s[0] , s[1], env, angle);
+			//i[0] += 0.00001;
+			stock_w(env, w, &n, i[0], i[1], angle);
 		}
-	/* AFFICHAGE OK*/
-	
-	if(ca(env,s[2],s[3]))
-		if(env->l.map[(int)s[3]][(int)s[2]] == '2' && cald_bis(env,s[2],s[3]) < d - 0.00001)
+	if(ca(env,i[2],i[3]))
+		if(env->l.map[(int)i[3]][(int)i[2]] == '2' && cald_bis(env,i[2],i[3]) < d - 0.0001)
 		{
-			y = (s[3] - (int)s[3]);
-			//drawcarre(s[2] * env->pas, s[3] * env->pas, 2, env, create_trtgb(0,150,20,30));
-			draw_line_sprite_5(s[2],  s[3] , env, angle);
+			//i[3] += 0.00001;
+			stock_w(env, w, &n, i[2], i[3], angle);
 		}
+	if((cald_bis(env, i[0], i[1]) <  d) || (cald_bis(env, i[2], i[3]) < d - 0.0001))
+		checkboth(env,i,d,angle, &n, w);
+	w[n] = 0;
+	tri_w(env, w);
+	n--;
+	while(n != -1)
+	{
+		print_w(env, w[n], a);
+		n--;
+	}
+	free_w(w);
+	free(w);
 	return ;
 }

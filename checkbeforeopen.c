@@ -6,7 +6,7 @@
 /*   By: labintei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/13 12:48:04 by labintei          #+#    #+#             */
-/*   Updated: 2021/04/26 14:57:36 by labintei         ###   ########.fr       */
+/*   Updated: 2021/04/27 15:14:07 by labintei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -369,6 +369,9 @@ void		open_windows2(struct s_env	*env)
 	dvarconst(env);
 	print_background(env);
 	draw_minimap(env, 0);
+	drawfov_bis(env);
+	draw_minimap(env, 0);
+	draw_player(env);
 	mlx_put_image_to_window(env->p.mlx, env->p.mlx_win, env->i.img, 0, 0);
 	mlx_hook(env->p.mlx_win, 2, 1L<<0, f_key, env);
 	mlx_loop(env->p.mlx);
