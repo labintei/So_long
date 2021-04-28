@@ -6,7 +6,7 @@
 /*   By: labintei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 10:12:07 by labintei          #+#    #+#             */
-/*   Updated: 2021/04/21 14:23:57 by labintei         ###   ########.fr       */
+/*   Updated: 2021/04/28 12:08:53 by labintei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ typedef struct		s_env
 	int			ymax;
 	int			nbray;
 	t_list		l;
+	char		save;
 	t_params	p;
 	t_img		i;
 	t_player	play;
@@ -149,5 +150,7 @@ void	drawdir_bis_7(struct s_env *env, double x,double y);
 void	stock_drawfov(struct	s_env *env);
 void	drawfov_bis(struct	s_env *env);
 
+
+void	bmp_save_file(struct s_env *env);
 
 #endif

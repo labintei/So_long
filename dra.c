@@ -6,7 +6,7 @@
 /*   By: labintei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/01 11:41:40 by labintei          #+#    #+#             */
-/*   Updated: 2021/04/27 14:36:29 by labintei         ###   ########.fr       */
+/*   Updated: 2021/04/28 11:56:03 by labintei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,21 +37,28 @@ void		tri_w(struct s_env *env, double **w)
 {
 	double	temp[2];
 	int		n;
+	int		o;
 
+	o = 0;
 	n = 0;
-	while(w[n] && w[n + 1])
+	while(w[o])
 	{
-		if((fabs(w[n][0] - env->play.x) + fabs(w[n][1] - env->play.y)) \
-		> (fabs(w[n + 1][0] - env->play.x) + fabs(w[n + 1][1] - env->play.y)))
+		n = o;
+		while(w[n] && w[n + 1])
 		{
-			temp[0] = w[n + 1][0];
-			temp[1] = w[n + 1][1];
-			w[n + 1][0] = w[n][0];
-			w[n + 1][1] = w[n][1];
-			w[n][0] = temp[0];
-			w[n][1] = temp[1];
+			if((fabs(w[n][0] - env->play.x) + fabs(w[n][1] - env->play.y)) \
+			> (fabs(w[n + 1][0] - env->play.x) + fabs(w[n + 1][1] - env->play.y)))
+			{
+				temp[0] = w[n + 1][0];
+				temp[1] = w[n + 1][1];
+				w[n + 1][0] = w[n][0];
+				w[n + 1][1] = w[n][1];
+				w[n][0] = temp[0];
+				w[n][1] = temp[1];
+			}
+			n++;
 		}
-		n++;
+		o++;
 	}
 	return ;
 }
@@ -140,12 +147,12 @@ void		checkboth(struct s_env *env, double *i, double d, double a, int *n, double
 {
 	ajout_diff(env, i);
 	if(ca(env,i[0],i[1]))
-		if(env->l.map[(int)i[1]][(int)i[0]] == '2' && cald_bis(env,i[0],i[1]) < d - 0.0001)
+		if(env->l.map[(int)i[1]][(int)i[0]] == '2' && cald_bis(env,i[0],i[1]) < d)
 			stock_w(env, w, n, i[0], i[1], a);
 	if(ca(env,i[2],i[3]))
-		if(env->l.map[(int)i[3]][(int)i[2]] == '2' && cald_bis(env,i[2],i[3]) < d - 0.0001)
+		if(env->l.map[(int)i[3]][(int)i[2]] == '2' && cald_bis(env,i[2],i[3]) < d)
 			stock_w(env, w, n, i[2], i[3], a);
-	if(cald_bis(env,i[0],i[1]) < d - 0.0001  || cald_bis(env,i[2],i[3]) < d - 0.0001)
+	if(cald_bis(env,i[0],i[1]) < d - 0.0001  || cald_bis(env,i[2],i[3]) < d)
 		checkboth(env, i, d ,a, n, w);
 	return ;
 }
@@ -178,18 +185,18 @@ void		dray_angle_sprite(struct s_env *env, double a, double d)
 	w = malloc(sizeof(double*) * (2*(ceil(d + 1))));
 	init_i(env,i);
 	if(ca(env,i[0],i[1]))
-		if(env->l.map[(int)i[1]][(int)i[0]] == '2' && cald_bis(env,i[0],i[1]) < d - 0.0001)
+		if(env->l.map[(int)i[1]][(int)i[0]] == '2' && cald_bis(env,i[0],i[1]) < d)
 		{
 			//i[0] += 0.00001;
 			stock_w(env, w, &n, i[0], i[1], angle);
 		}
 	if(ca(env,i[2],i[3]))
-		if(env->l.map[(int)i[3]][(int)i[2]] == '2' && cald_bis(env,i[2],i[3]) < d - 0.0001)
+		if(env->l.map[(int)i[3]][(int)i[2]] == '2' && cald_bis(env,i[2],i[3]) < d && (i[2] != i[0]))
 		{
 			//i[3] += 0.00001;
 			stock_w(env, w, &n, i[2], i[3], angle);
 		}
-	if((cald_bis(env, i[0], i[1]) <  d) || (cald_bis(env, i[2], i[3]) < d - 0.0001))
+	if((cald_bis(env, i[0], i[1]) <  d) || (cald_bis(env, i[2], i[3]) < d))
 		checkboth(env,i,d,angle, &n, w);
 	w[n] = 0;
 	tri_w(env, w);
