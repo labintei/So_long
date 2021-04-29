@@ -6,121 +6,74 @@
 /*   By: labintei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/27 14:40:24 by labintei          #+#    #+#             */
-/*   Updated: 2021/04/28 14:27:41 by labintei         ###   ########.fr       */
+/*   Updated: 2021/04/29 15:25:33 by labintei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include	"map.h"
 
+void		write_header(struct s_env *env, int fd)
+{
+	unsigned int	u[3];
+	unsigned char	c[2];
+
+	c[0] = 1;
+	c[1] = 24;
+	u[3] = 54;
+	u[0] = (54) + ((env->l.r[0] * env->l.r[1]) * 4);
+	u[2] = 40;
+	u[1] = 54;
+	write(fd, "BM", 2);
+	write(fd, &u[0] ,4);
+	write(fd, "\0\0\0\0", 4);
+	write(fd, &u[1], 4);
+	write(fd, &u[2], 4);
+	write(fd, &(env->l.r[0]), 4);
+	write(fd, &(env->l.r[1]), 4);
+	write(fd, &(c[0]), 2);
+	write(fd, &(c[1]), 2);
+	write(fd, "\0\0\0\0" ,4);
+	write(fd, &(u[3]), 4);
+	write(fd, "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0", 16);
+	/* RECHECK LES DONNEES*/
+	return ;
+}
+
+void		write_data(struct s_env *env, int fd)
+{
+	int		c[5];
+
+	c[0] = env->l.r[1] - 1;
+	while(c[0] >= 0)
+	{
+		c[1] = 0;
+		while(c[1] < env->l.r[0])
+		{
+			c[2] = env->i.addr[c[0] * env->i.line_lenght + c[1] * env->i.bits_per_pixels / 8];
+			c[3] = env->i.addr[c[0] * env->i.line_lenght + c[1] * env->i.bits_per_pixels / 8 + 1];
+			c[4] = env->i.addr[c[0] * env->i.line_lenght + c[1] * env->i.bits_per_pixels / 8 + 2];
+			write(fd, &c[2], 1);
+			write(fd, &c[3], 1);
+			write(fd, &c[4], 1);
+			c[1]++;
+		}
+		c[0]--;
+	}
+}
 
 void		bmp_save_file(struct s_env *env)
 {
+	int		fd;
+	int		size;
+	char	*file;
 
-	open("cube3d.bmp",O_CREAT ,S_IXOTH);
-
-_______________________________________________________________________________
-	FILE TYPE DATA
-	
-	informations about bmp files
-	14 bytes
-	5 fields
-
-	filetype
-	unsigned char	ft[2];
-	ft[0] = 'B';
-	ft[1] = 'M';
-	/* BID specifie le filetype au BID*/
-	filesize(nombres de pixels)
-	unsigned int	size;
-	size = env->l.r[0] * env->l.r[1];
-	/*  1 bytes = 1 pixels*/
-	RESERVED
-	unsigned int r;
-	r = 0;
-	RESERVED
-	unsigned int rbis;
-	rbis  = 0;
-
-	pixeldataoffset
-	unsigned int offset;
-	offset = 0;
-	/* pixel pointe au debut du fichier*/
-
-_______________________________________________________________________________
-
-	IMAGE IMFORMATIONS DATA
-	
-	bmpinfoheader
-	40 bytes
-	11 fields
-
-	Header size /* NOMBRE DE BYTES DANS HEADER */
-	unsigned int sh;
-	sh = 40;
-
-	Image width
-	int		iw;
-	iw = env->l.r[0];
-
-	Image height
-	int		ih;
-	ih = env->l.r[1];
-
-	Plane/* Nomber of color plane*/
-	unsigned int p;
-	p = 1;
-
-	bits per pixels
-	unsigned int bpp;
-	bpp = 32;
-
-	compression
-	unsigned int comp;
-	comp = 0;
-
-	image size 	/* NO COMP USE -> 0*/
-	unsigned int isize;
-	isize  = 0;
-
-	Xpixelpermeter
-	int	xpix;
-	xpix = 0
-	(no preference)
-
-	Ypixelpermeter
-	int	ypix;
-	ypix = 0;
-	(no preference)
-
-	Totalcolor
-	unsigned int	color; 
-	color = n;
-	/* 0 en decimal correspond a 2 bits par pixel*/
-	/* NOMBRE DE COULEURS UTILISES*/
-
-	Important COLOR
-	unsigned int	impcolor;
-	imp = 0;
-
-________________________________________________________________________________
-
-	COLOR PALLET
-
-	Bits per PIXEL
-
-	1	black_white
-	4	16 colors
-	8	(2^8)colors
-	16	(2^16)RGB
-	24	(2^24)RGB
-	32	(2^32)RGBA channel de (8 bits pour la transparence)
-
-
-
-________________________________________________________________________________
-	RAW PIXEL DATA
-	
-	
-
+	fd = open("cube3d.bmp",O_CREAT ,S_IXOTH);
+	if(!(file= (malloc((sizeof(char) * (size + 54))))))
+		return (ft_putstr("Error \n"));
+	write_header(env, fd);
+	write_data(env, fd);
+	free(file);
+	close(fd);
 	return ;
 }
+
