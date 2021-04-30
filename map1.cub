@@ -1,4 +1,4 @@
-R 1100 1100
+R 900 600
 NO ./sprite/mur.xpm
 SO ./sprite/mur.xpm
 WE ./sprite/mur1.xpm

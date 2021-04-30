@@ -6,7 +6,7 @@
 /*   By: labintei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/13 12:48:04 by labintei          #+#    #+#             */
-/*   Updated: 2021/04/28 12:08:14 by labintei         ###   ########.fr       */
+/*   Updated: 2021/04/30 18:12:19 by labintei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,56 +35,6 @@ void	my_put_pixel(struct	s_img	*i, int x, int y, int color)
 	return ;
 }
 
-void	drawdir_bis_1(struct s_env *env)
-{
-	double  x;
-	double	y;
-	char	c;
-
-	c = 0;
-	
-	x = env->play.x * env->pas;
-	y = env->play.y * env->pas;
-	while(c == 0 && env->l.map[(int)(y/env->pas)] != 0 && env->l.map[(int)y/env->pas][(int)(x/env->pas)] != '\0')
-	{
-		if(x >= 0 && x < env->l.r[0] && y >= 0 && y < env->l.r[1])
-		{
-			if(env->l.map[(int)(y/env->pas)][(int)(x/env->pas)] != '1')
-				my_put_pixel(&(env->i),x, y, create_trtgb(0,250,0,0));
-			if(env->l.map[(int)(y/env->pas)][(int)(x/env->pas)] == '1')
-				c++;
-		}
-		x += cos(env->play.pa + (M_PI/2));
-		y += sin(env->play.pa + (M_PI/2));
-	}
-	return ;
-}
-
-void	drawdir(struct s_env *env)
-{
-	double  x;
-	double	y;
-	char	c;
-
-	c = 0;
-	
-	x = env->play.x * env->pas;
-	y = env->play.y * env->pas;
-	while(c == 0 && env->l.map[(int)(y/env->pas)] != 0 && env->l.map[(int)y/env->pas][(int)(x/env->pas)] != '\0')
-	{
-		if(x >= 0 && x < env->l.r[0] && y >= 0 && y < env->l.r[1])
-		{
-			if(env->l.map[(int)(y/env->pas)][(int)(x/env->pas)] != '1')
-				my_put_pixel(&(env->i),x, y, create_trtgb(0,250,250,250));
-			if(env->l.map[(int)(y/env->pas)][(int)(x/env->pas)] == '1')
-				c++;
-		}
-		x += cos(env->play.pa);
-		y += sin(env->play.pa);
-	}
-	drawdir_bis_1(env);
-	return ;
-}
 
 void	drawcarre(int	x, int y, int largeur, struct s_env *env, int color)
 {
@@ -139,12 +89,29 @@ void	ft_init_player(int x, int y, struct s_env *env)
 	return ;
 }
 
-void	draw_minimap(struct	s_env *env,char o)
+void	init_p(struct s_env *env)
+{
+	int		i;
+	int		j;
+	
+	i= -1;
+	while(++i < env->ymax)
+	{
+		j = -1;
+		while(++j < env->xmax)
+			if(ft_find(env->l.map[i][j],"NSWE"))
+				ft_init_player(j, i,env);
+	}
+	return ;
+}
+
+void	draw_minimap(struct	s_env *env)
 {
 	int		maxX;
 	int		x;
 	int		y;
 	int		color;
+
 	x = -1;
 	color = 0;
 	maxX = -1;
@@ -155,8 +122,7 @@ void	draw_minimap(struct	s_env *env,char o)
 		while(env->l.map[y][++x])
 			maxX = (x > maxX) ? x : maxX;
 	}
-	y--;
-	
+	y--;	
 	env->pas = env->l.r[1]/y;
 	env->pas = (env->pas < (env->l.r[0]/maxX)) ? env->pas : (env->l.r[0]/maxX);
 	y = -1;
@@ -166,32 +132,13 @@ void	draw_minimap(struct	s_env *env,char o)
 		x = -1;
 		while(env->l.map[y][++x])
 		{
-			if(o == 0 && (env->l.map[y][x] == 'N' || env->l.map[y][x] == 'W' || env->l.map[y][x] == 'S' || env->l.map[y][x] == 'E'))
-				ft_init_player(x,y,env);
 			color = (env->l.map[y][x] == '1')? create_trtgb(0,150,180,201) : color;
 			color = (env->l.map[y][x] == '2')? create_trtgb(0,250,180,121) : color;
 			color = (env->l.map[y][x] == '0')? create_trtgb(0,21,80,50) : color;
 			drawcarre(x * env->pas, y * env->pas, env->pas, env, color);
 		}
 	}
-	x = 0;
-	y = env->pas;
-	while(y < env->pas * 15)
-	{
-		x = env->pas - 1;
-		while(++x < env->pas * 20)
-			my_put_pixel(&(env->i), x, y, create_trtgb(0,250,250,250));
-		y += env->pas;
-	}
-	x = env->pas;
-	y = 0;
-	while(x < env->pas * 20)
-	{
-		y = env->pas -1;
-		while(++y < env->pas * 15)
-			my_put_pixel(&(env->i), x, y, create_trtgb(0,250,250,250));
-		x += env->pas;
-	}
+	drawcarre(env->play.x * env->pas, env->play.y * env->pas, 10, env , create_trtgb(0,180,180,180));
 	return ;
 }
 
@@ -206,6 +153,7 @@ char	checkimg(char *s, struct s_params *i)
 		ft_putstr("Error");
 		return(1);
 	}
+	mlx_destroy_image(i->mlx, k);
 	return(0);
 }
 
@@ -246,56 +194,6 @@ char		checkbe(struct s_list *l, struct s_params *i)
 	return(1);
 }
 
-void		draw_player(struct s_env *env)
-{
-	drawcarre(env->play.x * env->pas, env->play.y * env->pas, 10, env , create_trtgb(0,180,180,180));
-	drawdir(env);
-	
-	double  x;
-	double	y;
-	char	c;
-
-	c = 0;
-	
-	x = env->play.x * env->pas;
-	y = env->play.y * env->pas;
-
-
-	while(c == 0 && env->l.map[(int)(y/env->pas)] != 0 && env->l.map[(int)y/env->pas][(int)(x/env->pas)] != '\0')
-	{
-		if(x >= 0 && x < env->l.r[0] && y >= 0 && y < env->l.r[1])
-		{
-			if(env->l.map[(int)(y/env->pas)][(int)(x/env->pas)] != '1')
-				my_put_pixel(&(env->i),x, y, create_trtgb(0,250,250,250));
-			if(env->l.map[(int)(y/env->pas)][(int)(x/env->pas)] == '1')
-				c++;
-		}
-		x += cos(env->play.pa - (M_PI*2/360 * 45));
-		y += sin(env->play.pa - (M_PI*2/360 * 45));
-	}
-
-	c = 0;
-	
-	x = env->play.x * env->pas;
-	y = env->play.y * env->pas;
-
-	while(c == 0 && env->l.map[(int)(y/env->pas)] != 0 && env->l.map[(int)y/env->pas][(int)(x/env->pas)] != '\0')
-	{
-		if(x >= 0 && x < env->l.r[0] && y >= 0 && y < env->l.r[1])
-		{
-			if(env->l.map[(int)(y/env->pas)][(int)(x/env->pas)] != '1')
-				my_put_pixel(&(env->i),x, y, create_trtgb(0,0,250,250));
-			if(env->l.map[(int)(y/env->pas)][(int)(x/env->pas)] == '1')
-				c++;
-		}
-		x += cos(env->play.pa + (M_PI*2/360 * 45));
-		y += sin(env->play.pa + (M_PI*2/360 * 45));
-	}
-
-
-	return ;
-}
-
 int			f_key(int	keycode, struct s_env	*env)
 {
 	double	j;
@@ -304,32 +202,32 @@ int			f_key(int	keycode, struct s_env	*env)
 	double	rot;
 
 	print_background(env);
-	draw_minimap(env, 1);
+	draw_minimap(env);
 	px = cos(env->play.pa) / 20;
 	py = sin(env->play.pa) / 20;
 	if(keycode == KEY_W)
-		if(env->l.map[(int)(env->play.y + (1.2*py))][(int)(env->play.x + (1.2*px))] != '1')
+		if(env->l.map[(int)(env->play.y + py)][(int)(env->play.x + px)] != '1')
 		{
 			env->play.x += px;
 			env->play.y += py;
 		}
 	if(keycode == KEY_S)
-		if(env->l.map[(int)(env->play.y - (1.2 *py))][(int)(env->play.x - (1.2* px))] != '1')
+		if(env->l.map[(int)(env->play.y - py)][(int)(env->play.x - px)] != '1')
 		{
 			env->play.x -= px;
 			env->play.y -= py;
 		}
 	j = M_PI/2;
 	if(keycode == KEY_A)
-		if(env->l.map[(int)(env->play.y + (sin(env->play.pa - j) / 20 + 0.001))]\
-		[(int)(env->play.x + ((0.001 + cos(env->play.pa - j)) / 20))] != '1')
+		if(env->l.map[(int)(env->play.y + (sin(env->play.pa - j) / 20))]\
+		[(int)(env->play.x + ((cos(env->play.pa - j)) / 20))] != '1')
 		{
 			env->play.x += cos(env->play.pa - j) / 20;
 			env->play.y += sin(env->play.pa - j) / 20;
 		}
 	if(keycode == KEY_D)
-		if(env->l.map[(int)(env->play.y - 0.001 -((sin(env->play.pa - j)/20)))]\
-		[(int)(env->play.x - 0.001 - (cos(env->play.pa - j)/20))] != '1')
+		if(env->l.map[(int)(env->play.y - ((sin(env->play.pa - j)/20)))]\
+		[(int)(env->play.x - (cos(env->play.pa - j)/20))] != '1')
 		{
 			env->play.x -= cos(env->play.pa - j)/20;
 			env->play.y -= sin(env->play.pa - j)/20;
@@ -346,11 +244,12 @@ int			f_key(int	keycode, struct s_env	*env)
 		env->play.pa -= (env->play.pa >= 2 * M_PI) ? 2 * M_PI : 0;
 	}
 	if(keycode == KEY_ESC)
-		mlx_destroy_window(env->p.mlx, env->p.mlx_win);
+	{
+		destroy_ta_vie(env);
+		env->stop = 1;
+		return(1);
+	}
 	drawfov_bis(env);
-	draw_player(env);
-//	draw_minimap(env, 1);
-//	draw_player(env);
 	mlx_put_image_to_window(env->p.mlx, env->p.mlx_win, env->i.img, 0,0);
 	mlx_loop(env->p.mlx);
 	return(1);
@@ -358,25 +257,24 @@ int			f_key(int	keycode, struct s_env	*env)
 
 void		open_windows2(struct s_env	*env)
 {
-	env->p.mlx_win = mlx_new_window(env->p.mlx, env->l.r[0], env->l.r[1], "Fenetre1");
+	env->stop = 0;
+	if(env->save != 1)
+		env->p.mlx_win = mlx_new_window(env->p.mlx, env->l.r[0], env->l.r[1],"F");
 	env->i.img = mlx_new_image(env->p.mlx, env->l.r[0], env->l.r[1]);
-	env->i.addr = mlx_get_data_addr(env->i.img, &(env->i.bits_per_pixels), &(env->i.line_lenght), &(env->i.endian));
+	env->i.addr = mlx_get_data_addr(env->i.img, &(env->i.bits_per_pixels),\
+	&(env->i.line_lenght), &(env->i.endian));
 	f_load_texture(env);
 	env->xmax = 0;
 	env->ymax = 0;
 	maxxy(env, &(env->xmax), &(env->ymax));
+	init_p(env);
 	stock_drawfov(env);
 	dvarconst(env);
-	print_background(env);
-	draw_minimap(env, 0);
-	drawfov_bis(env);
-	draw_minimap(env, 0);
-	draw_player(env);
+	//print_background(env);
+	//drawfov_bis(env);
+	//draw_minimap(env);
 	if(env->save == 1)
-	{
-		bmp_save_file(env);
-		return ;
-	}
+		return(bmp_save_file(env));
 	mlx_put_image_to_window(env->p.mlx, env->p.mlx_win, env->i.img, 0, 0);
 	mlx_hook(env->p.mlx_win, 2, 1L<<0, f_key, env);
 	mlx_loop(env->p.mlx);

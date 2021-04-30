@@ -6,7 +6,7 @@
 /*   By: labintei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/01 11:41:40 by labintei          #+#    #+#             */
-/*   Updated: 2021/04/28 11:56:03 by labintei         ###   ########.fr       */
+/*   Updated: 2021/04/30 14:11:08 by labintei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,9 +131,11 @@ void		stock_w(struct s_env *env, double **w,int *n, double x, double y, double a
 	double		de;
 	double		f;
 
-	de = (cos(a) * sin(env->play.pa + M_PI/2) - (cos(env->play.pa + M_PI/2) * sin(a)));
-	fx = ((env->play.y * cos(a) - env->play.x * sin(a)) * cos(env->play.pa + M_PI/2) - (cos(a)*(((int)y + 0.5) * cos(env->play.pa + M_PI/2) - ((int)x + 0.5) * sin(env->play.pa + M_PI/2))))/ de;
-	fy = (-sin(a) * (((int)y + 0.5) * cos(env->play.pa +M_PI/2) - ((int)x + 0.5) * sin(env->play.pa + M_PI/2)) + (env->play.y * cos(a) - env->play.x * sin(a)) * sin(env->play.pa + M_PI/2))/de;
+
+	(void)a;
+	de = (env->sp[0] * env->sp[3] - (env->sp[2] * env->sp[1]));
+	fx = ((env->play.y * env->sp[0] - env->play.x * env->sp[1]) * env->sp[2] - (env->sp[0]*(((int)y + 0.5) * env->sp[2] - ((int)x + 0.5) * env->sp[3])))/ de;
+	fy = (-env->sp[1] * (((int)y + 0.5) * env->sp[2] - ((int)x + 0.5) * env->sp[3]) + (env->play.y * env->sp[0] - env->play.x * env->sp[1]) * env->sp[3])/de;
 	if((int)fx != (int)x || (int)fy != (int)y || (f = sqrt(pow(fx - ((int)x + 0.5), 2) + pow(fy - ((int)y + 0.5), 2))) > 0.5)
 		return ;
 	w[*n] = malloc((sizeof(double)) * 2);
@@ -186,16 +188,10 @@ void		dray_angle_sprite(struct s_env *env, double a, double d)
 	init_i(env,i);
 	if(ca(env,i[0],i[1]))
 		if(env->l.map[(int)i[1]][(int)i[0]] == '2' && cald_bis(env,i[0],i[1]) < d)
-		{
-			//i[0] += 0.00001;
 			stock_w(env, w, &n, i[0], i[1], angle);
-		}
 	if(ca(env,i[2],i[3]))
 		if(env->l.map[(int)i[3]][(int)i[2]] == '2' && cald_bis(env,i[2],i[3]) < d && (i[2] != i[0]))
-		{
-			//i[3] += 0.00001;
 			stock_w(env, w, &n, i[2], i[3], angle);
-		}
 	if((cald_bis(env, i[0], i[1]) <  d) || (cald_bis(env, i[2], i[3]) < d))
 		checkboth(env,i,d,angle, &n, w);
 	w[n] = 0;

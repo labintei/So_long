@@ -6,7 +6,7 @@
 /*   By: labintei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/26 10:50:11 by labintei          #+#    #+#             */
-/*   Updated: 2021/04/26 14:58:42 by labintei         ###   ########.fr       */
+/*   Updated: 2021/04/30 14:27:30 by labintei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,21 +22,26 @@ int			index_color(int x, int y, struct s_texture *text)
 
 void		f_load_texture(struct	s_env *env)
 {
-	/* NORTH */
-	env->t[0].img = mlx_xpm_file_to_image(env->p.mlx, env->l.no, &(env->t[0].width), &(env->t[0].height));
-	env->t[0].addr = mlx_get_data_addr(env->t[0].img, &(env->t[0].bits_per_pixels), &(env->t[0].line_lenght), &(env->t[0].endian));
-	/* SOUTH*/
-	env->t[1].img = mlx_xpm_file_to_image(env->p.mlx, env->l.so, &(env->t[1].width), &(env->t[1].height));
-	env->t[1].addr = mlx_get_data_addr(env->t[1].img, &(env->t[1].bits_per_pixels), &(env->t[1].line_lenght), &(env->t[1].endian));
-	/* WEST*/
-	env->t[2].img = mlx_xpm_file_to_image(env->p.mlx, env->l.we, &(env->t[2].width), &(env->t[2].height));
-	env->t[2].addr = mlx_get_data_addr(env->t[2].img, &(env->t[2].bits_per_pixels), &(env->t[2].line_lenght), &(env->t[2].endian));
-	/* EAST*/
-	env->t[3].img = mlx_xpm_file_to_image(env->p.mlx, env->l.ea, &(env->t[3].width), &(env->t[3].height));
-	env->t[3].addr = mlx_get_data_addr(env->t[3].img, &(env->t[3].bits_per_pixels), &(env->t[3].line_lenght), &(env->t[3].endian));
-	/* SPRITE*/
-	env->t[4].img = mlx_xpm_file_to_image(env->p.mlx, env->l.s, &(env->t[4].width), &(env->t[4].height));
-	env->t[4].addr = mlx_get_data_addr(env->t[4].img, &(env->t[4].bits_per_pixels), &(env->t[4].line_lenght), &(env->t[4].endian));
+	env->t[0].img = mlx_xpm_file_to_image(env->p.mlx, env->l.no, \
+	&(env->t[0].width), &(env->t[0].height));
+	env->t[0].addr = mlx_get_data_addr(env->t[0].img,&(env->t[0].\
+	bits_per_pixels), &(env->t[0].line_lenght), &(env->t[0].endian));
+	env->t[1].img = mlx_xpm_file_to_image(env->p.mlx, env->l.so, \
+	&(env->t[1].width), &(env->t[1].height));
+	env->t[1].addr = mlx_get_data_addr(env->t[1].img, &(env->t[1]\
+	.bits_per_pixels), &(env->t[1].line_lenght), &(env->t[1].endian));
+	env->t[2].img = mlx_xpm_file_to_image(env->p.mlx, env->l.we, \
+	&(env->t[2].width), &(env->t[2].height));
+	env->t[2].addr = mlx_get_data_addr(env->t[2].img, &(env->t[2].\
+	bits_per_pixels), &(env->t[2].line_lenght), &(env->t[2].endian));
+	env->t[3].img = mlx_xpm_file_to_image(env->p.mlx, env->l.ea, \
+	&(env->t[3].width), &(env->t[3].height));
+	env->t[3].addr = mlx_get_data_addr(env->t[3].img, &(env->t[3].\
+	bits_per_pixels), &(env->t[3].line_lenght), &(env->t[3].endian));
+	env->t[4].img = mlx_xpm_file_to_image(env->p.mlx, env->l.s, \
+	&(env->t[4].width), &(env->t[4].height));
+	env->t[4].addr = mlx_get_data_addr(env->t[4].img, &(env->t[4].\
+	bits_per_pixels), &(env->t[4].line_lenght), &(env->t[4].endian));
 	return ;
 }
 
@@ -45,26 +50,23 @@ void		f_compare(struct s_env *env, double x1,double y1,double x, double y, doubl
 	double		fin;
 	double		o;
 	int			color;
-	double		x2;
 
 	if(cald(x1, env->play.x, y1, env->play.y) < cald(x, env->play.x, y, env->play.y) || \
 	a == 0 || a == M_PI)
 	{
 		color = (x1 > env->play.x)? 1 : 2;
-		x2 = ceil(x1);
-		fin = (cald(x2, env->play.x,y1, env->play.y));
+		fin = (cald(x1, env->play.x,y1, env->play.y));
 		o = fin;
-		drawcol1(env, &fin, a, color, x2, y1);
+		drawcol1(env, &fin, a, color, x1, y1);
 		return(dray_angle_sprite(env,a, o));
 	}
 	if(cald(x1, env->play.x, y1, env->play.y) >= cald(x, env->play.x, y, env->play.y) || \
 	a == env->var[3] || a == env->var[4])
 	{
 		color = (y > env->play.y)? 3 : 4;
-		x2 = ceil(y);
-		fin = (cald(x, env->play.x, x2, env->play.y));
+		fin = (cald(x, env->play.x, y, env->play.y));
 		o = fin;
-		drawcol1(env, &fin, a, color, x, x2);
+		drawcol1(env, &fin, a, color, x, y);
 		return(dray_angle_sprite(env,a, o));
 	}
 	return ;
