@@ -21,19 +21,17 @@ void		init_i(struct s_env *env, double *i)
 	return ;
 
 }
-void		maxxy(struct s_env *env, int *xmax, int *ymax)
+void		maxxy(struct s_env *env)
 {
-	while(env->l.map[*ymax][*xmax] != '\0')
-		(*xmax)++;
-	while(env->l.map[*ymax] != 0)
-		(*ymax)++;
+	env->xmax = 0;
+	env->ymax = 0;
+	while(env->l.map[env->ymax][env->xmax] != '\0')
+		(env->xmax)++;
+	while(env->l.map[env->ymax] != 0)
+		(env->ymax)++;
 	return ;
 }
 
-double		cald(double	x1, double x2, double y1, double y2)
-{
-	return(sqrt(pow((x1 - x2), 2) + pow((y1 - y2), 2)));
-}
 
 void	check_vert(struct s_env *env,double *x, double *y)
 {

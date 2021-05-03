@@ -33,30 +33,31 @@ double		cald_bis(struct s_env *env, double x, double y)
 	return(sqrt(pow(x - env->play.x, 2) + pow(y - env->play.y, 2)));
 }
 
-void		tri_w(struct s_env *env, double **w)
+void		tri_w(struct s_env *env, double **w, int n)
 {
 	double	temp[2];
-	int		n;
+	int		d;
 	int		o;
 
+	w[n] = 0;
 	o = 0;
-	n = 0;
+	d = 0;
 	while(w[o])
 	{
-		n = 0;
-		while(w[n] && w[n + 1])
+		d = 0;
+		while(w[d] && w[d + 1])
 		{
-			if((fabs(w[n][0] - env->play.x) + fabs(w[n][1] - env->play.y)) \
-			> (fabs(w[n + 1][0] - env->play.x) + fabs(w[n + 1][1] - env->play.y)))
+			if((fabs(w[d][0] - env->play.x) + fabs(w[d][1] - env->play.y)) \
+			> (fabs(w[d + 1][0] - env->play.x) + fabs(w[d + 1][1] - env->play.y)))
 			{
-				temp[0] = w[n + 1][0];
-				temp[1] = w[n + 1][1];
-				w[n + 1][0] = w[n][0];
-				w[n + 1][1] = w[n][1];
-				w[n][0] = temp[0];
-				w[n][1] = temp[1];
+				temp[0] = w[d + 1][0];
+				temp[1] = w[d + 1][1];
+				w[d + 1][0] = w[d][0];
+				w[d + 1][1] = w[d][1];
+				w[d][0] = temp[0];
+				w[d][1] = temp[1];
 			}
-			n++;
+			d++;
 		}
 		o++;
 	}
@@ -102,21 +103,14 @@ void		print_w(struct s_env *env, double *w, double a)
 {
 	int		i[2];
 	double	dist;
-	double	diffx;
-	double	diffy;
 	double	d;
 	double	hmur;
-	double		co;
-	double		si;
 
-	diffx = fabs(w[0] - (int)w[0]);
-	diffy = fabs(w[1] - (int)w[1]);
-	co = fabs((1 - cos(env->play.pa + M_PI/2)) /2);
-	si = fabs((1 - sin(env->play.pa + M_PI/2)) /2);
-	d = sqrt(pow(diffx - (1 - co), 2) + pow(diffy - (1 - si), 2));
+	d = sqrt(pow(fabs(w[0] - (int)w[0]) - (1 - fabs((1 - cos(env->play.pa + M_PI/2)) /2)), 2) + pow(fabs(w[1] - (int)w[1])
+ - (1 - fabs((1 - sin(env->play.pa + M_PI/2)) /2)), 2));
 	dist = sqrt(pow(w[0] - env->play.x, 2) + pow(w[1] - env->play.y, 2));
 	dist *= (cos(env->play.pa - a) != 0)? cos(env->play.pa -a) : 1;
-	hmur = (double)env->l.r[1] / (dist * 2);
+	hmur = (double)env->l.r[1] / (dist);
 	i[0] = (env->l.r[1]/2) - (hmur/2);
 	i[1] = (env->l.r[1]/2) + (hmur/2);
 	drawcol_sprite1(env,i,d);
@@ -124,15 +118,13 @@ void		print_w(struct s_env *env, double *w, double a)
 	return ;
 }
 
-void		stock_w(struct s_env *env, double **w,int *n, double x, double y, double a)
+void		stock_w(struct s_env *env, double **w,int *n, double x, double y)
 {
 	double		fx;
 	double		fy;
 	double		de;
 	double		f;
 
-
-	(void)a;
 	de = (env->sp[0] * env->sp[3] - (env->sp[2] * env->sp[1]));
 	fx = ((env->play.y * env->sp[0] - env->play.x * env->sp[1]) * env->sp[2] - (env->sp[0]*(((int)y + 0.5) * env->sp[2] - ((int)x + 0.5) * env->sp[3])))/ de;
 	fy = (-env->sp[1] * (((int)y + 0.5) * env->sp[2] - ((int)x + 0.5) * env->sp[3]) + (env->play.y * env->sp[0] - env->play.x * env->sp[1]) * env->sp[3])/de;
@@ -150,26 +142,12 @@ void		checkboth(struct s_env *env, double *i, double d, double a, int *n, double
 	ajout_diff(env, i);
 	if(ca(env,i[0],i[1]))
 		if(env->l.map[(int)i[1]][(int)i[0]] == '2' && cald_bis(env,i[0],i[1]) < d)
-			stock_w(env, w, n, i[0], i[1], a);
+			stock_w(env, w, n, i[0], i[1]);
 	if(ca(env,i[2],i[3]))
 		if(env->l.map[(int)i[3]][(int)i[2]] == '2' && cald_bis(env,i[2],i[3]) < d)
-			stock_w(env, w, n, i[2], i[3], a);
+			stock_w(env, w, n, i[2], i[3]);
 	if(cald_bis(env,i[0],i[1]) < d - 0.0001  || cald_bis(env,i[2],i[3]) < d)
 		checkboth(env, i, d ,a, n, w);
-	return ;
-}
-
-void		free_w(double **w)
-{
-	int		n;
-
-	n = -1;
-	while(w[++n])
-	{	
-		w[n][0] = 0;
-		w[n][1] = 0;
-		free(w[n]);
-	}
 	return ;
 }
 
@@ -177,32 +155,26 @@ void		dray_angle_sprite(struct s_env *env, double a, double d)
 {
 	double	i[4];
 	double	**w;
-	double	angle;
 	int		n;
 
-	angle = a;
-	angle -= (a > 2 * M_PI)? 2*M_PI : 0;
-	angle += (a < 0)? 2 * M_PI : 0;
 	n = 0;
 	w = malloc(sizeof(double*) * (2*(ceil(d + 1))));
 	init_i(env,i);
-	if(ca(env,i[0],i[1]))
-		if(env->l.map[(int)i[1]][(int)i[0]] == '2' && cald_bis(env,i[0],i[1]) < d)
-			stock_w(env, w, &n, i[0], i[1], angle);
-	if(ca(env,i[2],i[3]))
-		if(env->l.map[(int)i[3]][(int)i[2]] == '2' && cald_bis(env,i[2],i[3]) < d && (i[2] != i[0]))
-			stock_w(env, w, &n, i[2], i[3], angle);
+	if(cald_bis(env,i[0],i[1]) < d && env->l.map[(int)i[1]][(int)i[0]] == '2')
+			stock_w(env, w, &n, i[0], i[1]);
+	if(cald_bis(env,i[2],i[3]) < d && env->l.map[(int)i[3]][(int)i[2]] == '2')
+			stock_w(env, w, &n, i[2], i[3]);
 	if((cald_bis(env, i[0], i[1]) <  d) || (cald_bis(env, i[2], i[3]) < d))
-		checkboth(env,i,d,angle, &n, w);
-	w[n] = 0;
-	tri_w(env, w);
-	n--;
-	while(n != -1)
-	{
+		checkboth(env,i,d,a, &n, w);
+	tri_w(env, w, n);
+	while(--n != -1)
 		print_w(env, w[n], a);
-		n--;
+	while(w[++n])
+	{	
+		w[n][0] = 0;
+		w[n][1] = 0;
+		free(w[n]);
 	}
-	free_w(w);
 	free(w);
 	return ;
 }

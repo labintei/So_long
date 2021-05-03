@@ -95,8 +95,13 @@ typedef struct		s_env
 	/* 0 NORD 1 SUD 2 WEST 3 EAST 4 SPRITE*/
 }					t_env;
 
-void		f_load_texture(struct	s_env *env);
+int			ft_putstr_err(char *s);
+void		stockdir(char **s1, char *s);
+char		check_map(struct s_list *l);
+void		print_background(struct s_env *env);
+double		cald_bis(struct s_env *env, double x, double y);
 
+void		f_load_texture(struct	s_env *env);
 void		ft_putstr(char *s);
 void		treat_map(struct s_list *l);
 char		ft_find(char c, char *s);
@@ -109,12 +114,12 @@ char		checkbe(struct s_list *l, struct s_params *i);
 char		checkimg(char *s, struct s_params *i);
 void		drawray(struct s_env *env);
 
-void		open_windows2(struct s_env	*env);
+int			open_window(struct s_env	*env);
 
 int		create_trtgb(int t, int r, int g, int b);
 void	my_put_pixel(struct s_img *i, int x, int y, int color);
 void	drawcarre(int x, int y, int largeur, struct s_env *env, int color);
-void	maxxy(struct s_env *env, int *xmax,int *ymax);
+void	maxxy(struct s_env *env);
 void	dray(struct s_env *env,double a);
 void	drawfov(struct s_env *env);
 
@@ -153,7 +158,7 @@ void	stock_drawfov(struct	s_env *env);
 void	drawfov_bis(struct	s_env *env);
 
 
-void	bmp_save_file(struct s_env *env);
+int		bmp_save_file(struct s_env *env);
 
 void	destroy_ta_vie(struct s_env *env);
 

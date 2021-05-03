@@ -20,75 +20,6 @@
 #define	KEY_RIGHT 65361
 #define	KEY_LEFT 65363
 
-
-int		create_trtgb(int t, int r, int g, int b)
-{
-	return(t << 24 | r << 16 | g << 8 | b);
-}
-
-void	my_put_pixel(struct	s_img	*i, int x, int y, int color)
-{
-	char	*dest;
-
-	dest = i->addr + (y * i->line_lenght + x * (i->bits_per_pixels / 8));
-	*(unsigned int*)dest = color;
-	return ;
-}
-
-
-void	drawcarre(int	x, int y, int largeur, struct s_env *env, int color)
-{
-	int		a;
-	int		b;
-
-	if(x >= 0 && y >= 0 && (x + largeur) < env->l.r[0] && (y + largeur) < env->l.r[1])
-	{
-		a = -1;
-		while(++a < largeur)
-		{
-			b = -1;
-			while(++b < largeur)
-				my_put_pixel(&(env->i), x + b, y + a, color);
-		}
-	}
-	return;
-}
-
-void	print_background(struct s_env	*env)
-{
-	int		x;
-	int		y;
-	int		o;
-
-	o = env->l.r[1]/2;
-	y = -1;
-	while(++y < o)
-	{	x = -1;
-		while(++x < env->l.r[0])
-			my_put_pixel(&(env->i),x ,y,create_trtgb(0,env->l.c[0],env->l.c[1],env->l.c[2]));
-	}
-	--y;
-	while(++y < env->l.r[1])
-	{
-		x = -1;
-		while(++x < env->l.r[0])
-			my_put_pixel(&(env->i), x, y, create_trtgb(0,env->l.f[0],env->l.f[1],env->l.f[2]));
-	}
-	return ;
-}
-
-void	ft_init_player(int x, int y, struct s_env *env)
-{
-	env->play.pa = 0;
-	env->play.x = (double)x + 0.5;
-	env->play.y = (double)y + 0.5;
-	env->play.pa += (env->l.map[y][x] == 'N')? M_PI/2 : 0;
-	env->play.pa += (env->l.map[y][x] == 'S')? 3 * M_PI / 2 : 0;
-	env->play.pa += (env->l.map[y][x] == 'E')? 0 : 0;
-	env->play.pa += (env->l.map[y][x] == 'W')? M_PI : 0;
-	return ;
-}
-
 void	init_p(struct s_env *env)
 {
 	int		i;
@@ -100,7 +31,15 @@ void	init_p(struct s_env *env)
 		j = -1;
 		while(++j < env->xmax)
 			if(ft_find(env->l.map[i][j],"NSWE"))
-				ft_init_player(j, i,env);
+			{
+				env->play.pa = 0;
+				env->play.x = (double)j + 0.5;
+				env->play.y = (double)i + 0.5;
+				env->play.pa += (env->l.map[i][j] == 'N')? M_PI/2 : 0;
+				env->play.pa += (env->l.map[i][j] == 'S')? 3 * M_PI / 2 : 0;
+				env->play.pa += (env->l.map[i][j] == 'E')? 0 : 0;
+				env->play.pa += (env->l.map[i][j] == 'W')? M_PI : 0;
+			}
 	}
 	return ;
 }
@@ -142,6 +81,7 @@ void	draw_minimap(struct	s_env *env)
 	return ;
 }
 
+
 char	checkimg(char *s, struct s_params *i)
 {
 	void	*k;
@@ -150,23 +90,23 @@ char	checkimg(char *s, struct s_params *i)
 
 	if((!(k = mlx_xpm_file_to_image(i->mlx, s, &g, &j))))
 	{
-		ft_putstr("Error");
+//		ft_putstr("Error");
 		return(1);
 	}
 	mlx_destroy_image(i->mlx, k);
 	return(0);
 }
-
+/*
 char		checkbe(struct s_list *l, struct s_params *i)
 {
 	int			rlargeur;
 	int			rhauteur;
 	int			h;
-	//int			j;
-	//char		t;
+	int			j;
+	char		t;
 
-	//t = 0;
-	//j = 0;
+	t = 0;
+	j = 0;
 	h = 0;
 	mlx_get_screen_size(i->mlx, &rlargeur, &rhauteur);
 	if(rlargeur < l->r[0] || l->r[0] < 0)
@@ -176,21 +116,58 @@ char		checkbe(struct s_list *l, struct s_params *i)
 	if(l->c[0] > 255 || l->c[1] > 255 || l->c[2] > 255)
 		return(0);
 	if(l->f[0] > 255 || l->f[1] > 255 || l->f[2] > 255)
-		return(0);/*
+		return(0);
 	while(l->map[h])
 	{
 		j = 0;
 		while(l->map[h][j])
 		{
-			t += (ft_find(l->map[h][j],"NWSE"))? 1 : 0;
+			t += (l->map[h][j] == 'N') ? 1 : 0;
 			j++;
 		}
 		h++;
 	}
 	if(t != 1)
-		return(0);*/
+		return(0);
 	if(checkimg((l->s), i) || checkimg((l->so), i) || checkimg((l->no), i) || checkimg((l->we), i) || checkimg((l->ea), i))
 		return(0);
+	return(1);
+}*/
+
+char		checkbe(struct s_list *l, struct s_params *i)
+{
+	int			rlargeur;
+	int			rhauteur;
+	int			h;
+	void		*k;
+
+	h = 0;
+	mlx_get_screen_size(i->mlx, &rlargeur, &rhauteur);
+	if(rlargeur < l->r[0] || l->r[0] < 0)
+		l->r[0] = rlargeur;
+	if(rhauteur < l->r[1] || l->r[1] < 0)
+		l->r[1] = rhauteur;
+	rhauteur = 0;
+	rlargeur = 0;
+	if(l->c[0] > 255 || l->c[1] > 255 || l->c[2] > 255)
+		return(0);
+	if(l->f[0] > 255 || l->f[1] > 255 || l->f[2] > 255)
+		return(0);
+	if((!(k = mlx_xpm_file_to_image(i->mlx, l->s, &rhauteur, &rlargeur))))
+		return(0);
+	mlx_destroy_image(i->mlx, k);
+	if((!(k = mlx_xpm_file_to_image(i->mlx, l->so, &rhauteur, &rlargeur))))
+		return(0);
+	mlx_destroy_image(i->mlx, k);
+	if((!(k = mlx_xpm_file_to_image(i->mlx, l->we, &rhauteur, &rlargeur))))
+		return(0);
+	mlx_destroy_image(i->mlx, k);
+	if((!(k = mlx_xpm_file_to_image(i->mlx, l->ea, &rhauteur, &rlargeur))))
+		return(0);
+	mlx_destroy_image(i->mlx, k);
+	if((!(k = mlx_xpm_file_to_image(i->mlx, l->no, &rhauteur, &rlargeur))))
+		return(0);
+	mlx_destroy_image(i->mlx, k);
 	return(1);
 }
 
@@ -246,7 +223,6 @@ int			f_key(int	keycode, struct s_env	*env)
 	if(keycode == KEY_ESC)
 	{
 		destroy_ta_vie(env);
-		env->stop = 1;
 		return(1);
 	}
 	drawfov_bis(env);
@@ -255,29 +231,31 @@ int			f_key(int	keycode, struct s_env	*env)
 	return(1);
 }
 
-void		open_windows2(struct s_env	*env)
+int		open_window(struct s_env	*env)
 {
-	env->stop = 0;
-	if(env->save != 1)
-		env->p.mlx_win = mlx_new_window(env->p.mlx, env->l.r[0], env->l.r[1],"F");
-	env->i.img = mlx_new_image(env->p.mlx, env->l.r[0], env->l.r[1]);
-	env->i.addr = mlx_get_data_addr(env->i.img, &(env->i.bits_per_pixels),\
-	&(env->i.line_lenght), &(env->i.endian));
-	f_load_texture(env);
-	env->xmax = 0;
-	env->ymax = 0;
-	maxxy(env, &(env->xmax), &(env->ymax));
-	init_p(env);
-	stock_drawfov(env);
-	dvarconst(env);
-	print_background(env);
-	drawfov_bis(env);
-	draw_minimap(env);
-	if(env->save == 1)
-		return(bmp_save_file(env));
-	mlx_put_image_to_window(env->p.mlx, env->p.mlx_win, env->i.img, 0, 0);
-	mlx_hook(env->p.mlx_win, 2, 1L<<0, f_key, env);
-	mlx_loop(env->p.mlx);
-	return ;
+
+	env->p.mlx = mlx_init();
+	if(checkbe(&(env->l), &(env->p)))
+	{
+		if(env->save != 1)
+			env->p.mlx_win = mlx_new_window(env->p.mlx, env->l.r[0], env->l.r[1],"F");
+		env->i.img = mlx_new_image(env->p.mlx, env->l.r[0], env->l.r[1]);
+		env->i.addr = mlx_get_data_addr(env->i.img, &(env->i.bits_per_pixels), &(env->i.line_lenght), &(env->i.endian));
+		f_load_texture(env);
+		maxxy(env);
+		init_p(env);
+		stock_drawfov(env);
+		dvarconst(env);
+		print_background(env);
+		drawfov_bis(env);
+		draw_minimap(env);
+		if(env->save == 1)
+			return(bmp_save_file(env));
+		mlx_put_image_to_window(env->p.mlx, env->p.mlx_win, env->i.img, 0, 0);
+		mlx_hook(env->p.mlx_win, 2, 1L<<0, f_key, env);
+		mlx_loop(env->p.mlx);
+		return(1);
+	}
+	return(ft_putstr_err("Error\n"));
 }
 
