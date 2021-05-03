@@ -162,11 +162,11 @@ char		checkbe(struct s_list *l, struct s_params *i)
 	int			rlargeur;
 	int			rhauteur;
 	int			h;
-	int			j;
-	char		t;
+	//int			j;
+	//char		t;
 
-	t = 0;
-	j = 0;
+	//t = 0;
+	//j = 0;
 	h = 0;
 	mlx_get_screen_size(i->mlx, &rlargeur, &rhauteur);
 	if(rlargeur < l->r[0] || l->r[0] < 0)
@@ -176,19 +176,19 @@ char		checkbe(struct s_list *l, struct s_params *i)
 	if(l->c[0] > 255 || l->c[1] > 255 || l->c[2] > 255)
 		return(0);
 	if(l->f[0] > 255 || l->f[1] > 255 || l->f[2] > 255)
-		return(0);
+		return(0);/*
 	while(l->map[h])
 	{
 		j = 0;
 		while(l->map[h][j])
 		{
-			t += (l->map[h][j] == 'N') ? 1 : 0;
+			t += (ft_find(l->map[h][j],"NWSE"))? 1 : 0;
 			j++;
 		}
 		h++;
 	}
 	if(t != 1)
-		return(0);
+		return(0);*/
 	if(checkimg((l->s), i) || checkimg((l->so), i) || checkimg((l->no), i) || checkimg((l->we), i) || checkimg((l->ea), i))
 		return(0);
 	return(1);
@@ -270,9 +270,9 @@ void		open_windows2(struct s_env	*env)
 	init_p(env);
 	stock_drawfov(env);
 	dvarconst(env);
-	//print_background(env);
-	//drawfov_bis(env);
-	//draw_minimap(env);
+	print_background(env);
+	drawfov_bis(env);
+	draw_minimap(env);
 	if(env->save == 1)
 		return(bmp_save_file(env));
 	mlx_put_image_to_window(env->p.mlx, env->p.mlx_win, env->i.img, 0, 0);

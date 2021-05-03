@@ -43,7 +43,7 @@ void		tri_w(struct s_env *env, double **w)
 	n = 0;
 	while(w[o])
 	{
-		n = o;
+		n = 0;
 		while(w[n] && w[n + 1])
 		{
 			if((fabs(w[n][0] - env->play.x) + fabs(w[n][1] - env->play.y)) \

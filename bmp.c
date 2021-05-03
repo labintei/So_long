@@ -50,7 +50,7 @@ void		write_header(struct s_env *env, int fd)
 
 	c[0] = 1;
 	c[1] = 24;
-	u[4] = env->l.r[0] * env->l.r[1];
+	u[4] = (env->l.r[0] * env->l.r[1]);
 	u[3] = 54;
 	u[0] = (54) + ((env->l.r[0] * env->l.r[1]) * 4);
 	u[2] = 40;
@@ -62,10 +62,10 @@ void		write_header(struct s_env *env, int fd)
 	write(fd, &u[2], 4);
 	write(fd, &env->l.r[0], 4);
 	write(fd, &env->l.r[1], 4);
-	write(fd, &(c[0]), 2);
-	write(fd, &(env->i.bits_per_pixels), 2);
+	write(fd, &c[0], 2);
+	write(fd, &env->i.bits_per_pixels, 2);
 	write(fd, "\0\0\0\0" ,4);
-	write(fd, &(u[4]), 4);
+	write(fd, &u[4], 4);
 	write(fd, "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0", 16);
 	return ;
 }
@@ -86,6 +86,7 @@ void		write_data(struct s_env *env, int fd)
 			write(fd, &c[2], 1);
 			write(fd, &c[3], 1);
 			write(fd, &c[4], 1);
+			write(fd, "\0",1);
 			c[1]++;
 		}
 		c[0]--;
@@ -96,11 +97,16 @@ void		bmp_save_file(struct s_env *env)
 {
 	int		fd;
 	
-	fd = open("cube3d.bmp",O_CREAT | O_RDWR);
+	if((fd = open("cube3d.bmp", O_WRONLY | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR)) < 0)
+		ft_putstr("Error123456");
 	write_header(env, fd);
 	write_data(env, fd);
 	close(fd);
 	destroy_ta_vie(env);
 	return ;
 }
+
+
+
+//void		bmp_save_file(struct s_env *env)
 
