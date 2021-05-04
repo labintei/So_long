@@ -192,41 +192,6 @@ char	check_map(struct s_list *l)
 {
 	int		i;
 	int		j;
-
-	j = 0;
-	i = 0;
-	while(l->map[i])
-	{
-		while(l->map[i][j])
-		{
-			if(l->map[i][j] == '0' || l->map[i][j] == '2' || l->map[i][j] == 'N')
-			{
-				if(j == 0 || (!(l->map[i][j + 1])))
-					return(0);
-				if(i == 0)
-					return(0);
-				if(!(l->map[i + 1]))
-					return(0);
-				if((!(ft_find(l->map[i][j + 1],"012NSWE"))) || \
-						(!(ft_find(l->map[i][j + 1], "012NSWE"))) || \
-						(!(ft_find(l->map[i + 1][j], "012NSWE"))) || \
-						(!(ft_find(l->map[i - 1][j], "012NSWE"))))
-					return(0);
-			}
-			j++;
-		}
-		j = 0;
-		i++;
-	}
-	return(1);
-}
-
-
-/*
-char	check_map(struct s_list *l)
-{
-	int		i;
-	int		j;
 	char	u;
 
 	u = 0;
@@ -259,4 +224,3 @@ char	check_map(struct s_list *l)
 		return(0);
 	return(1);
 }
-*/

@@ -33,10 +33,10 @@ char	ft_find(char c,char *s)
 	return(0);
 }
 
-void	stockdir(char **s1,char *s)
+void	stockdir(struct s_list *l, char **s1, char *s)
 {
 	int		n;
-
+	
 	n = 0;
 	if((s1))
 	{
@@ -49,6 +49,8 @@ void	stockdir(char **s1,char *s)
 			(*s1)[n] = s[n];
 		(*s1)[n] = '\0';
 	}
+	l->n += 1;
+	free(s);
 	return ;
 }
 

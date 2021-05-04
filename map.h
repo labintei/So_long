@@ -85,18 +85,19 @@ typedef struct		s_env
 	t_img		i;
 	t_player	play;
 	t_texture	t[5];
-	double		mur[2];
+//	double		mur[2];
 	double		diff[4];
 	double		var[5];
 	double		envi[4];
 	double		sp[4];
-	char		stop;
+	double		rot;
+//	char		stop;
 	double		fov[20000];
 	/* 0 NORD 1 SUD 2 WEST 3 EAST 4 SPRITE*/
 }					t_env;
 
 int			ft_putstr_err(char *s);
-void		stockdir(char **s1, char *s);
+void		stockdir(struct s_list *l,char **s1, char *s);
 char		check_map(struct s_list *l);
 void		print_background(struct s_env *env);
 double		cald_bis(struct s_env *env, double x, double y);

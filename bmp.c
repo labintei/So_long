@@ -71,14 +71,14 @@ void		write_header(struct s_env *env, int fd, int *u)
 	}
 }
 
-int		bmp_save_file(struct s_env *env)
+int			bmp_save_file(struct s_env *env)
 {
 	int		fd;
-	int	u[5];
+	int		u[5];
 
 	if ((fd = open("cube3d.bmp", O_WRONLY | O_CREAT | O_TRUNC, S_IRUSR | \
 	S_IWUSR)) < 0)
-		return(ft_putstr_err("Error\n"));
+		return (ft_putstr_err("Error\n"));
 	u[4] = 1;
 	u[3] = (env->l.r[0] * env->l.r[1]);
 	u[0] = (54) + ((env->l.r[0] * env->l.r[1]) * 4);
@@ -92,45 +92,37 @@ int		bmp_save_file(struct s_env *env)
 	write_header(env, fd, u);
 	close(fd);
 	destroy_ta_vie(env);
-	return(1);
+	return (1);
 }
 
-
-void	ft_dir(struct s_list *l, char *s, int *i)
+void		ft_dir(struct s_list *l, char *s, int *i)
 {
-	char *t;
-	char c;
-	char y;
-	int  n;
-	int  b;
+	char	*t;
+	char	c[2];
+	int		n;
 
-	t = NULL;
 	t = malloc(sizeof(char) * 100);
-	c = (s[*i]);
-	y = (s[*i + 1]) ? s[*i + 1] : 0;
-	n = -0;
-	while(ft_find(s[*i]," \tNSWOEA") && s[*i])
+	c[0] = (s[*i]);
+	c[1] = (s[*i + 1]) ? s[*i + 1] : 0;
+	n = 0;
+	while (ft_find(s[*i], " \tNSWOEA") && s[*i])
 		(*i)++;
-	while((s[(*i)] != '\n') && ((s[*i] != ' ')) && (s[*i] != '\0') && (s[*i]))
+	while ((s[(*i)] != '\n') && ((s[*i] != ' ')) && (s[*i] != '\0') && (s[*i]))
 	{
 		t[n] = s[(*i)];
 		n++;
 		(*i)++;
 	}
 	t[n] = '\0';
-	b = 0;
-	if(c == 'N' && (!(l->no)))
-		stockdir((&(l->no)), t);
-	if(c == 'S' && y == 'O' && (!(l->so)))
-		stockdir((&(l->so)), t);
-	if(c == 'S' && y != 'O'&& (!(l->s)))
-		stockdir((&(l->s)), t);
-	if(c == 'W' && (!(l->we)))
-		stockdir((&(l->we)), t);
-	if(c == 'E' && (!(l->ea)))
-		stockdir((&(l->ea)), t);
-	l->n += 1;
-	free(t);
-	return;
+	if (c[0] == 'N' && (!(l->no)))
+		stockdir(l, (&(l->no)), t);
+	if (c[0] == 'S' && c[1] == 'O' && (!(l->so)))
+		stockdir(l, (&(l->so)), t);
+	if (c[0] == 'S' && c[1] != 'O' && (!(l->s)))
+		stockdir(l, (&(l->s)), t);
+	if (c[0] == 'W' && (!(l->we)))
+		stockdir(l, (&(l->we)), t);
+	if (c[0] == 'E' && (!(l->ea)))
+		stockdir(l, (&(l->ea)), t);
+	return ;
 }
-

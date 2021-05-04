@@ -20,11 +20,6 @@ int			index_color(int x, int y, struct s_texture *text)
 	return(((int *)text->addr)[index/4]);
 }
 
-double		cald(double	x1, double x2, double y1, double y2)
-{
-	return(sqrt(pow((x1 - x2), 2) + pow((y1 - y2), 2)));
-}
-
 void		f_load_texture(struct	s_env *env)
 {
 	env->t[0].img = mlx_xpm_file_to_image(env->p.mlx, env->l.no, \
@@ -49,58 +44,6 @@ void		f_load_texture(struct	s_env *env)
 	bits_per_pixels), &(env->t[4].line_lenght), &(env->t[4].endian));
 	return ;
 }
-
-/*
-void		f_load_texture(struct	s_env *env)
-{
-	env->t[0].img = mlx_xpm_file_to_image(env->p.mlx, env->l.no, \
-	&(env->t[0].width), &(env->t[0].height));
-	env->t[0].addr = mlx_get_data_addr(env->t[0].img,&(env->t[0].\
-	bits_per_pixels), &(env->t[0].line_lenght), &(env->t[0].endian));
-	env->t[1].img = mlx_xpm_file_to_image(env->p.mlx, env->l.so, \
-	&(env->t[1].width), &(env->t[1].height));
-	env->t[1].addr = mlx_get_data_addr(env->t[1].img, &(env->t[1]\
-	.bits_per_pixels), &(env->t[1].line_lenght), &(env->t[1].endian));
-	env->t[2].img = mlx_xpm_file_to_image(env->p.mlx, env->l.we, \
-	&(env->t[2].width), &(env->t[2].height));
-	env->t[2].addr = mlx_get_data_addr(env->t[2].img, &(env->t[2].\
-	bits_per_pixels), &(env->t[2].line_lenght), &(env->t[2].endian));
-	env->t[3].img = mlx_xpm_file_to_image(env->p.mlx, env->l.ea, \
-	&(env->t[3].width), &(env->t[3].height));
-	env->t[3].addr = mlx_get_data_addr(env->t[3].img, &(env->t[3].\
-	bits_per_pixels), &(env->t[3].line_lenght), &(env->t[3].endian));
-	env->t[4].img = mlx_xpm_file_to_image(env->p.mlx, env->l.s, \
-	&(env->t[4].width), &(env->t[4].height));
-	env->t[4].addr = mlx_get_data_addr(env->t[4].img, &(env->t[4].\
-	bits_per_pixels), &(env->t[4].line_lenght), &(env->t[4].endian));
-	return ;
-}*/
-
-/*
-void		f_load_texture(struct	s_env *env)
-{
-	env->t[0].img = mlx_xpm_file_to_image(env->p.mlx, env->l.no, \
-	&(env->t[0].width), &(env->t[0].height));
-	env->t[0].addr = mlx_get_data_addr(env->t[0].img,&(env->t[0].\
-	bits_per_pixels), &(env->t[0].line_lenght), &(env->t[0].endian));
-	env->t[1].img = mlx_xpm_file_to_image(env->p.mlx, env->l.so, \
-	&(env->t[1].width), &(env->t[1].height));
-	env->t[1].addr = mlx_get_data_addr(env->t[1].img, &(env->t[1]\
-	.bits_per_pixels), &(env->t[1].line_lenght), &(env->t[1].endian));
-	env->t[2].img = mlx_xpm_file_to_image(env->p.mlx, env->l.we, \
-	&(env->t[2].width), &(env->t[2].height));
-	env->t[2].addr = mlx_get_data_addr(env->t[2].img, &(env->t[2].\
-	bits_per_pixels), &(env->t[2].line_lenght), &(env->t[2].endian));
-	env->t[3].img = mlx_xpm_file_to_image(env->p.mlx, env->l.ea, \
-	&(env->t[3].width), &(env->t[3].height));
-	env->t[3].addr = mlx_get_data_addr(env->t[3].img, &(env->t[3].\
-	bits_per_pixels), &(env->t[3].line_lenght), &(env->t[3].endian));
-	env->t[4].img = mlx_xpm_file_to_image(env->p.mlx, env->l.s, \
-	&(env->t[4].width), &(env->t[4].height));
-	env->t[4].addr = mlx_get_data_addr(env->t[4].img, &(env->t[4].\
-	bits_per_pixels), &(env->t[4].line_lenght), &(env->t[4].endian));
-	return ;
-}*/
 
 void		f_compare(struct s_env *env, double x1,double y1,double x, double y, double a)
 {
@@ -108,20 +51,18 @@ void		f_compare(struct s_env *env, double x1,double y1,double x, double y, doubl
 	double		o;
 	int			color;
 
-	if(cald(x1, env->play.x, y1, env->play.y) < cald(x, env->play.x, y, env->play.y) || \
-	a == 0 || a == M_PI)
+	if(cald_bis(env, x1,y1) < cald_bis(env,x, y) || a == 0 || a == M_PI)
 	{
 		color = (x1 > env->play.x)? 1 : 2;
-		fin = (cald(x1, env->play.x,y1, env->play.y));
+		fin = (cald_bis(env,x1,y1));
 		o = fin;
 		drawcol1(env, &fin, a, color, x1, y1);
 		return(dray_angle_sprite(env,a, o));
 	}
-	if(cald(x1, env->play.x, y1, env->play.y) >= cald(x, env->play.x, y, env->play.y) || \
-	a == env->var[3] || a == env->var[4])
+	if(cald_bis(env, x1, y1) >= cald_bis(env,x, y) || a == env->var[3] || a == env->var[4])
 	{
 		color = (y > env->play.y)? 3 : 4;
-		fin = (cald(x, env->play.x, y, env->play.y));
+		fin = (cald_bis(env,x, y));
 		o = fin;
 		drawcol1(env, &fin, a, color, x, y);
 		return(dray_angle_sprite(env,a, o));
@@ -129,33 +70,6 @@ void		f_compare(struct s_env *env, double x1,double y1,double x, double y, doubl
 	return ;
 }
 
-/*
-void		f_compare(struct s_env *env, double x1,double y1,double x, double y, double a)
-{
-	double		fin;
-	double		o;
-	int			color;
-
-	if(cald(env,x1, y1) < cald_bis(env, x, y) || \
-	a == 0 || a == M_PI)
-	{
-		color = (x1 > env->play.x)? 1 : 2;
-		fin = (cald_bis(env, x1, y1));
-		o = fin;
-		drawcol1(env, &fin, a, color, x1, y1);
-		return(dray_angle_sprite(env,a, o));
-	}
-	if(cald_bis(env ,x1, y1) >= cald_bis(env, x, y) || \
-	a == env->var[3] || a == env->var[4])
-	{
-		color = (y > env->play.y)? 3 : 4;
-		fin = (cald_bis(env, x, y));
-		o = fin;
-		drawcol1(env, &fin, a, color, x, y);
-		return(dray_angle_sprite(env,a, o));
-	}
-	return ;
-}*/
 
 void	drawcol1(struct	s_env *env, double *d, double a, int color, double x, double y)
 {
@@ -185,6 +99,7 @@ void	dvarconst(struct s_env *env)
 	env->var[2] = 2 * M_PI;
 	env->var[3] = 3 * (M_PI/2);
 	env->var[4] = M_PI/2;
+	env->rot = (2 * M_PI)/360;
 	return ;
 }
 
