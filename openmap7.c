@@ -21,33 +21,33 @@ void	ft_map_define(struct s_list *l)
 	j = 0;
 	c = 0;
 	z = 0;
-	while(c == 0)
+	while (c == 0)
 	{
-		while(l->stock[j] == ' ' && l->stock[j] != '\n' && l->stock[j])
+		while (l->stock[j] == ' ' && l->stock[j] != '\n' && l->stock[j])
 			j++;
-		if(l->stock[j] == '\n')
+		if (l->stock[j] == '\n')
 		{
 			l->stock += j + 1;
 			j = 0;
 		}
-		else 
+		else
 			c = 1;
 	}
 	j = -1;
 	z = 1;
-	while(l->stock[++j] && z == 1)
+	while (l->stock[++j] && z == 1)
 	{
 		z = 0;
-		while(l->stock[j] && l->stock[j] != '\n')
+		while (l->stock[j] && l->stock[j] != '\n')
 		{
-			if(ft_find(l->stock[j], "012NSWE"))
+			if (ft_find(l->stock[j], "012NSWE"))
 				z = 1;
 			j++;
 		}
 	}
-	if(!(l->stock[j]))
+	if (!(l->stock[j]))
 		j--;
-	while(l->stock[j] && (l->stock[j] == ' ' || l->stock[j] == '\n'))
+	while (l->stock[j] && (l->stock[j] == ' ' || l->stock[j] == '\n'))
 		j--;
 	z = -1;
 	ft_map_cut(l, j);
@@ -63,30 +63,30 @@ void	ft_put_map(struct s_list *l, int min, int max, int j, int ligne)
 	i = 0;
 	t = 0;
 	o = 0;
-	if(!(l->map = malloc(sizeof(char *) * (ligne + 1))))
+	if (!(l->map = malloc(sizeof(char *) * (ligne + 1))))
 		return ;
-	while(l->stock[t] && t <= j && i <= ligne)
+	while (l->stock[t] && t <= j && i <= ligne)
 	{
-		if(!(((l->map)[i]) = (malloc(sizeof(char) * ((max - min) + 1)))))
+		if (!(((l->map)[i]) = (malloc(sizeof(char) * ((max - min) + 1)))))
 			return ;
 		t += min;
 		o = 0;
-		while(l->stock[t] && o <= (max - min) && l->stock[t] != '\n' && t <= j)
+		while (l->stock[t] && o <= (max - min) && l->stock[t] != '\n' && t <= j)
 		{
 			l->map[i][o] = l->stock[t];
 			o++;
 			t++;
 		}
-		while(o < (max - min))
+		while (o < (max - min))
 		{
 			l->map[i][o] = ' ';
 			o++;
 		}
-		if(o == (max - min))
+		if (o == (max - min))
 			l->map[i][o] = '\0';
-		while(l->stock[t] != '\n' && l->stock[t] && t <= j)
+		while (l->stock[t] != '\n' && l->stock[t] && t <= j)
 			t++;
-		if(l->stock[t] == '\n' && l->stock[t + 1] && l->stock[t])
+		if (l->stock[t] == '\n' && l->stock[t + 1] && l->stock[t])
 			t++;
 		i++;
 	}
@@ -98,30 +98,30 @@ void	treat_map(struct s_list *l)
 {
 	int		n;
 	int		i;
-	char s[10000];
+	char	s[10000];
 
 	i = -1;
-	l ->stock = NULL;
+	l->stock = NULL;
 	n = read(l->fd, s, 10000);
 	l->stock = malloc((sizeof(char)) * (n + 1));
-	while(s[++i] && s[i] != '\0')
+	while (s[++i] && s[i] != '\0')
 		(l->stock)[i] = s[i];
 	(l->stock)[i] = '\0';
 	i = 0;
 	l->r[0] = -1;
 	l->r[1] = -1;
-	while(l->stock[i] != '\0')
+	while (l->stock[i] != '\0')
 	{
-		while(l->n < 8)
+		while (l->n < 8)
 		{
-			while((l->stock)[i] && (!(ft_find((l->stock[i]), "RFCNSWE"))))
+			while ((l->stock)[i] && (!(ft_find((l->stock[i]), "RFCNSWE"))))
 				i++;
-			if((l->stock)[i] && ft_find(l->stock[i], "RFC"))
+			if ((l->stock)[i] && ft_find(l->stock[i], "RFC"))
 				ft_number(l, l->stock, &i);
-			if((l->stock)[i] && ft_find(l->stock[i], "NSWE"))
+			if ((l->stock)[i] && ft_find(l->stock[i], "NSWE"))
 				ft_dir(l, l->stock, &i);
 		}
-		if((l->stock[i] != '\0') && l->s && l->no && l->ea && l->we && l->so)
+		if ((l->stock[i] != '\0') && l->s && l->no && l->ea && l->we && l->so)
 		{
 			l->stock += i;
 			ft_map_define(l);
@@ -144,40 +144,40 @@ void	ft_number(struct s_list *l, char *s, int *i)
 	z[2] = 0;
 	t[0] = 0;
 	t[1] = 0;
-	if(s[*i] == 'R' && (l->r[0] == -1) && (l->r[1] == -1))
+	if (s[*i] == 'R' && (l->r[0] == -1) && (l->r[1] == -1))
 	{
-		while((!(ft_find(s[*i], "0123456789"))) && s[*i])
+		while ((!(ft_find(s[*i], "0123456789"))) && s[*i])
 			(*i)++;
 		(*i)--;
-		while((ft_find(s[++(*i)], "0123456789")) && (s[*i]))
+		while ((ft_find(s[++(*i)], "0123456789")) && (s[*i]))
 			t[n] = (t[n]) * 10 + (s[*i] - '0');
-		while((!(ft_find(s[*i], "0123456789"))) && s[*i])
+		while ((!(ft_find(s[*i], "0123456789"))) && s[*i])
 			(*i)++;
 		(*i)--;
 		n++;
-		while((ft_find(s[++(*i)], "0123456789")) && (s[*i]))
+		while ((ft_find(s[++(*i)], "0123456789")) && (s[*i]))
 			t[n] = (t[n]) * 10 + (s[*i] - '0');
 		l->r[0] = t[0];
 		l->r[1] = t[1];
 		l->n += 1;
 		return ;
 	}
-	if((s[*i] == 'C' || s[*i] == 'F') && (s[*i]))
+	if ((s[*i] == 'C' || s[*i] == 'F') && (s[*i]))
 	{
 		y = (s[*i]);
-		while(s[*i] && n <= 2)
+		while (s[*i] && n <= 2)
 		{
-			while((!(ft_find(s[(*i)], "0123456789"))) && s[*i])
+			while ((!(ft_find(s[(*i)], "0123456789"))) && s[*i])
 				(*i)++;
 			(*i)--;
-			while((ft_find(s[++(*i)], "0123456789")) && s[(*i)])
+			while ((ft_find(s[++(*i)], "0123456789")) && s[(*i)])
 				z[n] = (z[n]) * 10 + (s[*i] - '0') + 0;
 			n++;
 		}
 		n = 0;
-		while(n <= 2 && z[n])
+		while (n <= 2 && z[n])
 		{
-			if(y == 'F')
+			if (y == 'F')
 				l->f[n] = z[n];
 			else
 				l->c[n] = z[n];
@@ -197,30 +197,30 @@ char	check_map(struct s_list *l)
 	u = 0;
 	j = -1;
 	i = -1;
-	while(l->map[++i])
+	while (l->map[++i])
 	{
-		while(l->map[i][++j])
+		while (l->map[i][++j])
 		{
-			if(ft_find(l->map[i][j],"02NSWE"))
+			if (ft_find(l->map[i][j], "02NSWE"))
 			{
-				if(j == 0 || (!(l->map[i][j + 1])))
-					return(0);
-				if(i == 0)
-					return(0);
-				if(!(l->map[i + 1]))
-					return(0);
-				if(ft_find(l->map[i][j],"NSWE"))
+				if (j == 0 || (!(l->map[i][j + 1])))
+					return (0);
+				if (i == 0)
+					return (0);
+				if (!(l->map[i + 1]))
+					return (0);
+				if (ft_find(l->map[i][j], "NSWE"))
 					u += 1;
-				if((!(ft_find(l->map[i][j + 1],"012NSWE"))) || \
+				if ((!(ft_find(l->map[i][j + 1], "012NSWE"))) || \
 						(!(ft_find(l->map[i][j + 1], "012NSWE"))) || \
 						(!(ft_find(l->map[i + 1][j], "012NSWE"))) || \
 						(!(ft_find(l->map[i - 1][j], "012NSWE"))))
-					return(0);
+					return (0);
 			}
 		}
 		j = -1;
 	}
-	if(u > 1 || u == 0)
-		return(0);
-	return(1);
+	if (u > 1 || u == 0)
+		return (0);
+	return (1);
 }

@@ -53,22 +53,21 @@ void		draw_minimap(struct s_env *env)
 {
 	int		x;
 	int		y;
-	int		color;
 
-	color = 0;
 	y = -1;
 	while (env->l.map[++y])
 	{
 		x = -1;
 		while (env->l.map[y][++x])
 		{
-			color = (env->l.map[y][x] == '1') ? create_trtgb(0, 150, 180, 201) : color;
-			color = (env->l.map[y][x] == '2') ? create_trtgb(0, 250, 180, 121) : color;
-			color = (env->l.map[y][x] == '0') ? create_trtgb(0, 21, 80, 50) : color;
-			drawcarre(x * env->pas, y * env->pas, env->pas, env, color);
+			env->c = (env->l.map[y][x] == '1') ? create_trtgb(0, 150, 180, 201) : env->c;
+			env->c = (env->l.map[y][x] == '2') ? create_trtgb(0, 250, 180, 121) : env->c;
+			env->c = (env->l.map[y][x] == '0') ? create_trtgb(0, 21, 80, 50) : env->c;
+			drawcarre(x * env->pas, y * env->pas, env->pas, env);
 		}
 	}
-	drawcarre(env->play.x * env->pas, env->play.y * env->pas, 10, env, create_trtgb(0, 180, 180, 180));
+	env->c = create_trtgb(0, 150, 150, 150);
+	drawcarre(env->play.x * env->pas, env->play.y * env->pas, 10, env);
 	return ;
 }
 

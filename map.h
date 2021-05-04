@@ -75,6 +75,7 @@ typedef	struct		s_texture
 
 typedef struct		s_env
 {
+	int			c;
 	int			pas;
 	int			xmax;
 	int			ymax;
@@ -85,15 +86,12 @@ typedef struct		s_env
 	t_img		i;
 	t_player	play;
 	t_texture	t[5];
-//	double		mur[2];
 	double		diff[4];
 	double		var[5];
 	double		envi[4];
 	double		sp[4];
 	double		rot;
-//	char		stop;
 	double		fov[20000];
-	/* 0 NORD 1 SUD 2 WEST 3 EAST 4 SPRITE*/
 }					t_env;
 
 int			ft_putstr_err(char *s);
@@ -119,7 +117,7 @@ int			open_window(struct s_env	*env);
 
 int		create_trtgb(int t, int r, int g, int b);
 void	my_put_pixel(struct s_img *i, int x, int y, int color);
-void	drawcarre(int x, int y, int largeur, struct s_env *env, int color);
+void	drawcarre(int x, int y, int largeur, struct s_env *env);
 void	maxxy(struct s_env *env);
 void	dray(struct s_env *env,double a);
 void	drawfov(struct s_env *env);
@@ -129,10 +127,10 @@ void	f_compare(struct s_env *env, double x1, double y1, double x, double y, doub
 void	drawcol1(struct s_env *env,double *d, double a, int color, double x, double y);
 void	drawcol2(struct s_env *env,int *a, int color,double x, double y);
 void	drawfov(struct s_env *env);
-void	drawcolN(struct s_env *env, int *i,double y);
-void	drawcolS(struct s_env *env, int *i,double y);
-void	drawcolW(struct s_env *env, int *i, double x);
-void	drawcolE(struct s_env *env, int *i, double x);
+void	drawcoln(struct s_env *env, int *i,double y);
+void	drawcols(struct s_env *env, int *i,double y);
+void	drawcolw(struct s_env *env, int *i, double x);
+void	drawcole(struct s_env *env, int *i, double x);
 
 
 int		index_color(int x, int y, struct s_texture *text);

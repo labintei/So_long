@@ -26,7 +26,7 @@ void	my_put_pixel(struct s_img *i, int x, int y, int color)
 	return ;
 }
 
-void	drawcarre(int x, int y, int largeur, struct s_env *env, int color)
+void	drawcarre(int x, int y, int largeur, struct s_env *env)
 {
 	int		a;
 	int		b;
@@ -38,7 +38,7 @@ void	drawcarre(int x, int y, int largeur, struct s_env *env, int color)
 		{
 			b = -1;
 			while (++b < largeur)
-				my_put_pixel(&(env->i), x + b, y + a, color);
+				my_put_pixel(&(env->i), x + b, y + a, env->c);
 		}
 	}
 	return ;
