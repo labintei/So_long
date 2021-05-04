@@ -73,6 +73,6 @@ void		dray(struct s_env *env, double a)
 			if (env->l.map[(int)i[3]][(int)i[2]] != '1')
 				check_vert(env, &(i[2]), &(i[3]));
 	}
-	f_compare(env, i[2], i[3], i[0], i[1], a);
+	f_compare(env, i, a);
 	return ;
 }

@@ -54,6 +54,7 @@ void		draw_minimap(struct s_env *env)
 	int		x;
 	int		y;
 
+	env->c = create_trtgb(0, 150, 180, 201);
 	y = -1;
 	while (env->l.map[++y])
 	{

@@ -56,60 +56,52 @@ void	stockdir(struct s_list *l, char **s1, char *s)
 
 void	ft_map_cut(struct s_list *l, int j)
 {
-	int		t;
-	int		i;
-	int		v;
-//	int		min;
-	int		max;
-	int		stock;
-	int		ligne;
 	int		y[6];
 
 	y[0] = -1;
-	max = 0;
-	i = 0;
-	t = 0;
-	ligne = 1;
-	while (l->stock[t] && t <= j)
+	y[1] = 0;
+	y[2] = 1;
+	y[3] = 0;
+	y[4] = 0;
+	while (l->stock[y[4]] && y[4] <= j)
 	{
-		if (l->stock[t] == '\n')
-			ligne++;
-		t++;
+		if (l->stock[y[4]] == '\n')
+			y[2]++;
+		y[4]++;
 	}
-	t = 0;
-	while (l->stock[t] && t <= j)
+	y[4] = 0;
+	while (l->stock[y[4]] && y[4] <= j)
 	{
-		i = 0;
-		v = t;
-		while (l->stock[t] && l->stock[t] == ' ' && l->stock[t] != '\n' && t <= j)
+		y[3] = 0;
+		while (l->stock[y[4]] && l->stock[y[4]] == ' ' && l->stock[y[4]] != '\n' && y[4] <= j)
 		{
-			t++;
-			i++;
+			y[4]++;
+			y[4]++;
 		}
-		i = (i < 0) ? 0 : i;
-		stock = y[0];
-		y[0] = ((i < y[0]) || y[0] == -1) ? i : stock;
-		while (l->stock[t] && l->stock[t] != '\n' && t <= j)
-			t++;
-		if (l->stock[t] == '\n' && l->stock[t] && t <= j)
-			t++;
+		y[3] = (y[3] < 0) ? 0 : y[3];
+		y[5] = y[0];
+		y[0] = ((y[3] < y[0]) || y[0] == -1) ? y[3] : y[5];
+		while (l->stock[y[4]] && l->stock[y[4]] != '\n' && y[4] <= j)
+			y[4]++;
+		if (l->stock[y[4]] == '\n' && l->stock[y[4]] && y[4] <= j)
+			y[4]++;
 	}
-	t = 0;
-	while (l->stock[t] && t <= j)
+	y[4] = 0;
+	while (l->stock[y[4]] && y[4] <= j)
 	{
-		i = 0;
-		while (ft_find(l->stock[t], " 012NSWOE") && l->stock[t] != '\n' && l->stock[t] && t <= j)
+		y[3] = 0;
+		while (ft_find(l->stock[y[4]], " 012NSWOE") && l->stock[y[4]] != '\n' && l->stock[y[4]] && y[4] <= j)
 		{
-			t++;
-			i++;
+			y[4]++;
+			y[3]++;
 		}
-		max = (max > i) ? max : i;
-		while (l->stock[t] != '\n' && l->stock[t] && t <= j)
-			t++;
-		if (l->stock[t] == '\n' && t <= j)
-			t++;
+		y[1] = (y[1] > y[3]++) ? y[1] : y[3]++;
+		while (l->stock[y[4]] != '\n' && l->stock[y[4]] && y[4] <= j)
+			y[4]++;
+		if (l->stock[y[4]] == '\n' && y[4] <= j)
+			y[4]++;
 	}
-	ft_put_map(l, y[0], max, j, ligne);
+	ft_put_map(l, y, j);
 	return ;
 }
 

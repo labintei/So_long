@@ -54,7 +54,7 @@ void	ft_map_define(struct s_list *l)
 	return ;
 }
 
-void	ft_put_map(struct s_list *l, int min, int max, int j, int ligne)
+void	ft_put_map(struct s_list *l, int *y, int j)
 {
 	int		t;
 	int		i;
@@ -63,26 +63,26 @@ void	ft_put_map(struct s_list *l, int min, int max, int j, int ligne)
 	i = 0;
 	t = 0;
 	o = 0;
-	if (!(l->map = malloc(sizeof(char *) * (ligne + 1))))
+	if (!(l->map = malloc(sizeof(char *) * (y[2] + 1))))
 		return ;
-	while (l->stock[t] && t <= j && i <= ligne)
+	while (l->stock[t] && t <= j && i <= y[2])
 	{
-		if (!(((l->map)[i]) = (malloc(sizeof(char) * ((max - min) + 1)))))
+		if (!(((l->map)[i]) = (malloc(sizeof(char) * ((y[1] - y[0]) + 1)))))
 			return ;
-		t += min;
+		t += y[0];
 		o = 0;
-		while (l->stock[t] && o <= (max - min) && l->stock[t] != '\n' && t <= j)
+		while (l->stock[t] && o <= (y[1] - y[0]) && l->stock[t] != '\n' && t <= j)
 		{
 			l->map[i][o] = l->stock[t];
 			o++;
 			t++;
 		}
-		while (o < (max - min))
+		while (o < (y[1] - y[0]))
 		{
 			l->map[i][o] = ' ';
 			o++;
 		}
-		if (o == (max - min))
+		if (o == (y[1] - y[0]))
 			l->map[i][o] = '\0';
 		while (l->stock[t] != '\n' && l->stock[t] && t <= j)
 			t++;
@@ -90,7 +90,7 @@ void	ft_put_map(struct s_list *l, int min, int max, int j, int ligne)
 			t++;
 		i++;
 	}
-	(l->map)[ligne] = 0;
+	(l->map)[y[2]] = 0;
 	return ;
 }
 

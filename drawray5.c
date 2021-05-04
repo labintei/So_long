@@ -45,49 +45,53 @@ void		f_load_texture(struct s_env *env)
 	return ;
 }
 
-void		f_compare(struct s_env *env, double x1, double y1, double x, double y, double a)
+void		f_compare(struct s_env *env, double *i, double a)
 {
-	double		fin;
 	double		o;
-	int			color;
+	double		r[4];
 
-	if (cald_bis(env, x1, y1) < cald_bis(env, x, y) || a == 0 || a == M_PI)
+	r[0] = a;
+	if (cald_bis(env, i[2], i[3]) < cald_bis(env, i[0], i[1]) || a == 0 || a == M_PI)
 	{
-		color = (x1 > env->play.x) ? 1 : 2;
-		fin = (cald_bis(env, x1, y1));
-		o = fin;
-		drawcol1(env, &fin, a, color, x1, y1);
+		env->c = (i[2] > env->play.x) ? 1 : 2;
+		r[1] = (cald_bis(env, i[2], i[3]));
+		r[2] = i[2];
+		r[3] = i[3];
+		o = r[1];
+		drawcol1(env, r);
 		return (dray_angle_sprite(env, a, o));
 	}
-	if (cald_bis(env, x1, y1) >= cald_bis(env, x, y) || a == env->var[3] || a == env->var[4])
+	if (cald_bis(env, i[2], i[3]) >= cald_bis(env, i[0], i[1]) || a == env->var[3] || a == env->var[4])
 	{
-		color = (y > env->play.y) ? 3 : 4;
-		fin = (cald_bis(env, x, y));
-		o = fin;
-		drawcol1(env, &fin, a, color, x, y);
+		env->c = (i[1] > env->play.y) ? 3 : 4;
+		r[1] = (cald_bis(env, i[0], i[1]));
+		r[2] = i[0];
+		r[3] = i[1];
+		o = r[1];
+		drawcol1(env, r);
 		return (dray_angle_sprite(env, a, o));
 	}
 	return ;
 }
 
-void		drawcol1(struct s_env *env, double *d, double a, int color, double x, double y)
+void		drawcol1(struct s_env *env, double *r)
 {
 	double	hmur;
 	int		i[2];
 	double	dist;
 
-	dist = *d * cos((a > env->play.pa) ? a - env->play.pa : env->play.pa - a);
+	dist = r[1] * cos((r[0] > env->play.pa) ? r[0] - env->play.pa : env->play.pa - r[0]);
 	hmur = (int)(env->l.r[1] / (dist));
 	i[0] = (env->l.r[1] / 2) - (hmur / 2);
 	i[1] = (env->l.r[1] / 2) + (hmur / 2);
-	if (color == 1)
-		drawcoln(env, i, y);
-	if (color == 2)
-		drawcols(env, i, y);
-	if (color == 3)
-		drawcole(env, i, x);
-	if (color == 4 || color == 0)
-		drawcolw(env, i, x);
+	if (env->c == 1)
+		drawcoln(env, i, r[3]);
+	if (env->c == 2)
+		drawcols(env, i, r[3]);
+	if (env->c == 3)
+		drawcole(env, i, r[2]);
+	if (env->c == 4 || env->c == 0)
+		drawcolw(env, i, r[2]);
 	return ;
 }
 
