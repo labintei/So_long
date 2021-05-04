@@ -6,44 +6,11 @@
 /*   By: labintei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/26 10:50:11 by labintei          #+#    #+#             */
-/*   Updated: 2021/04/30 14:27:30 by labintei         ###   ########.fr       */
+/*   Updated: 2021/05/04 15:58:11 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "map.h"
-
-int			index_color(int x, int y, struct s_texture *text)
-{
-	int		index;
-
-	index = (y * text->line_lenght + x * (text->bits_per_pixels / 8));
-	return (((int *)text->addr)[index / 4]);
-}
-
-void		f_load_texture(struct s_env *env)
-{
-	env->t[0].img = mlx_xpm_file_to_image(env->p.mlx, env->l.no, \
-	&(env->t[0].width), &(env->t[0].height));
-	env->t[0].addr = mlx_get_data_addr(env->t[0].img, &(env->t[0].\
-	bits_per_pixels), &(env->t[0].line_lenght), &(env->t[0].endian));
-	env->t[1].img = mlx_xpm_file_to_image(env->p.mlx, env->l.so, \
-	&(env->t[1].width), &(env->t[1].height));
-	env->t[1].addr = mlx_get_data_addr(env->t[1].img, &(env->t[1].\
-	bits_per_pixels), &(env->t[1].line_lenght), &(env->t[1].endian));
-	env->t[2].img = mlx_xpm_file_to_image(env->p.mlx, env->l.we, \
-	&(env->t[2].width), &(env->t[2].height));
-	env->t[2].addr = mlx_get_data_addr(env->t[2].img, &(env->t[2].\
-	bits_per_pixels), &(env->t[2].line_lenght), &(env->t[2].endian));
-	env->t[3].img = mlx_xpm_file_to_image(env->p.mlx, env->l.ea, \
-	&(env->t[3].width), &(env->t[3].height));
-	env->t[3].addr = mlx_get_data_addr(env->t[3].img, &(env->t[3].\
-	bits_per_pixels), &(env->t[3].line_lenght), &(env->t[3].endian));
-	env->t[4].img = mlx_xpm_file_to_image(env->p.mlx, env->l.s, \
-	&(env->t[4].width), &(env->t[4].height));
-	env->t[4].addr = mlx_get_data_addr(env->t[4].img, &(env->t[4].\
-	bits_per_pixels), &(env->t[4].line_lenght), &(env->t[4].endian));
-	return ;
-}
 
 void		f_compare(struct s_env *env, double *i, double a)
 {
@@ -157,86 +124,6 @@ void		drawfov_bis(struct s_env *env)
 		dray(env, angle);
 		env->nbray++;
 		angle += fabs(env->fov[--n]);
-	}
-	return ;
-}
-
-void		drawcoln(struct s_env *env, int *i, double y)
-{
-	int		start;
-	int		color;
-	double	c[3];
-
-	c[1] = ((float)env->t[0].height) / ((float)(i[1] - i[0]));
-	start = i[0];
-	i[0] = (i[0] < 0) ? 0 : i[0];
-	c[0] = ((float)(y - ((int)y))) * ((float)env->t[0].width);
-	while (i[0] >= 0 && i[0] < env->l.r[1] && i[0] <= i[1])
-	{
-		c[2] = (i[0] - start) * c[1];
-		color = index_color(c[0], c[2], &(env->t[0]));
-		my_put_pixel(&(env->i), env->nbray, i[0], color);
-		i[0]++;
-	}
-	return ;
-}
-
-void		drawcols(struct s_env *env, int *i, double y)
-{
-	int		start;
-	int		color;
-	double	c[3];
-
-	c[1] = ((float)env->t[1].height) / ((float)(i[1] - i[0]));
-	start = i[0];
-	i[0] = (i[0] < 0) ? 0 : i[0];
-	c[0] = ((float)(y - ((int)y)) * (float)env->t[1].width);
-	while (i[0] >= 0 && i[0] < env->l.r[1] && i[0] <= i[1])
-	{
-		c[2] = (i[0] - start) * c[1];
-		color = index_color(c[0], c[2], &(env->t[1]));
-		my_put_pixel(&(env->i), env->nbray, i[0], color);
-		i[0]++;
-	}
-	return ;
-}
-
-void	drawcole(struct s_env *env, int *i, double x)
-{
-	int		start;
-	int		color;
-	double	c[3];
-
-	c[1] = ((float)env->t[2].height) / ((float)(i[1] - i[0]));
-	start = i[0];
-	i[0] = (i[0] < 0) ? 0 : i[0];
-	c[0] = ((float)(x - ((int)x)) * (float)env->t[1].width);
-	while (i[0] >= 0 && i[0] < env->l.r[1] && i[0] <= i[1])
-	{
-		c[2] = (i[0] - start) * c[1];
-		color = index_color(c[0], c[2], &(env->t[2]));
-		my_put_pixel(&(env->i), env->nbray, i[0], color);
-		i[0]++;
-	}
-	return ;
-}
-
-void	drawcolw(struct s_env *env, int *i, double x)
-{
-	int		start;
-	int		color;
-	double	c[3];
-
-	c[1] = ((float)env->t[3].height) / ((float)(i[1] - i[0]));
-	start = i[0];
-	i[0] = (i[0] < 0) ? 0 : i[0];
-	c[0] = ((float)(x - ((int)x)) * (float)env->t[3].width);
-	while (i[0] >= 0 && i[0] < env->l.r[1] && i[0] <= i[1])
-	{
-		c[2] = (i[0] - start) * c[1];
-		color = index_color(c[0], c[2], &(env->t[3]));
-		my_put_pixel(&(env->i), env->nbray, i[0], color);
-		i[0]++;
 	}
 	return ;
 }

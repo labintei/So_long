@@ -6,7 +6,7 @@
 /*   By: labintei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 10:12:07 by labintei          #+#    #+#             */
-/*   Updated: 2021/04/30 16:21:19 by labintei         ###   ########.fr       */
+/*   Updated: 2021/05/04 16:00:41 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,8 @@ void		stockdir(struct s_list *l,char **s1, char *s);
 char		check_map(struct s_list *l);
 void		print_background(struct s_env *env);
 double		cald_bis(struct s_env *env, double x, double y);
+void		drawcol_sprite(struct s_env *env, int *i, double d);
+
 
 void		f_load_texture(struct	s_env *env);
 void		ft_putstr(char *s);

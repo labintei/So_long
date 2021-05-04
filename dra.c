@@ -6,7 +6,7 @@
 /*   By: labintei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/01 11:41:40 by labintei          #+#    #+#             */
-/*   Updated: 2021/04/30 14:11:08 by labintei         ###   ########.fr       */
+/*   Updated: 2021/05/04 15:59:47 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,27 +64,6 @@ void		tri_w(struct s_env *env, double **w, int n)
 	return ;
 }
 
-void		drawcol_sprite1(struct s_env *env, int *i, double d)
-{
-	double	c[3];
-	int		start;
-	int		color;
-
-	c[0] = d * env->t[4].width;
-	c[1] = ((float)env->t[4].height) / ((float)(i[1] - i[0]));
-	start = i[0];
-	start = (start < 0) ? 0 : start;
-	while (start >= 0 && start < env->l.r[1] && start <= i[1])
-	{
-		c[2] = (start - i[0]) * c[1];
-		color = index_color(c[0], c[2], &(env->t[4]));
-		if (color & 0x00FFFFF)
-			my_put_pixel(&(env->i), env->nbray, start, color);
-		start++;
-	}
-	return ;
-}
-
 void		dvar(struct s_env *env, double a)
 {
 	env->diff[0] = (a < (3 * M_PI / 2) && a > (M_PI / 2)) ? -1 : 1;
@@ -109,7 +88,7 @@ void		print_w(struct s_env *env, double *w, double a)
 	hmur = (double)env->l.r[1] / (dist);
 	i[0] = (env->l.r[1] / 2) - (hmur / 2);
 	i[1] = (env->l.r[1] / 2) + (hmur / 2);
-	drawcol_sprite1(env, i, d);
+	drawcol_sprite(env, i, d);
 	return ;
 }
 
