@@ -6,7 +6,7 @@
 /*   By: labintei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 10:12:07 by labintei          #+#    #+#             */
-/*   Updated: 2021/05/05 23:23:38 by user42           ###   ########.fr       */
+/*   Updated: 2021/05/06 01:04:54 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ void		ajout_diff(struct s_env *env, double *i);
 void		init_spe(struct s_env *env, int keycode,double *i);
 void		f_load_texture(struct	s_env *env);
 void		ft_putstr(char *s);
-void		treat_map(struct s_list *l);
+int			treat_map(struct s_list *l);
 char		ft_find(char c, char *s);
 void		ft_dir(struct s_list *l, char *s, int *i);
 void		ft_number(struct s_list *l, char *s, int *i);
@@ -117,6 +117,8 @@ void		drawray(struct s_env *env);
 void	ft_map_cut_2(struct s_list *l, int *y, int j);
 void		draw_minimap(struct s_env *env);
 void	ft_dir_bis(struct s_list *l, char *c, char *t);
+void	stock_number(char *s, int *i, int *val);
+int		treat_map_1(struct s_list *l, int *i,int *j);
 
 
 int			open_window(struct s_env	*env);

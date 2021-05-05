@@ -6,11 +6,21 @@
 /*   By: labintei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/13 12:48:04 by labintei          #+#    #+#             */
-/*   Updated: 2021/05/05 18:09:43 by user42           ###   ########.fr       */
+/*   Updated: 2021/05/06 01:07:38 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "map.h"
+
+void		stock_number(char *s, int *i, int *val)
+{
+	*val = 0;
+	while ((!(ft_find(s[*i], "0123456789"))) && s[*i])
+		(*i)++;
+	(*i)--;
+	while ((ft_find(s[++(*i)], "0123456789")) && (s[*i]))
+		*val = (*val) * 10 + (s[*i] - '0');
+}
 
 char		ft_find(char c, char *s)
 {

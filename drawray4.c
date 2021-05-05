@@ -6,7 +6,7 @@
 /*   By: labintei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/26 10:50:11 by labintei          #+#    #+#             */
-/*   Updated: 2021/05/05 13:20:00 by user42           ###   ########.fr       */
+/*   Updated: 2021/05/06 01:08:21 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,4 +66,61 @@ void		dray(struct s_env *env, double a)
 	}
 	f_compare(env, i, a);
 	return ;
+}
+
+void		ft_number(struct s_list *l, char *s, int *i)
+{
+	int		z[5];
+
+	z[4] = 0;
+	if (s[*i] == 'R')
+	{
+		stock_number(s, i, &(l->r[z[4]]));
+		z[4]++;
+		stock_number(s, i, &(l->r[z[4]]));
+	}
+	if ((s[*i] == 'C' || s[*i] == 'F') && (s[*i]))
+	{
+		z[3] = (int)(s[*i]);
+		z[4] = -1;
+		while (s[*i] && ++z[4] <= 2)
+			stock_number(s, i, &(z[z[4]]));
+		z[4] = -1;
+		while (++z[4] <= 2 && z[z[4]])
+		{
+			if ((char)z[3] == 'F')
+				l->f[z[4]] = z[z[4]];
+			else
+				l->c[z[4]] = z[z[4]];
+		}
+	}
+	l->n += 1;
+}
+
+char		check_map(struct s_list *l)
+{
+	int		i;
+	int		j;
+	char	u;
+
+	u = 0;
+	i = -1;
+	while (l->map[++i] && l->map[i + 1])
+	{
+		j = -1;
+		while (l->map[i][++j])
+		{
+			if (ft_find(l->map[i][j], "02NSWE"))
+			{
+				if (j == 0 || (!(l->map[i][j + 1])) || i == 0 || \
+				!(l->map[i + 1]) || (!(ft_find(l->map[i][j + 1], "012NSWE"))) \
+				|| (!(ft_find(l->map[i][j + 1], "012NSWE"))) || \
+				(!(ft_find(l->map[i + 1][j], "012NSWE"))) || \
+				(!(ft_find(l->map[i - 1][j], "012NSWE"))))
+					return (0);
+				u += (ft_find(l->map[i][j], "NSWE")) ? 1 : 0;
+			}
+		}
+	}
+	return ((u > 1 || u == 0) ? 0 : 1);
 }

@@ -6,13 +6,13 @@
 /*   By: labintei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 10:06:25 by labintei          #+#    #+#             */
-/*   Updated: 2021/05/05 23:30:23 by user42           ###   ########.fr       */
+/*   Updated: 2021/05/06 00:57:39 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "map.h"
 
-void	stockdir(/*struct s_list *l, */char **s1, char *s)
+void	stockdir(char **s1, char *s)
 {
 	int		n;
 
@@ -28,7 +28,6 @@ void	stockdir(/*struct s_list *l, */char **s1, char *s)
 			(*s1)[n] = s[n];
 		(*s1)[n] = '\0';
 	}
-	//free(s);
 	return ;
 }
 
@@ -85,7 +84,8 @@ int		main_bis(struct s_env *env, char *s)
 	env->l.n = 0;
 	if ((env->l.fd = open(s, O_RDONLY)) < 0)
 		return (ft_putstr_err("Error\n"));
-	treat_map(&(env->l));
+	if (treat_map(&(env->l)) == 0)
+		return (ft_putstr_err("Error\n"));
 	if ((check_map(&(env->l))))
 		open_window(env);
 	return (ft_putstr_err("Error\n"));
