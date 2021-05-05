@@ -6,7 +6,7 @@
 /*   By: labintei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/27 14:40:24 by labintei          #+#    #+#             */
-/*   Updated: 2021/05/05 13:14:02 by user42           ###   ########.fr       */
+/*   Updated: 2021/05/05 23:29:36 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,11 +80,12 @@ int			bmp_save_file(struct s_env *env)
 
 void		ft_dir(struct s_list *l, char *s, int *i)
 {
-	char	*t;
+	char	t[10000];
 	char	c[2];
 	int		n;
-
-	t = malloc(sizeof(char) * 100);
+/*
+	if (!(t = malloc(sizeof(char) * 1000000)))
+		return ;*/
 	c[0] = (s[*i]);
 	c[1] = (s[*i + 1]) ? s[*i + 1] : 0;
 	n = 0;
@@ -97,15 +98,21 @@ void		ft_dir(struct s_list *l, char *s, int *i)
 		(*i)++;
 	}
 	t[n] = '\0';
+	return (ft_dir_bis(l, c, t));
+}
+
+void		ft_dir_bis(struct s_list *l, char *c, char *t)
+{
+	l->n++;
 	if (c[0] == 'N' && (!(l->no)))
-		stockdir(l, (&(l->no)), t);
+		stockdir((&(l->no)), t);
 	if (c[0] == 'S' && c[1] == 'O' && (!(l->so)))
-		stockdir(l, (&(l->so)), t);
+		stockdir((&(l->so)), t);
 	if (c[0] == 'S' && c[1] != 'O' && (!(l->s)))
-		stockdir(l, (&(l->s)), t);
+		stockdir((&(l->s)), t);
 	if (c[0] == 'W' && (!(l->we)))
-		stockdir(l, (&(l->we)), t);
+		stockdir((&(l->we)), t);
 	if (c[0] == 'E' && (!(l->ea)))
-		stockdir(l, (&(l->ea)), t);
+		stockdir((&(l->ea)), t);
 	return ;
 }

@@ -6,13 +6,13 @@
 /*   By: labintei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/13 12:48:04 by labintei          #+#    #+#             */
-/*   Updated: 2021/05/05 17:40:15 by user42           ###   ########.fr       */
+/*   Updated: 2021/05/05 18:09:43 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "map.h"
 
-char	ft_find(char c, char *s)
+char		ft_find(char c, char *s)
 {
 	while (*s)
 	{
@@ -23,12 +23,12 @@ char	ft_find(char c, char *s)
 	return (0);
 }
 
-double		cald(struct s_env *env, double x, double y)
+double		h(struct s_env *env, double x, double y)
 {
 	return (sqrt(pow(x - env->play.x, 2) + pow(y - env->play.y, 2)));
 }
 
-void	drawcarre(int x, int y, int largeur, struct s_env *env)
+void		drawcarre(int x, int y, int largeur, struct s_env *env)
 {
 	int		a;
 	int		b;
@@ -47,7 +47,7 @@ void	drawcarre(int x, int y, int largeur, struct s_env *env)
 	return ;
 }
 
-void	print_background(struct s_env	*env)
+void		print_background(struct s_env	*env)
 {
 	int		x;
 	int		y;

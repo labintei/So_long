@@ -6,7 +6,7 @@
 /*   By: labintei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/26 10:50:11 by labintei          #+#    #+#             */
-/*   Updated: 2021/05/05 17:28:58 by user42           ###   ########.fr       */
+/*   Updated: 2021/05/05 18:11:19 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,20 +17,20 @@ void		f_compare(struct s_env *env, double *i, double a)
 	double		r[4];
 
 	r[0] = a;
-	if (cald(env, i[2], i[3]) < cald(env, i[0], i[1]) || a == 0 || a == M_PI)
+	if (h(env, i[2], i[3]) < h(env, i[0], i[1]) || a == 0 || a == M_PI)
 	{
 		env->c = (i[2] > env->play.x) ? 1 : 2;
-		r[1] = (cald(env, i[2], i[3]));
+		r[1] = (h(env, i[2], i[3]));
 		r[2] = i[2];
 		r[3] = i[3];
 		drawcol1(env, r);
 		return (dray_angle_sprite(env, r[1]));
 	}
-	if (cald(env, i[2], i[3]) >= cald(env, i[0], i[1])\
+	if (h(env, i[2], i[3]) >= h(env, i[0], i[1])\
 	|| a == env->var[3] || a == env->var[4])
 	{
 		env->c = (i[1] > env->play.y) ? 3 : 4;
-		r[1] = (cald(env, i[0], i[1]));
+		r[1] = (h(env, i[0], i[1]));
 		r[2] = i[0];
 		r[3] = i[1];
 		drawcol1(env, r);

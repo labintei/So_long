@@ -6,7 +6,7 @@
 /*   By: labintei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 10:12:07 by labintei          #+#    #+#             */
-/*   Updated: 2021/05/05 17:40:46 by user42           ###   ########.fr       */
+/*   Updated: 2021/05/05 23:23:38 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,10 +95,10 @@ typedef struct		s_env
 }					t_env;
 
 int			ft_putstr_err(char *s);
-void		stockdir(struct s_list *l,char **s1, char *s);
+void		stockdir(char **s1, char *s);
 char		check_map(struct s_list *l);
 void		print_background(struct s_env *env);
-double		cald(struct s_env *env, double x, double y);
+double		h(struct s_env *env, double x, double y);
 void		drawcol_sprite(struct s_env *env, int *i, double d);
 void		ajout_diff(struct s_env *env, double *i);
 void		init_spe(struct s_env *env, int keycode,double *i);
@@ -116,6 +116,7 @@ char		checkimg(char *s, struct s_params *i);
 void		drawray(struct s_env *env);
 void	ft_map_cut_2(struct s_list *l, int *y, int j);
 void		draw_minimap(struct s_env *env);
+void	ft_dir_bis(struct s_list *l, char *c, char *t);
 
 
 int			open_window(struct s_env	*env);
