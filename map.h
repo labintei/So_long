@@ -6,7 +6,7 @@
 /*   By: labintei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 10:12:07 by labintei          #+#    #+#             */
-/*   Updated: 2021/05/05 14:00:46 by user42           ###   ########.fr       */
+/*   Updated: 2021/05/05 17:40:46 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ typedef struct		s_env
 	double		envi[4];
 	double		sp[5];
 	double		rot;
-	double		fov[20000];
+	double		*fov;
 }					t_env;
 
 int			ft_putstr_err(char *s);
@@ -114,6 +114,9 @@ void		ft_put_map(struct s_list *l, int *y, int j);
 char		checkbe(struct s_list *l, struct s_params *i);
 char		checkimg(char *s, struct s_params *i);
 void		drawray(struct s_env *env);
+void	ft_map_cut_2(struct s_list *l, int *y, int j);
+void		draw_minimap(struct s_env *env);
+
 
 int			open_window(struct s_env	*env);
 

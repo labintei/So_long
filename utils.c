@@ -6,18 +6,18 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/04 15:44:26 by user42            #+#    #+#             */
-/*   Updated: 2021/05/04 15:54:14 by user42           ###   ########.fr       */
+/*   Updated: 2021/05/05 16:01:33 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include"map.h"
+#include "map.h"
 
-int		create_trtgb(int t, int r, int g, int b)
+int			create_trtgb(int t, int r, int g, int b)
 {
 	return (t << 24 | r << 16 | g << 8 | b);
 }
 
-void	my_put_pixel(struct s_img *i, int x, int y, int color)
+void		my_put_pixel(struct s_img *i, int x, int y, int color)
 {
 	char	*dest;
 
@@ -59,7 +59,7 @@ void		f_load_texture(struct s_env *env)
 	return ;
 }
 
-int		ft_putstr_err(char *s)
+int			ft_putstr_err(char *s)
 {
 	int		i;
 

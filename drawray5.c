@@ -6,7 +6,7 @@
 /*   By: labintei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/26 10:50:11 by labintei          #+#    #+#             */
-/*   Updated: 2021/05/05 14:01:12 by user42           ###   ########.fr       */
+/*   Updated: 2021/05/05 17:28:58 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 void		f_compare(struct s_env *env, double *i, double a)
 {
-	double		o;
 	double		r[4];
 
 	r[0] = a;
@@ -24,9 +23,8 @@ void		f_compare(struct s_env *env, double *i, double a)
 		r[1] = (cald(env, i[2], i[3]));
 		r[2] = i[2];
 		r[3] = i[3];
-		o = r[1];
 		drawcol1(env, r);
-		return (dray_angle_sprite(env, o));
+		return (dray_angle_sprite(env, r[1]));
 	}
 	if (cald(env, i[2], i[3]) >= cald(env, i[0], i[1])\
 	|| a == env->var[3] || a == env->var[4])
@@ -35,9 +33,8 @@ void		f_compare(struct s_env *env, double *i, double a)
 		r[1] = (cald(env, i[0], i[1]));
 		r[2] = i[0];
 		r[3] = i[1];
-		o = r[1];
 		drawcol1(env, r);
-		return (dray_angle_sprite(env, o));
+		return (dray_angle_sprite(env, r[1]));
 	}
 	return ;
 }
@@ -65,6 +62,8 @@ void		drawcol1(struct s_env *env, double *r)
 
 void		dvarconst(struct s_env *env)
 {
+	env->sp[2] = cos(env->play.pa + M_PI / 2);
+	env->sp[3] = sin(env->play.pa + M_PI / 2);
 	env->var[0] = (((M_PI / 2)) / env->l.r[0]);
 	env->var[1] = (env->l.r[0] / 2) * env->var[0];
 	env->var[2] = 2 * M_PI;
@@ -79,8 +78,9 @@ void		stock_drawfov(struct s_env *env)
 	double	dist;
 	double	test;
 	int		n;
-	double	l[4000];
+	double	l[10000];
 
+	env->fov = malloc(sizeof(double) * (ceil(env->l.r[0] / 2) + 2));
 	test = M_PI / 4;
 	l[0] = 0;
 	n = 0;
@@ -92,12 +92,6 @@ void		stock_drawfov(struct s_env *env)
 		test -= fabs(l[n]);
 	}
 	test = 0;
-	while (n <= env->l.r[0])
-	{
-		n++;
-		l[n] = fabs((atan((n - env->l.r[0] / 2) / dist))) - test;
-		test += fabs(l[n]);
-	}
 	n = -1;
 	while (++n <= ((int)(env->l.r[0] / 2)))
 		env->fov[n] = l[n];

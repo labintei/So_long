@@ -6,23 +6,11 @@
 /*   By: labintei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/01 11:41:40 by labintei          #+#    #+#             */
-/*   Updated: 2021/05/05 13:59:42 by user42           ###   ########.fr       */
+/*   Updated: 2021/05/05 15:58:14 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "map.h"
-
-int			ca(struct s_env *env, double x, double y)
-{
-	if (x > 0 && x < env->xmax && y > 0 && y < env->ymax)
-		return (1);
-	return (0);
-}
-
-double		cald(struct s_env *env, double x, double y)
-{
-	return (sqrt(pow(x - env->play.x, 2) + pow(y - env->play.y, 2)));
-}
 
 void		tri_w(struct s_env *env, double **w, int n)
 {
@@ -31,12 +19,12 @@ void		tri_w(struct s_env *env, double **w, int n)
 	int		o;
 
 	w[n] = 0;
-	o = 0;
+	o = -1;
 	d = 0;
-	while (w[o])
+	while (w[++o])
 	{
-		d = 0;
-		while (w[d] && w[d + 1])
+		d = -1;
+		while (w[++d] && w[d + 1])
 		{
 			if ((fabs(w[d][0] - env->play.x) + fabs(w[d][1] - env->play.y)) \
 			> (fabs(w[d + 1][0] - env->play.x) + fabs(w[d + 1][1] - env->play.y)))
@@ -48,9 +36,7 @@ void		tri_w(struct s_env *env, double **w, int n)
 				w[d][0] = temp[0];
 				w[d][1] = temp[1];
 			}
-			d++;
 		}
-		o++;
 	}
 	return ;
 }
@@ -114,6 +100,7 @@ void		dray_angle_sprite(struct s_env *env, double d)
 	i[5] = d;
 	i[6] = -1;
 	w = malloc(sizeof(double *) * (2 * (ceil(d + 1))));
+	w[0] = 0;
 	init_i(env, i);
 	i[6] = (cald(env, i[0], i[1]) < d && env->l.map[(int)i[1]][(int)i[0]] == '2')? 1 : i[6];
 	stock_w(env, w, i);

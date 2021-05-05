@@ -6,22 +6,11 @@
 /*   By: labintei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 10:06:25 by labintei          #+#    #+#             */
-/*   Updated: 2021/05/04 15:54:10 by user42           ###   ########.fr       */
+/*   Updated: 2021/05/05 17:20:03 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "map.h"
-
-char	ft_find(char c, char *s)
-{
-	while (*s)
-	{
-		if (*s == c)
-			return (c);
-		s++;
-	}
-	return (0);
-}
 
 void	stockdir(struct s_list *l, char **s1, char *s)
 {
@@ -46,46 +35,43 @@ void	stockdir(struct s_list *l, char **s1, char *s)
 
 void	ft_map_cut(struct s_list *l, int j)
 {
-	int		y[6];
+	int		y[5];
 
 	y[0] = -1;
 	y[1] = 0;
 	y[2] = 1;
 	y[3] = 0;
-	y[4] = 0;
-	while (l->stock[y[4]] && y[4] <= j)
-	{
-		if (l->stock[y[4]] == '\n')
-			y[2]++;
-		y[4]++;
-	}
-	y[4] = 0;
+	y[4] = -1;
+	while (l->stock[++y[4]] && y[4] <= j)
+		y[2] += (l->stock[y[4]] == '\n') ? 1 : 0;
+	y[4] = -1;
 	while (l->stock[y[4]] && y[4] <= j)
 	{
 		y[3] = 0;
-		while (l->stock[y[4]] && l->stock[y[4]] == ' ' && l->stock[y[4]] != '\n' && y[4] <= j)
-		{
-			y[4]++;
-			y[4]++;
-		}
+		while (l->stock[++y[4]] && l->stock[y[4]] == ' ' && l->stock[y[4]]\
+		!= '\n' && y[4] <= j)
+			y[3]++;
 		y[3] = (y[3] < 0) ? 0 : y[3];
-		y[5] = y[0];
-		y[0] = ((y[3] < y[0]) || y[0] == -1) ? y[3] : y[5];
+		y[0] = ((y[3] < y[0]) || y[0] == -1) ? y[3] : y[0];
 		while (l->stock[y[4]] && l->stock[y[4]] != '\n' && y[4] <= j)
 			y[4]++;
-		if (l->stock[y[4]] == '\n' && l->stock[y[4]] && y[4] <= j)
-			y[4]++;
 	}
+	ft_map_cut_2(l, y, j);
+}
+
+void	ft_map_cut_2(struct s_list *l, int *y, int j)
+{
 	y[4] = 0;
 	while (l->stock[y[4]] && y[4] <= j)
 	{
 		y[3] = 0;
-		while (ft_find(l->stock[y[4]], " 012NSWOE") && l->stock[y[4]] != '\n' && l->stock[y[4]] && y[4] <= j)
+		while (ft_find(l->stock[y[4]], " 012NSWE") && l->stock[y[4]] != '\n' \
+		&& l->stock[y[4]] && y[4] <= j)
 		{
 			y[4]++;
 			y[3]++;
 		}
-		y[1] = (y[1] > y[3]++) ? y[1] : y[3]++;
+		y[1] = (y[1] > y[3]) ? y[1] : y[3];
 		while (l->stock[y[4]] != '\n' && l->stock[y[4]] && y[4] <= j)
 			y[4]++;
 		if (l->stock[y[4]] == '\n' && y[4] <= j)
@@ -95,38 +81,41 @@ void	ft_map_cut(struct s_list *l, int j)
 	return ;
 }
 
+int		main_bis(struct s_env *env, char *s)
+{
+	env->l.n = 0;
+	if ((env->l.fd = open(s, O_RDONLY)) < 0)
+		return (ft_putstr_err("Error\n"));
+	treat_map(&(env->l));
+	if ((check_map(&(env->l))))
+		open_window(env);
+	return (ft_putstr_err("Error\n"));
+}
+
 int		main(int argc, char **argv)
 {
 	char				*s;
 	char				*sbis;
-	int					i;
-	int					j;
+	int					i[2];
 	static struct s_env	env;
 
-	i = 0;
+	i[0] = 0;
 	s = "cub";
 	sbis = "--save";
 	if (argc == 3)
 	{
-		while (argv[2][(int)i] && argv[2][i] == sbis[i])
-			i++;
-		env.save = (argv[2][(int)i] == '\0') ? 1 : 0;
+		while (argv[2][(int)i[0]] && argv[2][i[0]] == sbis[i[0]])
+			i[0]++;
+		env.save = (argv[2][(int)i[0]] == '\0') ? 1 : 0;
 	}
-	i = 0;
-	while (((argv[1])[i]) != '.' && ((argv[1])[i]))
-		i++;
-	j = ++i;
-	while ((s[i - j]) == ((argv[1])[i]) && (s[i - j] && (argv[1][i])))
-		i++;
-	if (s[i - j] == argv[1][i] && s[i - j] == '\0')
-	{
-		env.l.n = 0;
-		if ((env.l.fd = open(argv[1], O_RDONLY)) < 0)
-			return (ft_putstr_err("Error\n"));
-		treat_map(&(env.l));
-		if ((check_map(&(env.l))))
-			open_window(&env);
-		return (ft_putstr_err("Error\n"));
-	}
+	i[0] = 0;
+	while (((argv[1])[i[0]]) != '.' && ((argv[1])[i[0]]))
+		i[0]++;
+	i[1] = ++i[0];
+	while ((s[i[0] - i[1]]) == ((argv[1])[i[0]]) && (s[i[0] - i[1]] && \
+	(argv[1][i[0]])))
+		i[0]++;
+	if (s[i[0] - i[1]] == argv[1][i[0]] && s[i[0] - i[1]] == '\0')
+		return (main_bis(&env, argv[1]));
 	return (ft_putstr_err("Error\n"));
 }

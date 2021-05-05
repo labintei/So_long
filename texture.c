@@ -6,11 +6,11 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/04 15:56:03 by user42            #+#    #+#             */
-/*   Updated: 2021/05/04 15:59:53 by user42           ###   ########.fr       */
+/*   Updated: 2021/05/05 15:38:53 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include"map.h"
+#include "map.h"
 
 void		drawcol_sprite(struct s_env *env, int *i, double d)
 {
@@ -73,7 +73,7 @@ void		drawcols(struct s_env *env, int *i, double y)
 	return ;
 }
 
-void	drawcole(struct s_env *env, int *i, double x)
+void		drawcole(struct s_env *env, int *i, double x)
 {
 	int		start;
 	int		color;
@@ -93,7 +93,7 @@ void	drawcole(struct s_env *env, int *i, double x)
 	return ;
 }
 
-void	drawcolw(struct s_env *env, int *i, double x)
+void		drawcolw(struct s_env *env, int *i, double x)
 {
 	int		start;
 	int		color;

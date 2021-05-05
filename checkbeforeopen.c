@@ -6,7 +6,7 @@
 /*   By: labintei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/13 12:48:04 by labintei          #+#    #+#             */
-/*   Updated: 2021/05/05 13:46:04 by user42           ###   ########.fr       */
+/*   Updated: 2021/05/05 17:41:38 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,6 @@ void		init_p(struct s_env *env)
 {
 	int		i[2];
 
-	env->xmax = 0;
-	env->ymax = 0;
 	while (env->l.map[env->ymax][env->xmax] != '\0')
 		(env->xmax)++;
 	while (env->l.map[env->ymax] != 0)
@@ -37,15 +35,15 @@ void		init_p(struct s_env *env)
 				env->play.x = i[1] + 0.5;
 				env->play.y = i[0] + 0.5;
 				env->play.pa = (env->l.map[i[0]][i[1]] == 'N') ? M_PI / 2 : 0;
-				env->play.pa = (env->l.map[i[0]][i[1]] == 'S') ? 3 * M_PI / 2 : env->play.pa;
-				env->play.pa = (env->l.map[i[0]][i[1]] == 'W') ? M_PI : env->play.pa;
+				env->play.pa = (env->l.map[i[0]][i[1]] == 'S') ? 3 * M_PI / 2 \
+				: env->play.pa;
+				env->play.pa = (env->l.map[i[0]][i[1]] == 'W') ? M_PI : \
+				env->play.pa;
+				env->l.map[i[0]][i[1]] = '0';
 			}
 	}
-	env->pas = env->l.r[1] / env->ymax;
-	env->pas = (env->pas < (env->l.r[0] / env->xmax)) ? env->pas / 2 : (env->l.r[0] / env->xmax) / 2;
-	env->sp[2] = cos(env->play.pa + M_PI / 2);
-	env->sp[3] = sin(env->play.pa + M_PI / 2);
-	return ;
+	env->pas = (env->l.r[1] / env->ymax < (env->l.r[0] / env->xmax)) ?\
+	(env->l.r[1] / env->ymax) / 2 : (env->l.r[0] / env->xmax) / 2;
 }
 
 void		draw_minimap(struct s_env *env)
@@ -60,9 +58,12 @@ void		draw_minimap(struct s_env *env)
 		x = -1;
 		while (env->l.map[y][++x])
 		{
-			env->c = (env->l.map[y][x] == '1') ? create_trtgb(0, 150, 180, 201) : env->c;
-			env->c = (env->l.map[y][x] == '2') ? create_trtgb(0, 250, 180, 121) : env->c;
-			env->c = (env->l.map[y][x] == '0') ? create_trtgb(0, 21, 80, 50) : env->c;
+			env->c = (env->l.map[y][x] == '1') ? \
+			create_trtgb(0, 150, 180, 201) : env->c;
+			env->c = (env->l.map[y][x] == '2') ? \
+			create_trtgb(0, 250, 180, 121) : env->c;
+			env->c = (env->l.map[y][x] == '0') ? \
+			create_trtgb(0, 21, 80, 50) : env->c;
 			drawcarre(x * env->pas, y * env->pas, env->pas, env);
 		}
 	}
@@ -102,7 +103,7 @@ char		checkbe(struct s_list *l, struct s_params *i)
 int			f_key(int keycode, struct s_env *env)
 {
 	double	i[4];
-	
+
 	init_spe(env, keycode, i);
 	if (keycode == KEY_A)
 		if (env->l.map[(int)(env->play.y - i[3])]\
@@ -119,8 +120,6 @@ int			f_key(int keycode, struct s_env *env)
 			env->play.y += i[3];
 		}
 	print_background(env);
-	draw_minimap(env);
-	drawfov_bis(env);
 	mlx_put_image_to_window(env->p.mlx, env->p.mlx_win, env->i.img, 0, 0);
 	mlx_loop(env->p.mlx);
 	return (1);
@@ -132,16 +131,18 @@ int			open_window(struct s_env	*env)
 	if (checkbe(&(env->l), &(env->p)))
 	{
 		if (env->save != 1)
-			env->p.mlx_win = mlx_new_window(env->p.mlx, env->l.r[0], env->l.r[1], "F");
+			env->p.mlx_win = mlx_new_window(env->p.mlx, env->l.r[0],\
+			env->l.r[1], "F");
 		env->i.img = mlx_new_image(env->p.mlx, env->l.r[0], env->l.r[1]);
-		env->i.addr = mlx_get_data_addr(env->i.img, &(env->i.bits_per_pixels), &(env->i.line_lenght), &(env->i.endian));
+		env->i.addr = mlx_get_data_addr(env->i.img, &(env->i.bits_per_pixels),\
+		&(env->i.line_lenght), &(env->i.endian));
 		f_load_texture(env);
+		env->xmax = 0;
+		env->ymax = 0;
 		init_p(env);
 		stock_drawfov(env);
 		dvarconst(env);
 		print_background(env);
-		drawfov_bis(env);
-		draw_minimap(env);
 		if (env->save == 1)
 			return (bmp_save_file(env));
 		mlx_put_image_to_window(env->p.mlx, env->p.mlx_win, env->i.img, 0, 0);

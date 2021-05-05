@@ -6,7 +6,7 @@
 /*   By: labintei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 10:06:25 by labintei          #+#    #+#             */
-/*   Updated: 2021/04/30 17:35:14 by labintei         ###   ########.fr       */
+/*   Updated: 2021/05/05 17:22:25 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,6 @@ void	treat_map(struct s_list *l)
 			return ;
 		}
 	}
-	return ;
 }
 
 void	ft_number(struct s_list *l, char *s, int *i)
@@ -195,10 +194,10 @@ char	check_map(struct s_list *l)
 	char	u;
 
 	u = 0;
-	j = -1;
 	i = -1;
-	while (l->map[++i])
+	while (l->map[++i] && l->map[i + 1])
 	{
+		j = -1;
 		while (l->map[i][++j])
 		{
 			if (ft_find(l->map[i][j], "02NSWE"))
@@ -218,9 +217,6 @@ char	check_map(struct s_list *l)
 					return (0);
 			}
 		}
-		j = -1;
 	}
-	if (u > 1 || u == 0)
-		return (0);
-	return (1);
+	return((u > 1 || u == 0) ? 0 : 1);
 }
