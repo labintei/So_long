@@ -6,7 +6,7 @@
 /*   By: labintei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/13 12:48:04 by labintei          #+#    #+#             */
-/*   Updated: 2021/04/30 18:12:19 by labintei         ###   ########.fr       */
+/*   Updated: 2021/05/05 13:46:04 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,6 @@
 #define KEY_W 119
 #define KEY_D 100
 #define KEY_S 115
-#define KEY_ESC 65307
-#define KEY_RIGHT 65361
-#define KEY_LEFT 65363
 
 void		init_p(struct s_env *env)
 {
@@ -46,6 +43,8 @@ void		init_p(struct s_env *env)
 	}
 	env->pas = env->l.r[1] / env->ymax;
 	env->pas = (env->pas < (env->l.r[0] / env->xmax)) ? env->pas / 2 : (env->l.r[0] / env->xmax) / 2;
+	env->sp[2] = cos(env->play.pa + M_PI / 2);
+	env->sp[3] = sin(env->play.pa + M_PI / 2);
 	return ;
 }
 
@@ -102,45 +101,23 @@ char		checkbe(struct s_list *l, struct s_params *i)
 
 int			f_key(int keycode, struct s_env *env)
 {
-	double	j;
-	double	px;
-	double	py;
-
-	px = cos(env->play.pa) / 20;
-	py = sin(env->play.pa) / 20;
-	if (keycode == KEY_W)
-		if (env->l.map[(int)(env->play.y + py)][(int)(env->play.x + px)] != '1')
-		{
-			env->play.x += px;
-			env->play.y += py;
-		}
-	if (keycode == KEY_S)
-		if (env->l.map[(int)(env->play.y - py)][(int)(env->play.x - px)] != '1')
-		{
-			env->play.x -= px;
-			env->play.y -= py;
-		}
-	j = env->var[4];
+	double	i[4];
+	
+	init_spe(env, keycode, i);
 	if (keycode == KEY_A)
-		if (env->l.map[(int)(env->play.y + (sin(env->play.pa - j) / 20))]\
-		[(int)(env->play.x + ((cos(env->play.pa - j)) / 20))] != '1')
+		if (env->l.map[(int)(env->play.y - i[3])]\
+		[(int)(env->play.x - i[2])] != '1')
 		{
-			env->play.x += cos(env->play.pa - j) / 20;
-			env->play.y += sin(env->play.pa - j) / 20;
+			env->play.x -= i[2];
+			env->play.y -= i[3];
 		}
 	if (keycode == KEY_D)
-		if (env->l.map[(int)(env->play.y - ((sin(env->play.pa - j) / 20)))]\
-		[(int)(env->play.x - (cos(env->play.pa - j) / 20))] != '1')
+		if (env->l.map[(int)(env->play.y + i[3])]\
+		[(int)(env->play.x + i[2])] != '1')
 		{
-			env->play.x -= cos(env->play.pa - j) / 20;
-			env->play.y -= sin(env->play.pa - j) / 20;
+			env->play.x += i[2];
+			env->play.y += i[3];
 		}
-	if (keycode == KEY_RIGHT)
-		env->play.pa -= env->rot;
-	if (keycode == KEY_LEFT)
-		env->play.pa += env->rot;
-	if (keycode == KEY_ESC)
-		destroy_ta_vie(env);
 	print_background(env);
 	draw_minimap(env);
 	drawfov_bis(env);

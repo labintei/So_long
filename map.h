@@ -6,7 +6,7 @@
 /*   By: labintei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 10:12:07 by labintei          #+#    #+#             */
-/*   Updated: 2021/05/04 16:00:41 by user42           ###   ########.fr       */
+/*   Updated: 2021/05/05 14:00:46 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ typedef struct		s_env
 	double		diff[4];
 	double		var[5];
 	double		envi[4];
-	double		sp[4];
+	double		sp[5];
 	double		rot;
 	double		fov[20000];
 }					t_env;
@@ -98,10 +98,10 @@ int			ft_putstr_err(char *s);
 void		stockdir(struct s_list *l,char **s1, char *s);
 char		check_map(struct s_list *l);
 void		print_background(struct s_env *env);
-double		cald_bis(struct s_env *env, double x, double y);
+double		cald(struct s_env *env, double x, double y);
 void		drawcol_sprite(struct s_env *env, int *i, double d);
-
-
+void		ajout_diff(struct s_env *env, double *i);
+void		init_spe(struct s_env *env, int keycode,double *i);
 void		f_load_texture(struct	s_env *env);
 void		ft_putstr(char *s);
 void		treat_map(struct s_list *l);
@@ -124,7 +124,6 @@ void	maxxy(struct s_env *env);
 void	dray(struct s_env *env,double a);
 void	drawfov(struct s_env *env);
 
-double	cald(double x1, double x2,double y1, double y2);
 void	f_compare(struct s_env *env, double *i, double a);
 void	drawcol1(struct s_env *env, double *r);
 void	drawcol2(struct s_env *env,int *a, int color,double x, double y);
@@ -146,7 +145,7 @@ int		f_compare_bis(struct s_env *env, double x1, double y1, double x, double y, 
 void	dvarconst(struct s_env *env);
 void	dvar(struct s_env *env, double a);
 
-void	dray_angle_sprite(struct s_env *env, double a, double d);
+void	dray_angle_sprite(struct s_env *env, double d);
 void	init_envi(struct s_env *env, double a);
 void	init_i(struct s_env *env, double *i);
 

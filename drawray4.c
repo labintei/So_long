@@ -6,20 +6,11 @@
 /*   By: labintei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/26 10:50:11 by labintei          #+#    #+#             */
-/*   Updated: 2021/04/13 13:06:11 by labintei         ###   ########.fr       */
+/*   Updated: 2021/05/05 13:20:00 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "map.h"
-
-void		init_i(struct s_env *env, double *i)
-{
-	i[0] = env->envi[0];
-	i[1] = env->envi[1];
-	i[2] = env->envi[2];
-	i[3] = env->envi[3];
-	return ;
-}
 
 void		check_vert(struct s_env *env, double *x, double *y)
 {

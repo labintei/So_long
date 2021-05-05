@@ -6,7 +6,7 @@
 /*   By: labintei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/26 10:50:11 by labintei          #+#    #+#             */
-/*   Updated: 2021/05/04 15:58:11 by user42           ###   ########.fr       */
+/*   Updated: 2021/05/05 14:01:12 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,25 +18,26 @@ void		f_compare(struct s_env *env, double *i, double a)
 	double		r[4];
 
 	r[0] = a;
-	if (cald_bis(env, i[2], i[3]) < cald_bis(env, i[0], i[1]) || a == 0 || a == M_PI)
+	if (cald(env, i[2], i[3]) < cald(env, i[0], i[1]) || a == 0 || a == M_PI)
 	{
 		env->c = (i[2] > env->play.x) ? 1 : 2;
-		r[1] = (cald_bis(env, i[2], i[3]));
+		r[1] = (cald(env, i[2], i[3]));
 		r[2] = i[2];
 		r[3] = i[3];
 		o = r[1];
 		drawcol1(env, r);
-		return (dray_angle_sprite(env, a, o));
+		return (dray_angle_sprite(env, o));
 	}
-	if (cald_bis(env, i[2], i[3]) >= cald_bis(env, i[0], i[1]) || a == env->var[3] || a == env->var[4])
+	if (cald(env, i[2], i[3]) >= cald(env, i[0], i[1])\
+	|| a == env->var[3] || a == env->var[4])
 	{
 		env->c = (i[1] > env->play.y) ? 3 : 4;
-		r[1] = (cald_bis(env, i[0], i[1]));
+		r[1] = (cald(env, i[0], i[1]));
 		r[2] = i[0];
 		r[3] = i[1];
 		o = r[1];
 		drawcol1(env, r);
-		return (dray_angle_sprite(env, a, o));
+		return (dray_angle_sprite(env, o));
 	}
 	return ;
 }
@@ -47,7 +48,7 @@ void		drawcol1(struct s_env *env, double *r)
 	int		i[2];
 	double	dist;
 
-	dist = r[1] * cos((r[0] > env->play.pa) ? r[0] - env->play.pa : env->play.pa - r[0]);
+	dist = r[1] * env->sp[4];
 	hmur = (int)(env->l.r[1] / (dist));
 	i[0] = (env->l.r[1] / 2) - (hmur / 2);
 	i[1] = (env->l.r[1] / 2) + (hmur / 2);

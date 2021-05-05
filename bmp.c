@@ -6,7 +6,7 @@
 /*   By: labintei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/27 14:40:24 by labintei          #+#    #+#             */
-/*   Updated: 2021/04/30 18:12:40 by labintei         ###   ########.fr       */
+/*   Updated: 2021/05/05 13:14:02 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,23 +22,6 @@ void		destroy_ta_vie(struct s_env		*env)
 	if (env->save != 1)
 		mlx_destroy_window(env->p.mlx, env->p.mlx_win);
 	exit(0);
-	return ;
-}
-
-void		init_envi(struct s_env	*env, double a)
-{
-	env->sp[0] = cos(a);
-	env->sp[1] = sin(a);
-	env->sp[2] = cos(env->play.pa + M_PI / 2);
-	env->sp[3] = sin(env->play.pa + M_PI / 2);
-	env->envi[1] = (a > M_PI) ? ((int)env->play.y) - 0.00001 : \
-	((int)env->play.y) + 1;
-	env->envi[0] = (a != 0 && a != M_PI) ? (env->play.x - \
-	((env->play.y - env->envi[1]) / env->sp[1] * env->sp[0])) : 0;
-	env->envi[2] = (a > env->var[4] && a < env->var[3]) ? \
-	((int)env->play.x) - 0.00001 : ((int)env->play.x) + 1;
-	env->envi[3] = (a != env->var[3] && a != env->var[4]) ?\
-	env->play.y - ((env->play.x - env->envi[2]) / env->sp[0]) * env->sp[1] : 0;
 	return ;
 }
 
