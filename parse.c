@@ -6,7 +6,7 @@
 /*   By: labintei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 10:06:25 by labintei          #+#    #+#             */
-/*   Updated: 2021/05/06 00:57:39 by user42           ###   ########.fr       */
+/*   Updated: 2021/05/06 12:47:35 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,8 @@ int		main(int argc, char **argv)
 			i[0]++;
 		env.save = (argv[2][(int)i[0]] == '\0') ? 1 : 0;
 	}
+	if (argc == 1)
+		return (ft_putstr_err("Error\n"));
 	i[0] = 0;
 	while (((argv[1])[i[0]]) != '.' && ((argv[1])[i[0]]))
 		i[0]++;
@@ -114,7 +116,6 @@ int		main(int argc, char **argv)
 	while ((s[i[0] - i[1]]) == ((argv[1])[i[0]]) && (s[i[0] - i[1]] && \
 	(argv[1][i[0]])))
 		i[0]++;
-	if (s[i[0] - i[1]] == argv[1][i[0]] && s[i[0] - i[1]] == '\0')
-		return (main_bis(&env, argv[1]));
-	return (ft_putstr_err("Error\n"));
+	return ((s[i[0] - i[1]] == argv[1][i[0]] && s[i[0] - i[1]] == '\0') ?\
+	(main_bis(&env, argv[1])) : (ft_putstr_err("Error\n")));
 }

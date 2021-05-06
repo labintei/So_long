@@ -6,7 +6,7 @@
 #    By: labintei <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/01/11 14:05:41 by labintei          #+#    #+#              #
-#    Updated: 2021/05/06 01:33:07 by user42           ###   ########.fr        #
+#    Updated: 2021/05/06 12:26:55 by user42           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,20 +18,20 @@ CC				= gcc
 CFLAGS			= -Wall -Wextra -Werror -I includes.
 LIBS			= -L /usr/local/lib -lmlx -lXext -lX11 -lm
 RM				= rm -f
-MLX				= libmlx.a
 NAME			= cub3D
 
 all:		$(NAME)
 
-$(NAME):	$(MLX) $(OBJS)
-				gcc ${CFLAGS} -o $(NAME) $(OBJS) ${LIBS}
+$(NAME): 
+				gcc ${CFLAGS} ${SRCS} ${LIBS} -o $(NAME)
 
 clean:
-				$(RM) $(OBJS)
+				$(RM) $(NAME)
 
 fclean:		clean
 				$(RM) $(NAME)
 
-re:				fclean $(NAME)
+re:				fclean 
+				$(RM) $(NAME)
 
 .PHONY:		all clean fclean

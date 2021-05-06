@@ -1,5 +1,5 @@
 R 1000 800
-N ./sprite/mur1.xpm
+NO ./sprite/mur1.xpm
 SO ./sprite/mur1.xpm
 WE ./sprite/mur1.xpm
 EA ./sprite/mur3.xpm
