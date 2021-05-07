@@ -6,7 +6,7 @@
 /*   By: labintei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/13 12:48:04 by labintei          #+#    #+#             */
-/*   Updated: 2021/05/05 17:41:38 by user42           ###   ########.fr       */
+/*   Updated: 2021/05/07 12:56:51 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,10 @@ void		init_p(struct s_env *env)
 			{
 				env->play.x = i[1] + 0.5;
 				env->play.y = i[0] + 0.5;
-				env->play.pa = (env->l.map[i[0]][i[1]] == 'N') ? M_PI / 2 : 0;
-				env->play.pa = (env->l.map[i[0]][i[1]] == 'S') ? 3 * M_PI / 2 \
+				env->play.pa = (env->l.map[i[0]][i[1]] == 'S') ? M_PI / 2 : 0;
+				env->play.pa = (env->l.map[i[0]][i[1]] == 'N') ? 3 * M_PI / 2\
 				: env->play.pa;
-				env->play.pa = (env->l.map[i[0]][i[1]] == 'W') ? M_PI : \
+				env->play.pa = (env->l.map[i[0]][i[1]] == 'W') ? M_PI :\
 				env->play.pa;
 				env->l.map[i[0]][i[1]] = '0';
 			}
@@ -150,5 +150,5 @@ int			open_window(struct s_env	*env)
 		mlx_loop(env->p.mlx);
 		return (1);
 	}
-	return (ft_putstr_err("Error\n"));
+	return (1);
 }
