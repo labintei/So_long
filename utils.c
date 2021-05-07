@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/04 15:44:26 by user42            #+#    #+#             */
-/*   Updated: 2021/05/05 16:01:33 by user42           ###   ########.fr       */
+/*   Updated: 2021/05/07 17:55:16 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,8 @@ void		f_load_texture(struct s_env *env)
 	&(env->t[4].width), &(env->t[4].height));
 	env->t[4].addr = mlx_get_data_addr(env->t[4].img, &(env->t[4].\
 	bits_per_pixels), &(env->t[4].line_lenght), &(env->t[4].endian));
+	env->xmax = 0;
+	env->ymax = 0;
 	return ;
 }
 

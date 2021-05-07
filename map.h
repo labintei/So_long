@@ -6,7 +6,7 @@
 /*   By: labintei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 10:12:07 by labintei          #+#    #+#             */
-/*   Updated: 2021/05/06 12:59:42 by user42           ###   ########.fr       */
+/*   Updated: 2021/05/07 16:03:19 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,10 +91,11 @@ typedef struct	s_env
 	double		*fov;
 }				t_env;
 
+int				f_key(int keycode, struct s_env *env);
 int				ft_putstr_err(char *s);
 void			stockdir(char **s1, char *s);
 char			check_map(struct s_list *l);
-void			print_background(struct s_env *env);
+int				print_background(struct s_env *env);
 double			h(struct s_env *env, double x, double y);
 void			drawcol_sprite(struct s_env *env, int *i, double d);
 void			ajout_diff(struct s_env *env, double *i);
@@ -143,6 +144,6 @@ void			drawdir_bis_7(struct s_env *env, double x, double y);
 void			stock_drawfov(struct	s_env *env);
 void			drawfov_bis(struct	s_env *env);
 int				bmp_save_file(struct s_env *env);
-void			destroy_ta_vie(struct s_env *env);
+int				destroy_ta_vie(struct s_env *env);
 
 #endif

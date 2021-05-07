@@ -6,13 +6,13 @@
 /*   By: labintei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/27 14:40:24 by labintei          #+#    #+#             */
-/*   Updated: 2021/05/06 12:33:44 by user42           ###   ########.fr       */
+/*   Updated: 2021/05/07 19:03:33 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "map.h"
 
-void		destroy_ta_vie(struct s_env		*env)
+int			destroy_ta_vie(struct s_env		*env)
 {
 	mlx_destroy_image(env->p.mlx, env->t[0].img);
 	mlx_destroy_image(env->p.mlx, env->t[1].img);
@@ -22,7 +22,7 @@ void		destroy_ta_vie(struct s_env		*env)
 	if (env->save != 1)
 		mlx_destroy_window(env->p.mlx, env->p.mlx_win);
 	exit(0);
-	return ;
+	return (1);
 }
 
 void		write_header(struct s_env *env, int fd, int *u)
