@@ -6,7 +6,7 @@
 /*   By: labintei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/13 12:48:04 by labintei          #+#    #+#             */
-/*   Updated: 2021/05/07 19:05:43 by user42           ###   ########.fr       */
+/*   Updated: 2021/05/08 21:47:26 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,29 +59,10 @@ void		drawcarre(int x, int y, int largeur, struct s_env *env)
 
 int			print_background(struct s_env	*env)
 {
-	int		i[3];
-
 	mlx_hook(env->p.mlx_win, 33, (1L << 17), destroy_ta_vie, env);
 	mlx_hook(env->p.mlx_win, 2, 1L << 0, f_key, env);
-	i[1] = -1;
-	while (++i[1] < env->l.r[1] / 2)
-	{
-		i[2] = -1;
-		while (++i[2] < env->l.r[0])
-			my_put_pixel(&(env->i), i[2], i[1], create_trtgb(0, env->l.c[0], \
-			env->l.c[1], env->l.c[2]));
-	}
-	--i[1];
-	while (++i[1] < env->l.r[1])
-	{
-		i[2] = -1;
-		while (++i[2] < env->l.r[0])
-			my_put_pixel(&(env->i), i[2], i[1], \
-			create_trtgb(0, env->l.f[0], env->l.f[1], env->l.f[2]));
-	}
-	drawfov_bis(env);
-	draw_minimap(env);
+	t(env);
 	mlx_put_image_to_window(env->p.mlx, env->p.mlx_win, env->i.img, 0, 0);
-	mlx_hook(env->p.mlx_win, 12, 1L << 15, &print_background, env);
+	//mlx_hook(env->p.mlx_win, 12, 1L << 15, &print_background, env);
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: labintei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 10:12:07 by labintei          #+#    #+#             */
-/*   Updated: 2021/05/07 16:03:19 by user42           ###   ########.fr       */
+/*   Updated: 2021/05/08 21:41:07 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,7 @@ typedef struct	s_env
 	double		*fov;
 }				t_env;
 
+int				t(struct s_env *env);
 int				f_key(int keycode, struct s_env *env);
 int				ft_putstr_err(char *s);
 void			stockdir(char **s1, char *s);

@@ -6,7 +6,7 @@
 /*   By: labintei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/13 12:48:04 by labintei          #+#    #+#             */
-/*   Updated: 2021/05/07 19:04:49 by user42           ###   ########.fr       */
+/*   Updated: 2021/05/08 21:48:37 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,11 +137,12 @@ int			open_window(struct s_env	*env)
 		init_p(env);
 		stock_drawfov(env);
 		dvarconst(env);
-		print_background(env);
+		t(env);
 		if (env->save == 1)
 			return (bmp_save_file(env));
-		mlx_hook(env->p.mlx_win, 12, 1L << 15, print_background, env);
-		mlx_hook(env->p.mlx_win, 33, (1L << 17), destroy_ta_vie, env);
+		mlx_hook(env->p.mlx_win, 2, 1L << 0, f_key, env);
+		//mlx_hook(env->p.mlx_win, 12, 1L << 15, print_background, env);
+		//mlx_hook(env->p.mlx_win, 33, (1L << 17), destroy_ta_vie, env);
 		mlx_loop_hook(env->p.mlx, print_background, env);
 		mlx_put_image_to_window(env->p.mlx, env->p.mlx_win, env->i.img, 0, 0);
 		mlx_loop(env->p.mlx);
