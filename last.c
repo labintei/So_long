@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/06 01:03:13 by user42            #+#    #+#             */
-/*   Updated: 2021/05/08 21:39:32 by user42           ###   ########.fr       */
+/*   Updated: 2021/05/10 09:56:40 by labintei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ int		t(struct s_env *env)
 {
 	int		i[3];
 
+	f_key(env);
 	i[1] = -1;
 	while (++i[1] < env->l.r[1] / 2)
 	{
@@ -52,6 +53,43 @@ int		t(struct s_env *env)
 	}
 	drawfov_bis(env);
 	draw_minimap(env);
-	//mlx_put_image_to_window(env->p.mlx, env->p.mlx_win, env->i.img, 0, 0);
-	return(1);
+	return (1);
+}
+
+int		key_press(int keycode, struct s_env *env)
+{
+	if (keycode == KEY_A)
+		env->key[0] = 1;
+	else if (keycode == KEY_W)
+		env->key[1] = 1;
+	else if (keycode == KEY_D)
+		env->key[2] = 1;
+	else if (keycode == KEY_S)
+		env->key[3] = 1;
+	else if (keycode == KEY_RIGHT)
+		env->key[4] = 1;
+	else if (keycode == KEY_LEFT)
+		env->key[5] = 1;
+	else if (keycode == KEY_ESC)
+		env->key[6] = 1;
+	return (0);
+}
+
+int		key_release(int keycode, struct s_env *env)
+{
+	if (keycode == KEY_A)
+		env->key[0] = 0;
+	else if (keycode == KEY_W)
+		env->key[1] = 0;
+	else if (keycode == KEY_D)
+		env->key[2] = 0;
+	else if (keycode == KEY_S)
+		env->key[3] = 0;
+	else if (keycode == KEY_RIGHT)
+		env->key[4] = 0;
+	else if (keycode == KEY_LEFT)
+		env->key[5] = 0;
+	else if (keycode == KEY_ESC)
+		env->key[6] = 0;
+	return (0);
 }

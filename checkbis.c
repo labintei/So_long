@@ -6,7 +6,7 @@
 /*   By: labintei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/13 12:48:04 by labintei          #+#    #+#             */
-/*   Updated: 2021/05/08 21:47:26 by user42           ###   ########.fr       */
+/*   Updated: 2021/05/10 09:53:26 by labintei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,10 +59,7 @@ void		drawcarre(int x, int y, int largeur, struct s_env *env)
 
 int			print_background(struct s_env	*env)
 {
-	mlx_hook(env->p.mlx_win, 33, (1L << 17), destroy_ta_vie, env);
-	mlx_hook(env->p.mlx_win, 2, 1L << 0, f_key, env);
 	t(env);
 	mlx_put_image_to_window(env->p.mlx, env->p.mlx_win, env->i.img, 0, 0);
-	//mlx_hook(env->p.mlx_win, 12, 1L << 15, &print_background, env);
 	return (1);
 }

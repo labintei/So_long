@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/04 15:56:03 by user42            #+#    #+#             */
-/*   Updated: 2021/05/07 12:36:32 by user42           ###   ########.fr       */
+/*   Updated: 2021/05/10 10:30:38 by labintei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@ void		drawcol_sprite(struct s_env *env, int *i, double d)
 	int		color;
 
 	c[0] = d * env->t[4].width;
-	c[1] = ((float)env->t[4].height) / ((float)(i[1] - i[0]));
+	c[1] = ((float)env->t[4].height) / (i[1] - i[0]);
 	start = i[0];
-	start = (start < 0) ? 0 : start;
+	start = (start < 0) ? 1 : start;
 	while (start >= 0 && start < env->l.r[1] && start <= i[1])
 	{
 		c[2] = (start - i[0]) * c[1];
@@ -39,10 +39,10 @@ void		drawcoln(struct s_env *env, int *i, double y)
 	int		color;
 	double	c[3];
 
-	c[1] = ((float)env->t[3].height) / ((float)(i[1] - i[0]));
+	c[1] = (((float)(env->t[3].height)) / (i[1] - i[0]));
 	start = i[0];
 	i[0] = (i[0] < 0) ? 0 : i[0];
-	c[0] = ((float)(y - ((int)y))) * ((float)env->t[3].width);
+	c[0] = ((float)(y - ((int)y)) * (env->t[3].width));
 	while (i[0] >= 0 && i[0] < env->l.r[1] && i[0] <= i[1])
 	{
 		c[2] = (i[0] - start) * c[1];
@@ -59,10 +59,10 @@ void		drawcols(struct s_env *env, int *i, double y)
 	int		color;
 	double	c[3];
 
-	c[1] = ((float)env->t[2].height) / ((float)(i[1] - i[0]));
+	c[1] = ((float)(env->t[2].height)) / ((i[1] - i[0]));
 	start = i[0];
 	i[0] = (i[0] < 0) ? 0 : i[0];
-	c[0] = ((float)(y - ((int)y)) * (float)env->t[2].width);
+	c[0] = ((float)(y - ((int)y)) * env->t[2].width);
 	while (i[0] >= 0 && i[0] < env->l.r[1] && i[0] <= i[1])
 	{
 		c[2] = (i[0] - start) * c[1];
@@ -79,10 +79,10 @@ void		drawcole(struct s_env *env, int *i, double x)
 	int		color;
 	double	c[3];
 
-	c[1] = ((float)env->t[1].height) / ((float)(i[1] - i[0]));
+	c[1] = (((float)(env->t[1].height)) / ((i[1] - i[0])));
 	start = i[0];
 	i[0] = (i[0] < 0) ? 0 : i[0];
-	c[0] = ((float)(x - ((int)x)) * (float)env->t[1].width);
+	c[0] = ((float)(x - ((int)x)) * env->t[1].width);
 	while (i[0] >= 0 && i[0] < env->l.r[1] && i[0] <= i[1])
 	{
 		c[2] = (i[0] - start) * c[1];
@@ -99,10 +99,10 @@ void		drawcolw(struct s_env *env, int *i, double x)
 	int		color;
 	double	c[3];
 
-	c[1] = ((float)env->t[0].height) / ((float)(i[1] - i[0]));
+	c[1] = (((float)env->t[0].height)) / ((i[1] - i[0]));
 	start = i[0];
 	i[0] = (i[0] < 0) ? 0 : i[0];
-	c[0] = ((float)(x - ((int)x)) * (float)env->t[0].width);
+	c[0] = ((float)(x - ((int)x)) * env->t[0].width);
 	while (i[0] >= 0 && i[0] < env->l.r[1] && i[0] <= i[1])
 	{
 		c[2] = (i[0] - start) * c[1];

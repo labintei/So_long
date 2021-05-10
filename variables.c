@@ -6,38 +6,33 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/05 13:12:59 by user42            #+#    #+#             */
-/*   Updated: 2021/05/05 15:50:51 by user42           ###   ########.fr       */
+/*   Updated: 2021/05/10 09:40:58 by labintei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "map.h"
-#define KEY_RIGHT 65361
-#define KEY_LEFT 65363
-#define KEY_ESC 65307
-#define KEY_W 119
-#define KEY_S 115
 
-void		init_spe(struct s_env *env, int keycode, double *i)
+void		init_spe(struct s_env *env, double *i)
 {
-	if (keycode == KEY_RIGHT)
-		env->play.pa -= env->rot;
-	if (keycode == KEY_LEFT)
-		env->play.pa += env->rot;
-	if (keycode == KEY_ESC)
+	if (env->key[4])
+		env->play.pa -= env->rot * 2;
+	if (env->key[5])
+		env->play.pa += env->rot * 2;
+	if (env->key[6])
 		destroy_ta_vie(env);
 	env->sp[2] = cos(env->play.pa + M_PI / 2);
 	env->sp[3] = sin(env->play.pa + M_PI / 2);
-	i[0] = cos(env->play.pa) / 20;
-	i[1] = sin(env->play.pa) / 20;
-	i[2] = env->sp[2] / 20;
-	i[3] = env->sp[3] / 20;
-	if (keycode == KEY_W && env->l.map[(int)(env->play.y + i[1])][(int)\
+	i[0] = cos(env->play.pa) / 7;
+	i[1] = sin(env->play.pa) / 7;
+	i[2] = env->sp[2] / 7;
+	i[3] = env->sp[3] / 7;
+	if (env->key[1] && env->l.map[(int)(env->play.y + i[1])][(int)\
 	(env->play.x + i[0])] != '1')
 	{
 		env->play.x += i[0];
 		env->play.y += i[1];
 	}
-	if (keycode == KEY_S && env->l.map[(int)(env->play.y - i[1])][(int)\
+	if (env->key[3] && env->l.map[(int)(env->play.y - i[1])][(int)\
 	(env->play.x - i[0])] != '1')
 	{
 		env->play.x -= i[0];

@@ -6,12 +6,19 @@
 /*   By: labintei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 10:12:07 by labintei          #+#    #+#             */
-/*   Updated: 2021/05/08 21:41:07 by user42           ###   ########.fr       */
+/*   Updated: 2021/05/10 09:58:34 by labintei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MAP_H
 # define MAP_H
+# define KEY_A 97
+# define KEY_W 119
+# define KEY_D 100
+# define KEY_S 115
+# define KEY_RIGHT 65361
+# define KEY_LEFT 65363
+# define KEY_ESC 65307
 # include <stdlib.h>
 # include <unistd.h>
 # include <fcntl.h>
@@ -72,6 +79,7 @@ typedef	struct	s_texture
 
 typedef struct	s_env
 {
+	char		key[7];
 	int			c;
 	int			pas;
 	int			xmax;
@@ -91,8 +99,11 @@ typedef struct	s_env
 	double		*fov;
 }				t_env;
 
+void			init_p(struct s_env *env);
+int				key_press(int keycode, struct s_env *env);
+int				key_release(int	keycode, struct s_env *env);
 int				t(struct s_env *env);
-int				f_key(int keycode, struct s_env *env);
+int				f_key(struct s_env *env);
 int				ft_putstr_err(char *s);
 void			stockdir(char **s1, char *s);
 char			check_map(struct s_list *l);
@@ -100,7 +111,7 @@ int				print_background(struct s_env *env);
 double			h(struct s_env *env, double x, double y);
 void			drawcol_sprite(struct s_env *env, int *i, double d);
 void			ajout_diff(struct s_env *env, double *i);
-void			init_spe(struct s_env *env, int keycode, double *i);
+void			init_spe(struct s_env *env, double *i);
 void			f_load_texture(struct	s_env *env);
 void			ft_putstr(char *s);
 int				treat_map(struct s_list *l);

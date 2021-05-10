@@ -6,7 +6,7 @@
 #    By: labintei <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/01/11 14:05:41 by labintei          #+#    #+#              #
-#    Updated: 2021/05/06 12:26:55 by user42           ###   ########.fr        #
+#    Updated: 2021/05/10 10:38:42 by labintei         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,10 +28,9 @@ $(NAME):
 clean:
 				$(RM) $(NAME)
 
-fclean:		clean
+fclean:			
 				$(RM) $(NAME)
 
-re:				fclean 
-				$(RM) $(NAME)
+re: clean all
 
-.PHONY:		all clean fclean
+.PHONY:		all clean fclean re

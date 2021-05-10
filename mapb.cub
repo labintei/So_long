@@ -1,11 +1,11 @@
 R 1000 800
-NO ./sprite/a11.xpm
-SO ./sprite/a10.xpm
-WE ./sprite/a9.xpm
-EA ./sprite/a8.xpm
-S ./sprite/Blob.xpm
-F 220,200,120
-C 225,60,230
+NO ./sprite/a5.xpm
+SO ./sprite/a6.xpm
+WE ./sprite/a4.xpm
+EA ./sprite/a7.xpm
+S ./sprite/5.xpm
+F 20,20,20
+C 10,10,10
 
 
 

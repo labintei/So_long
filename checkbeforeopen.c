@@ -6,16 +6,11 @@
 /*   By: labintei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/13 12:48:04 by labintei          #+#    #+#             */
-/*   Updated: 2021/05/08 21:48:37 by user42           ###   ########.fr       */
+/*   Updated: 2021/05/10 09:55:06 by labintei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "map.h"
-
-#define KEY_A 97
-#define KEY_W 119
-#define KEY_D 100
-#define KEY_S 115
 
 void		init_p(struct s_env *env)
 {
@@ -100,19 +95,19 @@ char		checkbe(struct s_list *l, struct s_params *i)
 	return (1);
 }
 
-int			f_key(int keycode, struct s_env *env)
+int			f_key(struct s_env *env)
 {
 	double	i[4];
 
-	init_spe(env, keycode, i);
-	if (keycode == KEY_A)
+	init_spe(env, i);
+	if (env->key[0])
 		if (env->l.map[(int)(env->play.y - i[3])]\
 		[(int)(env->play.x - i[2])] != '1')
 		{
 			env->play.x -= i[2];
 			env->play.y -= i[3];
 		}
-	if (keycode == KEY_D)
+	if (env->key[2])
 		if (env->l.map[(int)(env->play.y + i[3])]\
 		[(int)(env->play.x + i[2])] != '1')
 		{
@@ -134,15 +129,15 @@ int			open_window(struct s_env	*env)
 		env->i.addr = mlx_get_data_addr(env->i.img, &(env->i.bits_per_pixels),\
 		&(env->i.line_lenght), &(env->i.endian));
 		f_load_texture(env);
-		init_p(env);
 		stock_drawfov(env);
 		dvarconst(env);
 		t(env);
 		if (env->save == 1)
 			return (bmp_save_file(env));
-		mlx_hook(env->p.mlx_win, 2, 1L << 0, f_key, env);
-		//mlx_hook(env->p.mlx_win, 12, 1L << 15, print_background, env);
-		//mlx_hook(env->p.mlx_win, 33, (1L << 17), destroy_ta_vie, env);
+		mlx_hook(env->p.mlx_win, 3, 1L << 1, key_release, env);
+		mlx_hook(env->p.mlx_win, 2, 1L << 0, key_press, env);
+		mlx_hook(env->p.mlx_win, 33, (1L << 17), destroy_ta_vie, env);
+		mlx_hook(env->p.mlx_win, 12, 1L << 15, &t, env);
 		mlx_loop_hook(env->p.mlx, print_background, env);
 		mlx_put_image_to_window(env->p.mlx, env->p.mlx_win, env->i.img, 0, 0);
 		mlx_loop(env->p.mlx);
