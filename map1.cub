@@ -1,4 +1,4 @@
-R 18000 10500
+R 500 500
 NO ./sprite/1.xpm
 SO ./sprite/mur1.xpm
 WE ./sprite/a4.xpm
