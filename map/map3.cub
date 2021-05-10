@@ -1,11 +1,11 @@
-R 100000 10800
-NO ./sprite/mur1.xpm
-SO ./sprite/mur1.xpm
-WE ./sprite/mur1.xpm
-EA ./sprite/mur3.xpm
+R 100 80
+NO ./sprite/a.xpm
+SO ./sprite/a1.xpm
+WE ./sprite/a2.xpm
+EA ./sprite/a3.xpm
 S ./sprite/2.xpm
-F 220,200,120
-C 225,60,230
+F 125,0,0
+C 90,0,0
 
 
 
