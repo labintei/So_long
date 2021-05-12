@@ -6,7 +6,7 @@
 /*   By: labintei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 10:06:25 by labintei          #+#    #+#             */
-/*   Updated: 2021/05/06 12:47:35 by user42           ###   ########.fr       */
+/*   Updated: 2021/05/12 15:46:38 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,10 +79,10 @@ void	ft_map_cut_2(struct s_list *l, int *y, int j)
 	return ;
 }
 
-int		main_bis(struct s_env *env, char *s)
+int		main_bis(struct s_env *env, char **s)
 {
 	env->l.n = 0;
-	if ((env->l.fd = open(s, O_RDONLY)) < 0)
+	if ((env->l.fd = open(s[1], O_RDONLY)) < 0)
 		return (ft_putstr_err("Error\n"));
 	if (treat_map(&(env->l)) == 0)
 		return (ft_putstr_err("Error\n"));
@@ -117,5 +117,5 @@ int		main(int argc, char **argv)
 	(argv[1][i[0]])))
 		i[0]++;
 	return ((s[i[0] - i[1]] == argv[1][i[0]] && s[i[0] - i[1]] == '\0') ?\
-	(main_bis(&env, argv[1])) : (ft_putstr_err("Error\n")));
+	(main_bis(&env, argv)) : (ft_putstr_err("Error\n")));
 }
