@@ -6,7 +6,7 @@
 /*   By: labintei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 10:12:07 by labintei          #+#    #+#             */
-/*   Updated: 2021/05/10 09:58:34 by labintei         ###   ########.fr       */
+/*   Updated: 2021/05/13 14:05:08 by labintei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,10 +139,7 @@ void			drawfov(struct s_env *env);
 void			f_compare(struct s_env *env, double *i, double a);
 void			drawcol1(struct s_env *env, double *r);
 void			drawfov(struct s_env *env);
-void			drawcoln(struct s_env *env, int *i, double y);
 void			drawcols(struct s_env *env, int *i, double y);
-void			drawcolw(struct s_env *env, int *i, double x);
-void			drawcole(struct s_env *env, int *i, double x);
 int				index_color(int x, int y, struct s_texture *text);
 void			draw_sprite(struct	s_env *env);
 void			dray_bis(struct s_env *env, double a);

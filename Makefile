@@ -6,7 +6,7 @@
 #    By: labintei <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/01/11 14:05:41 by labintei          #+#    #+#              #
-#    Updated: 2021/05/13 13:47:06 by labintei         ###   ########.fr        #
+#    Updated: 2021/05/13 14:35:03 by labintei         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,19 +21,23 @@ CFLAGS			= -Wall -Wextra -Werror -I includes.
 LIBS			= -L ./minilibx/ -lmlx -lXext -lX11 -lm
 RM				= rm -f
 NAME			= cub3D
+LINUX			= true
 
 all:		${NAME}
 .c.o:
-				${CC} ${CFLAGS} -
+				${CC} ${CFLAGS} -Imlx -Ibass -c $< -o ${<:c=o} -D LINUX=${LINUX}
 
-$(NAME):
+$(NAME):	$(OBJS)
 				make -C $(DIR_MLX)
 				${CC} $(CFLAGS) -o $(NAME) $(SRCS) $(LIBS)
+				${MACH_EXTRA}
 
 clean:
-				$(RM) $(NAME)
+				make -C $(DIR_MLX) clean
+				$(RM) $(OBJS)
 
 fclean:			
+				make -C $(DIR_MLX) clean
 				$(RM) $(NAME)
 
 re: clean all

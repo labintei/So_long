@@ -6,7 +6,7 @@
 /*   By: labintei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/13 12:48:04 by labintei          #+#    #+#             */
-/*   Updated: 2021/05/10 09:55:06 by labintei         ###   ########.fr       */
+/*   Updated: 2021/05/13 14:26:35 by labintei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void		init_p(struct s_env *env)
 {
 	int		i[2];
-
+	
 	while (env->l.map[env->ymax][env->xmax] != '\0')
 		(env->xmax)++;
 	while (env->l.map[env->ymax] != 0)
