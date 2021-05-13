@@ -6,7 +6,7 @@
 /*   By: labintei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/26 10:50:11 by labintei          #+#    #+#             */
-/*   Updated: 2021/05/10 10:10:55 by labintei         ###   ########.fr       */
+/*   Updated: 2021/05/13 12:16:29 by labintei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void		f_compare(struct s_env *env, double *i, double a)
 	r[0] = a;
 	if (h(env, i[2], i[3]) < h(env, i[0], i[1]) || a == 0 || a == M_PI)
 	{
-		env->c = (i[2] > env->play.x) ? 1 : 2;
+		env->c = (i[2] > env->play.x) ? 0 : 1;
 		r[1] = (h(env, i[2], i[3]));
 		r[2] = i[2];
 		r[3] = i[3];
@@ -29,7 +29,7 @@ void		f_compare(struct s_env *env, double *i, double a)
 	if (h(env, i[2], i[3]) >= h(env, i[0], i[1])\
 	|| a == env->var[3] || a == env->var[4])
 	{
-		env->c = (i[1] > env->play.y) ? 3 : 4;
+		env->c = (i[1] > env->play.y) ? 2 : 3;
 		r[1] = (h(env, i[0], i[1]));
 		r[2] = i[0];
 		r[3] = i[1];
@@ -49,14 +49,10 @@ void		drawcol1(struct s_env *env, double *r)
 	hmur = (int)(env->l.r[1] / (dist));
 	i[0] = (env->l.r[1] / 2) - (hmur / 2);
 	i[1] = (env->l.r[1] / 2) + (hmur / 2);
-	if (env->c == 1)
-		drawcoln(env, i, r[3]);
-	if (env->c == 2)
+	if(env->c == 0 || env->c == 1)
 		drawcols(env, i, r[3]);
-	if (env->c == 3)
-		drawcole(env, i, r[2]);
-	if (env->c == 4 || env->c == 0)
-		drawcolw(env, i, r[2]);
+	else
+		drawcols(env, i, r[2]);
 	return ;
 }
 

@@ -6,7 +6,7 @@
 #    By: labintei <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/01/11 14:05:41 by labintei          #+#    #+#              #
-#    Updated: 2021/05/12 19:01:05 by user42           ###   ########.fr        #
+#    Updated: 2021/05/13 13:47:06 by labintei         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,10 +22,13 @@ LIBS			= -L ./minilibx/ -lmlx -lXext -lX11 -lm
 RM				= rm -f
 NAME			= cub3D
 
-all:		$(NAME)
+all:		${NAME}
+.c.o:
+				${CC} ${CFLAGS} -
 
-$(NAME): 
-				gcc ${CFLAGS} ${SRCS} ${LIBS} -o $(NAME)
+$(NAME):
+				make -C $(DIR_MLX)
+				${CC} $(CFLAGS) -o $(NAME) $(SRCS) $(LIBS)
 
 clean:
 				$(RM) $(NAME)

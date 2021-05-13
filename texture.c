@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/04 15:56:03 by user42            #+#    #+#             */
-/*   Updated: 2021/05/10 10:30:38 by labintei         ###   ########.fr       */
+/*   Updated: 2021/05/13 12:13:33 by labintei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,80 +33,20 @@ void		drawcol_sprite(struct s_env *env, int *i, double d)
 	return ;
 }
 
-void		drawcoln(struct s_env *env, int *i, double y)
-{
-	int		start;
-	int		color;
-	double	c[3];
-
-	c[1] = (((float)(env->t[3].height)) / (i[1] - i[0]));
-	start = i[0];
-	i[0] = (i[0] < 0) ? 0 : i[0];
-	c[0] = ((float)(y - ((int)y)) * (env->t[3].width));
-	while (i[0] >= 0 && i[0] < env->l.r[1] && i[0] <= i[1])
-	{
-		c[2] = (i[0] - start) * c[1];
-		color = index_color(c[0], c[2], &(env->t[3]));
-		my_put_pixel(&(env->i), env->nbray, i[0], color);
-		i[0]++;
-	}
-	return ;
-}
-
 void		drawcols(struct s_env *env, int *i, double y)
 {
 	int		start;
 	int		color;
 	double	c[3];
 
-	c[1] = ((float)(env->t[2].height)) / ((i[1] - i[0]));
+	c[1] = ((float)(env->t[env->c].height)) / ((i[1] - i[0]));
 	start = i[0];
 	i[0] = (i[0] < 0) ? 0 : i[0];
-	c[0] = ((float)(y - ((int)y)) * env->t[2].width);
+	c[0] = ((float)(y - ((int)y)) * env->t[env->c].width);
 	while (i[0] >= 0 && i[0] < env->l.r[1] && i[0] <= i[1])
 	{
 		c[2] = (i[0] - start) * c[1];
-		color = index_color(c[0], c[2], &(env->t[2]));
-		my_put_pixel(&(env->i), env->nbray, i[0], color);
-		i[0]++;
-	}
-	return ;
-}
-
-void		drawcole(struct s_env *env, int *i, double x)
-{
-	int		start;
-	int		color;
-	double	c[3];
-
-	c[1] = (((float)(env->t[1].height)) / ((i[1] - i[0])));
-	start = i[0];
-	i[0] = (i[0] < 0) ? 0 : i[0];
-	c[0] = ((float)(x - ((int)x)) * env->t[1].width);
-	while (i[0] >= 0 && i[0] < env->l.r[1] && i[0] <= i[1])
-	{
-		c[2] = (i[0] - start) * c[1];
-		color = index_color(c[0], c[2], &(env->t[1]));
-		my_put_pixel(&(env->i), env->nbray, i[0], color);
-		i[0]++;
-	}
-	return ;
-}
-
-void		drawcolw(struct s_env *env, int *i, double x)
-{
-	int		start;
-	int		color;
-	double	c[3];
-
-	c[1] = (((float)env->t[0].height)) / ((i[1] - i[0]));
-	start = i[0];
-	i[0] = (i[0] < 0) ? 0 : i[0];
-	c[0] = ((float)(x - ((int)x)) * env->t[0].width);
-	while (i[0] >= 0 && i[0] < env->l.r[1] && i[0] <= i[1])
-	{
-		c[2] = (i[0] - start) * c[1];
-		color = index_color(c[0], c[2], &(env->t[0]));
+		color = index_color(c[0], c[2], &(env->t[env->c]));
 		my_put_pixel(&(env->i), env->nbray, i[0], color);
 		i[0]++;
 	}
