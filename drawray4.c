@@ -6,17 +6,16 @@
 /*   By: labintei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/26 10:50:11 by labintei          #+#    #+#             */
-/*   Updated: 2021/05/13 14:31:15 by labintei         ###   ########.fr       */
+/*   Updated: 2021/05/13 14:41:17 by labintei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "map.h"
-#include <stdio.h>
 
 void		check_vert(struct s_env *env, double *x, double *y)
 {
 	char	u;
-	printf("djfjifsif");
+
 	u = 0;
 	while (*x >= 0 && *y >= 0 && *x < env->xmax && *y < env->ymax && u == 0)
 	{
