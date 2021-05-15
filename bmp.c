@@ -6,7 +6,7 @@
 /*   By: labintei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/27 14:40:24 by labintei          #+#    #+#             */
-/*   Updated: 2021/05/07 19:03:33 by user42           ###   ########.fr       */
+/*   Updated: 2021/05/15 12:54:31 by labintei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,10 +80,11 @@ int			bmp_save_file(struct s_env *env)
 
 void		ft_dir(struct s_list *l, char *s, int *i)
 {
-	char	t[10000];
+	char	*t;
 	char	c[2];
 	int		n;
 
+	t = malloc(sizeof(char) * 10000);
 	c[0] = (s[*i]);
 	c[1] = (s[*i + 1]) ? s[*i + 1] : 0;
 	n = 0;
@@ -96,7 +97,8 @@ void		ft_dir(struct s_list *l, char *s, int *i)
 		(*i)++;
 	}
 	t[n] = '\0';
-	return (ft_dir_bis(l, c, t));
+	ft_dir_bis(l, c, t);
+	free(t);
 }
 
 void		ft_dir_bis(struct s_list *l, char *c, char *t)
