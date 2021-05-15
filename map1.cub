@@ -4,7 +4,7 @@ SO ./sprite/mur1.xpm
 WE ./sprite/a4.xpm
 EA ./sprite/a5.xpm
 S ./sprite/2.xpm
-F 220,200,120
+F 100,100,100
 C 225,60,230
 
 
