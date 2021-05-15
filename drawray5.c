@@ -6,7 +6,7 @@
 /*   By: labintei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/26 10:50:11 by labintei          #+#    #+#             */
-/*   Updated: 2021/05/15 14:52:43 by labintei         ###   ########.fr       */
+/*   Updated: 2021/05/15 16:25:10 by labintei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,25 +71,24 @@ void		dvarconst(struct s_env *env)
 
 void		stock_drawfov(struct s_env *env)
 {
-	double	dist;
-	double	test;
+	double	i[2];
 	int		n;
 	double	*l;
 
 	l = malloc(sizeof(double) * (((int)(env->l.r[0] / 2)) + 2));
 	init_p(env);
-	env->fov = malloc(sizeof(double) * (ceil(env->l.r[0] / 2) + 2));
-	test = M_PI / 4;
+	if (!l || !(env->fov = malloc(sizeof(double) * ((env->l.r[0] / 2) + 2))))
+		return ;
+	i[1] = M_PI / 4;
 	l[0] = 0;
 	n = 0;
-	dist = env->l.r[0] / (2 * tan(M_PI / 4));
+	i[0] = env->l.r[0] / (2 * tan(M_PI / 4));
 	while (n <= (env->l.r[0] / 2))
 	{
 		n++;
-		l[n] = test - fabs((atan(abs(((int)env->l.r[0] / 2) - n) / dist)));
-		test -= fabs(l[n]);
+		l[n] = i[1] - fabs((atan(abs(((int)env->l.r[0] / 2) - n) / i[0])));
+		i[1] -= fabs(l[n]);
 	}
-	test = 0;
 	n = -1;
 	while (++n <= ((int)(env->l.r[0] / 2)))
 	{
@@ -97,7 +96,6 @@ void		stock_drawfov(struct s_env *env)
 		l[n] = 0;
 	}
 	free(l);
-	return ;
 }
 
 void		drawfov_bis(struct s_env *env)

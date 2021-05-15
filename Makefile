@@ -6,7 +6,7 @@
 #    By: labintei <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/01/11 14:05:41 by labintei          #+#    #+#              #
-#    Updated: 2021/05/15 14:54:25 by labintei         ###   ########.fr        #
+#    Updated: 2021/05/15 16:05:47 by labintei         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@ DIR_MLX		=	./minilibx/
 OBJS		= $(SRCS:.c=.o)
 
 CC				= gcc
-CFLAGS			= -Wall -Wextra -Werror -I includes.
+CFLAGS			= -g -fsanitize=address -Wall -Wextra -Werror -I includes.
 LIBS			= -L ./minilibx/ -lmlx -lXext -lX11 -lm
 RM				= rm -f
 NAME			= cub3D
