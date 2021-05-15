@@ -6,7 +6,7 @@
 /*   By: labintei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/26 10:50:11 by labintei          #+#    #+#             */
-/*   Updated: 2021/05/13 14:41:44 by labintei         ###   ########.fr       */
+/*   Updated: 2021/05/15 14:52:43 by labintei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,8 +74,9 @@ void		stock_drawfov(struct s_env *env)
 	double	dist;
 	double	test;
 	int		n;
-	double	l[10000];
+	double	*l;
 
+	l = malloc(sizeof(double) * (((int)(env->l.r[0] / 2)) + 2));
 	init_p(env);
 	env->fov = malloc(sizeof(double) * (ceil(env->l.r[0] / 2) + 2));
 	test = M_PI / 4;
@@ -91,7 +92,11 @@ void		stock_drawfov(struct s_env *env)
 	test = 0;
 	n = -1;
 	while (++n <= ((int)(env->l.r[0] / 2)))
+	{
 		env->fov[n] = l[n];
+		l[n] = 0;
+	}
+	free(l);
 	return ;
 }
 

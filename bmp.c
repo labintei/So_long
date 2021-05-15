@@ -6,7 +6,7 @@
 /*   By: labintei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/27 14:40:24 by labintei          #+#    #+#             */
-/*   Updated: 2021/05/15 12:54:31 by labintei         ###   ########.fr       */
+/*   Updated: 2021/05/15 14:46:30 by labintei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int			bmp_save_file(struct s_env *env)
 
 	if ((fd = open("cube3d.bmp", O_WRONLY | O_CREAT | O_TRUNC, S_IRUSR | \
 	S_IWUSR)) < 0)
-		return (ft_putstr_err("Error\n"));
+		return (ft_putstr_err("Error fail to open a BMP_file \n"));
 	u[4] = 1;
 	u[3] = (env->l.r[0] * env->l.r[1]);
 	u[0] = (54) + ((env->l.r[0] * env->l.r[1]) * 4);

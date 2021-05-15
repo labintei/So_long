@@ -6,7 +6,7 @@
 /*   By: labintei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 10:06:25 by labintei          #+#    #+#             */
-/*   Updated: 2021/05/15 13:01:49 by labintei         ###   ########.fr       */
+/*   Updated: 2021/05/15 14:47:19 by labintei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,12 +86,12 @@ int		main_bis(struct s_env *env, char **s)
 {
 	env->l.n = 0;
 	if ((env->l.fd = open(s[1], O_RDONLY)) < 0)
-		return (ft_putstr_err("Error\n"));
+		return (ft_putstr_err("Error fail to open the map\n"));
 	if (treat_map(&(env->l)) == 0)
-		return (ft_putstr_err("Error\n"));
+		return (ft_putstr_err("Error wrong configuration of the map\n"));
 	if ((check_map(&(env->l))))
 		open_window(env);
-	return (ft_putstr_err("Error\n"));
+	return (ft_putstr_err("Error wrong configuration of the map\n"));
 }
 
 int		main(int argc, char **argv)
@@ -110,8 +110,8 @@ int		main(int argc, char **argv)
 			i[0]++;
 		env.save = (argv[2][(int)i[0]] == '\0') ? 1 : 0;
 	}
-	if (argc == 1)
-		return (ft_putstr_err("Error\n"));
+	if (argc <= 1)
+		return (ft_putstr_err("Error not enough arguments\n"));
 	i[0] = 0;
 	while (((argv[1])[i[0]]) != '.' && ((argv[1])[i[0]]))
 		i[0]++;
@@ -120,5 +120,5 @@ int		main(int argc, char **argv)
 	(argv[1][i[0]])))
 		i[0]++;
 	return ((s[i[0] - i[1]] == argv[1][i[0]] && s[i[0] - i[1]] == '\0') ?\
-	(main_bis(&env, argv)) : (ft_putstr_err("Error\n")));
+	(main_bis(&env, argv)) : (ft_putstr_err("Error not follow by a .cub \n")));
 }
