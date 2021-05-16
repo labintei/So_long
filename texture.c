@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/04 15:56:03 by user42            #+#    #+#             */
-/*   Updated: 2021/05/15 13:02:36 by labintei         ###   ########.fr       */
+/*   Updated: 2021/05/16 15:20:47 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ void		drawcol_sprite(struct s_env *env, int *i, double d)
 	c[0] = d * env->t[4].width;
 	c[1] = ((float)env->t[4].height) / (i[1] - i[0]);
 	start = i[0];
-	start = (start < 0) ? 1 : start;
+	if (start < 0)
+		start = 0;
 	while (start >= 0 && start < env->l.r[1] && start <= i[1])
 	{
 		c[2] = (start - i[0]) * c[1];
@@ -41,7 +42,8 @@ void		drawcols(struct s_env *env, int *i, double y)
 
 	c[1] = ((float)(env->t[env->c].height)) / ((i[1] - i[0]));
 	start = i[0];
-	i[0] = (i[0] < 0) ? 0 : i[0];
+	if (i[0] < 0)
+		i[0] = 0;
 	c[0] = ((float)(y - ((int)y)) * env->t[env->c].width);
 	while (i[0] >= 0 && i[0] < env->l.r[1] && i[0] <= i[1])
 	{

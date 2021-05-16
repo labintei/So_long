@@ -6,7 +6,7 @@
 /*   By: labintei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/27 14:40:24 by labintei          #+#    #+#             */
-/*   Updated: 2021/05/15 14:46:30 by labintei         ###   ########.fr       */
+/*   Updated: 2021/05/16 15:00:15 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,10 @@ void		ft_dir(struct s_list *l, char *s, int *i)
 
 	t = malloc(sizeof(char) * 10000);
 	c[0] = (s[*i]);
-	c[1] = (s[*i + 1]) ? s[*i + 1] : 0;
+	if (s[*i + 1])
+		c[1] = s[*i + 1];
+	else
+		c[1] = 0;
 	n = 0;
 	while (ft_find(s[*i], " \tNSWOEA") && s[*i])
 		(*i)++;

@@ -6,66 +6,85 @@
 /*   By: labintei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/26 10:50:11 by labintei          #+#    #+#             */
-/*   Updated: 2021/05/13 14:41:17 by labintei         ###   ########.fr       */
+/*   Updated: 2021/05/16 15:11:59 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "map.h"
 
-void		check_vert(struct s_env *env, double *x, double *y)
+void		couleur_r(double *r, double *i, struct s_env *env, char *c)
 {
-	char	u;
-
-	u = 0;
-	while (*x >= 0 && *y >= 0 && *x < env->xmax && *y < env->ymax && u == 0)
+	if (c[1] == 2)
 	{
-		(*x) += env->diff[0];
-		(*y) += env->diff[1];
-		if (*x > 0 && *x < env->xmax && *y > 0 && *y < env->ymax)
-			u = (env->l.map[(int)(*y)][(int)(*x)] == '1') ? 1 : 0;
+		env->c = 1;
+		if (i[2] > env->play.x)
+			env->c = 0;
+		r[1] = (h(env, i[2], i[3]));
+		r[2] = i[2];
+		r[3] = i[3];
 	}
-	return ;
+	else
+	{
+		env->c = 2;
+		if (i[1] > env->play.y)
+			env->c = 3;
+		r[1] = (h(env, i[0], i[1]));
+		r[2] = i[0];
+		r[3] = i[1];
+	}
 }
 
-void		check_hori(struct s_env *env, double *x, double *y)
+void		checkboth_mur(struct s_env *env, char *c, double a, double *i)
 {
-	char	u;
-
-	u = 0;
-	while (*x >= 0 && *y >= 0 && *x < env->xmax && *y < env->ymax && u == 0)
+	if (c[0] == 0)
 	{
-		(*x) += env->diff[2];
-		(*y) += env->diff[3];
-		if (*x > 0 && *x < env->xmax && *y > 0 && *y < env->ymax)
-			u = (env->l.map[(int)(*y)][(int)(*x)] == '1') ? 1 : 0;
+		i[0] += env->diff[2];
+		i[1] += env->diff[3];
+		if (!(i[0] > 0 && i[0] < env->xmax && i[1] > 0 && i[1] < env->ymax))
+			c[0] = 1;
+		else if (env->l.map[(int)i[1]][(int)i[0]] == '1')
+			c[0] = 2;
 	}
-	return ;
+	if (c[1] == 0)
+	{
+		i[2] += env->diff[0];
+		i[3] += env->diff[1];
+		if (!(i[2] > 0 && i[2] < env->xmax && i[3] > 0 && i[3] < env->ymax))
+			c[1] = 1;
+		else if (env->l.map[(int)i[3]][(int)i[2]] == '1')
+			c[1] = 2;
+	}
+	if (c[0] == 0 || c[1] == 0)
+		checkboth_mur(env, c, a, i);
 }
 
 void		dray(struct s_env *env, double a)
 {
-	double	i[4];
-	double	angle;
+	double	i[5];
+	char	c[2];
 
-	angle = (a >= env->var[2]) ? a - env->var[2] : a;
-	angle += (angle < 0) ? env->var[2] : 0;
-	dvar(env, angle);
-	init_envi(env, angle);
+	c[0] = 0;
+	c[1] = 0;
+	i[4] = a;
+	if (a >= env->var[2])
+		i[4] = a - env->var[2];
+	if (i[4] < 0)
+		i[4] += env->var[2];
+	dvar(env, i[4]);
 	init_i(env, i);
-	if (angle != 0 && angle != M_PI)
-	{
-		if (i[0] > 0 && i[0] < env->xmax && i[1] > 0 && i[1] < env->ymax)
-			if (env->l.map[(int)i[1]][(int)i[0]] != '1')
-				check_hori(env, &(i[0]), &(i[1]));
-	}
-	if (angle != env->var[3] && angle != env->var[4])
-	{
-		if (i[2] > 0 && i[2] < env->xmax && i[3] > 0 && i[3] < env->ymax)
-			if (env->l.map[(int)i[3]][(int)i[2]] != '1')
-				check_vert(env, &(i[2]), &(i[3]));
-	}
-	f_compare(env, i, a);
-	return ;
+	if (!(i[0] > 0 && i[0] < env->xmax && i[1] > 0 &&\
+	i[1] < env->ymax) || a == 0 || a == M_PI)
+		c[0] = 1;
+	else if (env->l.map[(int)i[1]][(int)i[0]] == '1')
+		c[0] = 2;
+	if (!(i[2] > 0 && i[2] < env->xmax && i[3] > 0 &&\
+	i[3] < env->ymax) || a == env->var[3] || a == env->var[4])
+		c[1] = 1;
+	else if (env->l.map[(int)i[3]][(int)i[2]] == '1')
+		c[1] = 2;
+	if (c[0] == 0 || c[1] == 0)
+		checkboth_mur(env, c, i[4], i);
+	f_compare(env, i, c, a);
 }
 
 void		ft_number(struct s_list *l, char *s, int *i)
@@ -122,5 +141,7 @@ char		check_map(struct s_list *l)
 			}
 		}
 	}
-	return ((u > 1 || u == 0) ? 0 : 1);
+	if (u > 1 || u == 0)
+		return (0);
+	return (1);
 }

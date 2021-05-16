@@ -6,7 +6,7 @@
 /*   By: labintei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/01 11:41:40 by labintei          #+#    #+#             */
-/*   Updated: 2021/05/05 18:22:33 by user42           ###   ########.fr       */
+/*   Updated: 2021/05/16 15:04:33 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,15 +69,19 @@ void		stock_w(struct s_env *env, double **w, double *i)
 
 	if (i[6] == -1)
 		return ;
-	j[0] = (i[6] == 1) ? i[0] : i[2];
-	j[1] = (i[6] == 1) ? i[1] : i[3];
-	j[2] = (env->sp[0] * env->sp[3] - (env->sp[2] * env->sp[1]));
+	j[0] = i[2];
+	j[1] = i[3];
+	if (i[6] == 1)
+	{
+		j[0] = i[0];
+		j[1] = i[1];
+	}
 	j[3] = ((env->play.y * env->sp[0] - env->play.x * env->sp[1]) * env->sp[2]\
 	- (env->sp[0] * (((int)j[1] + 0.5) * env->sp[2] - ((int)j[0] + 0.5) *\
-	env->sp[3]))) / j[2];
+	env->sp[3]))) / env->de;
 	j[4] = (-env->sp[1] * (((int)j[1] + 0.5) * env->sp[2] - ((int)j[0] + \
 	0.5) * env->sp[3]) + (env->play.y * env->sp[0] - env->play.x * \
-	env->sp[1]) * env->sp[3]) / j[2];
+	env->sp[1]) * env->sp[3]) / env->de;
 	if ((int)j[3] != (int)j[0] || (int)j[4] != (int)j[1] || \
 	(sqrt(pow(j[3] - ((int)j[0] + 0.5), 2) + pow(j[4] - \
 	((int)j[1] + 0.5), 2))) > 0.5)
@@ -86,18 +90,17 @@ void		stock_w(struct s_env *env, double **w, double *i)
 	w[(int)i[4]][0] = j[3];
 	w[(int)i[4]][1] = j[4];
 	(i[4])++;
-	return ;
 }
 
 void		checkboth(struct s_env *env, double *i, double **w)
 {
 	i[6] = -1;
 	ajout_diff(env, i);
-	i[6] = ((h(env, i[0], i[1]) < i[5]) &&\
-	env->l.map[(int)i[1]][(int)i[0]] == '2') ? 1 : i[6];
+	if ((h(env, i[0], i[1]) < i[5]) && env->l.map[(int)i[1]][(int)i[0]] == '2')
+		i[6] = 1;
 	stock_w(env, w, i);
-	i[6] = (h(env, i[2], i[3]) < i[5] &&\
-	env->l.map[(int)i[3]][(int)i[2]] == '2') ? 2 : i[6];
+	if (h(env, i[2], i[3]) < i[5] && env->l.map[(int)i[3]][(int)i[2]] == '2')
+		i[6] = 2;
 	stock_w(env, w, i);
 	if (h(env, i[0], i[1]) < i[5] || h(env, i[2], i[3]) < i[5])
 		checkboth(env, i, w);
@@ -112,14 +115,15 @@ void		dray_angle_sprite(struct s_env *env, double d)
 	i[4] = 0;
 	i[5] = d;
 	i[6] = -1;
+	env->de = (env->sp[0] * env->sp[3] - (env->sp[2] * env->sp[1]));
 	if (!(w = malloc(sizeof(double *) * (2 * (ceil(d + 1))))))
 		return ;
 	init_i(env, i);
-	i[6] = (h(env, i[0], i[1]) < d && env->l.map[(int)i[1]][(int)i[0]]\
-	== '2') ? 1 : i[6];
+	if (h(env, i[0], i[1]) < d && env->l.map[(int)i[1]][(int)i[0]] == '2')
+		i[6] = 1;
 	stock_w(env, w, i);
-	i[6] = (h(env, i[2], i[3]) < d && env->l.map[(int)i[3]][(int)i[2]]\
-	== '2') ? 2 : i[6];
+	if (h(env, i[2], i[3]) < d && env->l.map[(int)i[3]][(int)i[2]] == '2')
+		i[6] = 2;
 	stock_w(env, w, i);
 	if ((h(env, i[0], i[1]) < d) || (h(env, i[2], i[3]) < d))
 		checkboth(env, i, w);

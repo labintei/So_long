@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/06 01:03:13 by user42            #+#    #+#             */
-/*   Updated: 2021/05/15 12:24:09 by labintei         ###   ########.fr       */
+/*   Updated: 2021/05/16 13:19:52 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int		treat_map(struct s_list *l)
 	s = malloc(sizeof(char) * 10001);
 	i = read(l->fd, s, 10000);
 	s[i] = '\0';
-	if (!i || !(l->stock = malloc((sizeof(char)) * (++i))))
+	if (!i || !(l->stock = malloc((sizeof(char)) * (++i))) || !s)
 		return (0);
 	i = -1;
 	while (s[++i] && s[i] != '\0')

@@ -6,7 +6,7 @@
 /*   By: labintei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 10:12:07 by labintei          #+#    #+#             */
-/*   Updated: 2021/05/15 13:03:06 by labintei         ###   ########.fr       */
+/*   Updated: 2021/05/16 15:08:08 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,10 +95,12 @@ typedef struct	s_env
 	double		var[5];
 	double		envi[4];
 	double		sp[5];
+	double		de;
 	double		rot;
 	double		*fov;
 }				t_env;
 
+void			couleur_r(double *r, double *i, struct s_env *env, char *c);
 void			init_p(struct s_env *env);
 int				key_press(int keycode, struct s_env *env);
 int				key_release(int	keycode, struct s_env *env);
@@ -136,7 +138,7 @@ void			drawcarre(int x, int y, int largeur, struct s_env *env);
 void			maxxy(struct s_env *env);
 void			dray(struct s_env *env, double a);
 void			drawfov(struct s_env *env);
-void			f_compare(struct s_env *env, double *i, double a);
+void			f_compare(struct s_env *env, double *i, char *s, double a);
 void			drawcol1(struct s_env *env, double *r);
 void			drawfov(struct s_env *env);
 void			drawcols(struct s_env *env, int *i, double y);

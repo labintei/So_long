@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/05 13:12:59 by user42            #+#    #+#             */
-/*   Updated: 2021/05/10 09:40:58 by labintei         ###   ########.fr       */
+/*   Updated: 2021/05/16 15:23:29 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,15 +44,23 @@ void		init_envi(struct s_env	*env, double a)
 {
 	env->sp[0] = cos(a);
 	env->sp[1] = sin(a);
-	env->sp[4] = (cos(env->play.pa - a) != 0) ? cos(env->play.pa - a) : 1;
-	env->envi[1] = (a > M_PI) ? ((int)env->play.y) - 0.00001 : \
-	((int)env->play.y) + 1;
-	env->envi[0] = (a != 0 && a != M_PI) ? (env->play.x - \
-	((env->play.y - env->envi[1]) / env->sp[1] * env->sp[0])) : 0;
-	env->envi[2] = (a > env->var[4] && a < env->var[3]) ? \
-	((int)env->play.x) - 0.00001 : ((int)env->play.x) + 1;
-	env->envi[3] = (a != env->var[3] && a != env->var[4]) ?\
-	env->play.y - ((env->play.x - env->envi[2]) / env->sp[0]) * env->sp[1] : 0;
+	env->sp[4] = 1;
+	if (cos(env->play.pa - a) != 0)
+		env->sp[4] = cos(env->play.pa - a);
+	env->envi[1] = ((int)env->play.y) + 1;
+	if (a > M_PI)
+		env->envi[1] = ((int)env->play.y) - 0.00001;
+	env->envi[0] = 0;
+	if (a != 0 && a != M_PI)
+		env->envi[0] = (env->play.x - ((env->play.y - env->envi[1])\
+		/ env->sp[1] * env->sp[0]));
+	env->envi[2] = ((int)env->play.x) + 1;
+	if (a > env->var[4] && a < env->var[3])
+		env->envi[2] = ((int)env->play.x) - 0.00001;
+	env->envi[3] = 0;
+	if (a != env->var[3] && a != env->var[4])
+		env->envi[3] = env->play.y - ((env->play.x - env->envi[2]) /\
+		env->sp[0]) * env->sp[1];
 	return ;
 }
 
@@ -67,11 +75,19 @@ void		ajout_diff(struct s_env *env, double *i)
 
 void		dvar(struct s_env *env, double a)
 {
-	env->diff[0] = (a < (3 * M_PI / 2) && a > (M_PI / 2)) ? -1 : 1;
-	env->diff[1] = (a != 0 && a != M_PI) ? (env->diff[0] / cos(a)) * sin(a) : 0;
-	env->diff[3] = (a > 0 && a < M_PI) ? 1 : -1;
-	env->diff[2] = (a != M_PI / 2 && a != (3 * M_PI / 2)) ? \
-	((env->diff[3]) / sin(a)) * cos(a) : 0;
+	env->diff[0] = 1;
+	if (a < (3 * M_PI / 2) && a > (M_PI / 2))
+		env->diff[0] = -1;
+	env->diff[1] = 0;
+	if (a != 0 && a != M_PI)
+		env->diff[1] = (env->diff[0] / cos(a)) * sin(a);
+	env->diff[3] = -1;
+	if (a > 0 && a < M_PI)
+		env->diff[3] = 1;
+	env->diff[2] = 0;
+	if (a != M_PI / 2 && a != (3 * M_PI / 2))
+		env->diff[2] = ((env->diff[3]) / sin(a)) * cos(a);
+	init_envi(env, a);
 	return ;
 }
 

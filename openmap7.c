@@ -6,7 +6,7 @@
 /*   By: labintei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 10:06:25 by labintei          #+#    #+#             */
-/*   Updated: 2021/05/06 01:11:03 by user42           ###   ########.fr       */
+/*   Updated: 2021/05/16 15:15:02 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,15 @@ void	ft_map_define_2(struct s_list *l, int *i)
 		i[1] = 0;
 		while (l->stock[i[0]] && l->stock[i[0]] != '\n')
 		{
-			i[1] = (ft_find(l->stock[i[0]], "012NSWE")) ? 1 : i[1];
+			if (ft_find(l->stock[i[0]], "012NSWE"))
+				i[1] = 1;
 			i[0]++;
 		}
-		i[0] += (l->stock[i[0]] == '\n' && i[1] == 1) ? 1 : 0;
+		if (l->stock[i[0]] == '\n' || i[1] == 1)
+			i[0] += 1;
 	}
-	i[0] -= (!(l->stock[i[0]])) ? 1 : 0;
+	if (!(l->stock[i[0]]))
+		i[0] -= 1;
 	while (l->stock[i[0]] && (l->stock[i[0]] == '\n' || l->stock[i[0]] == ' '))
 		i[0]--;
 	ft_map_cut(l, i[0]);
@@ -41,7 +44,8 @@ void	ft_map_define(struct s_list *l)
 		while (l->stock[i[0]] && l->stock[i[0]] != '\n' &&\
 		l->stock[i[0]] == ' ')
 			i[0]++;
-		i[1] = (l->stock[i[0]] != '\n') ? 1 : i[1];
+		if (l->stock[i[0]] != '\n')
+			i[1] = 1;
 		if (l->stock[i[0]] == '\n')
 		{
 			l->stock += i[0] + 1;

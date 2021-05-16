@@ -6,7 +6,7 @@
 /*   By: labintei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/13 12:48:04 by labintei          #+#    #+#             */
-/*   Updated: 2021/05/13 14:40:14 by labintei         ###   ########.fr       */
+/*   Updated: 2021/05/16 15:15:51 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,16 +29,19 @@ void		init_p(struct s_env *env)
 			{
 				env->play.x = i[1] + 0.5;
 				env->play.y = i[0] + 0.5;
-				env->play.pa = (env->l.map[i[0]][i[1]] == 'S') ? M_PI / 2 : 0;
-				env->play.pa = (env->l.map[i[0]][i[1]] == 'N') ? 3 * M_PI / 2\
-				: env->play.pa;
-				env->play.pa = (env->l.map[i[0]][i[1]] == 'W') ? M_PI :\
-				env->play.pa;
+				env->play.pa = 0;
+				if (env->l.map[i[0]][i[1]] == 'S')
+					env->play.pa = M_PI / 2;
+				if (env->l.map[i[0]][i[1]] == 'N')
+					env->play.pa = 3 * M_PI / 2;
+				if (env->l.map[i[0]][i[1]] == 'W')
+					env->play.pa = M_PI;
 				env->l.map[i[0]][i[1]] = '0';
 			}
 	}
-	env->pas = (env->l.r[1] / env->ymax < (env->l.r[0] / env->xmax)) ?\
-	(env->l.r[1] / env->ymax) / 2 : (env->l.r[0] / env->xmax) / 2;
+	env->pas = (env->l.r[0] / env->xmax) / 2;
+	if (env->l.r[1] / env->ymax < (env->l.r[0] / env->xmax))
+		env->pas = (env->l.r[1] / env->ymax) / 2;
 }
 
 void		draw_minimap(struct s_env *env)
@@ -53,12 +56,12 @@ void		draw_minimap(struct s_env *env)
 		x = -1;
 		while (env->l.map[y][++x])
 		{
-			env->c = (env->l.map[y][x] == '1') ? \
-			create_trtgb(0, 150, 180, 201) : env->c;
-			env->c = (env->l.map[y][x] == '2') ? \
-			create_trtgb(0, 250, 180, 121) : env->c;
-			env->c = (env->l.map[y][x] == '0') ? \
-			create_trtgb(0, 21, 80, 50) : env->c;
+			if (env->l.map[y][x] == '1')
+				env->c = create_trtgb(0, 150, 180, 201);
+			if (env->l.map[y][x] == '2')
+				env->c = create_trtgb(0, 250, 180, 121);
+			if (env->l.map[y][x] == '0')
+				env->c = create_trtgb(0, 21, 80, 50);
 			drawcarre(x * env->pas, y * env->pas, env->pas, env);
 		}
 	}
@@ -73,8 +76,10 @@ char		checkbe(struct s_list *l, struct s_params *i)
 	void		*k;
 
 	mlx_get_screen_size(i->mlx, &r[0], &r[1]);
-	l->r[0] = (r[0] < l->r[0] || l->r[0] < 0) ? r[0] : l->r[0];
-	l->r[1] = (r[1] < l->r[1] || l->r[1] < 0) ? r[1] : l->r[1];
+	if (r[0] < l->r[0] || l->r[0] <= 0)
+		l->r[0] = r[0];
+	if (r[1] < l->r[1] || l->r[1] <= 0)
+		l->r[1] = r[1];
 	if ((l->f[0] > 255 || l->f[1] > 255 || l->f[2] > 255) || \
 	(l->f[0] > 255 || l->f[1] > 255 || l->f[2] > 255) || \
 	(!(k = mlx_xpm_file_to_image(i->mlx, l->s, &r[0], &r[1]))))

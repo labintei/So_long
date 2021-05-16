@@ -6,7 +6,7 @@
 /*   By: labintei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 10:06:25 by labintei          #+#    #+#             */
-/*   Updated: 2021/05/15 14:47:19 by labintei         ###   ########.fr       */
+/*   Updated: 2021/05/16 15:20:18 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,8 @@ void	ft_map_cut(struct s_list *l, int j)
 	y[3] = 0;
 	y[4] = -1;
 	while (l->stock[++y[4]] && y[4] <= j)
-		y[2] += (l->stock[y[4]] == '\n') ? 1 : 0;
+		if (l->stock[y[4]] == '\n')
+			y[2]++;
 	y[4] = -1;
 	while (l->stock[y[4]] && y[4] <= j)
 	{
@@ -52,8 +53,10 @@ void	ft_map_cut(struct s_list *l, int j)
 		while (l->stock[++y[4]] && l->stock[y[4]] == ' ' && l->stock[y[4]]\
 		!= '\n' && y[4] <= j)
 			y[3]++;
-		y[3] = (y[3] < 0) ? 0 : y[3];
-		y[0] = ((y[3] < y[0]) || y[0] == -1) ? y[3] : y[0];
+		if (y[3] < 0)
+			y[3] = 0;
+		if ((y[3] < y[0]) || y[0] == -1)
+			y[0] = y[3];
 		while (l->stock[y[4]] && l->stock[y[4]] != '\n' && y[4] <= j)
 			y[4]++;
 	}
@@ -119,6 +122,7 @@ int		main(int argc, char **argv)
 	while ((s[i[0] - i[1]]) == ((argv[1])[i[0]]) && (s[i[0] - i[1]] && \
 	(argv[1][i[0]])))
 		i[0]++;
-	return ((s[i[0] - i[1]] == argv[1][i[0]] && s[i[0] - i[1]] == '\0') ?\
-	(main_bis(&env, argv)) : (ft_putstr_err("Error not follow by a .cub \n")));
+	if (s[i[0] - i[1]] == argv[1][i[0]] && s[i[0] - i[1]] == '\0')
+		return (main_bis(&env, argv));
+	return (ft_putstr_err("Error not follow by a .cub \n"));
 }

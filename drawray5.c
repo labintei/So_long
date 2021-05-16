@@ -6,37 +6,25 @@
 /*   By: labintei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/26 10:50:11 by labintei          #+#    #+#             */
-/*   Updated: 2021/05/15 16:25:10 by labintei         ###   ########.fr       */
+/*   Updated: 2021/05/16 15:16:35 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "map.h"
 
-void		f_compare(struct s_env *env, double *i, double a)
+void		f_compare(struct s_env *env, double *i, char *c, double a)
 {
 	double		r[4];
 
 	r[0] = a;
-	if (h(env, i[2], i[3]) < h(env, i[0], i[1]) || a == 0 || a == M_PI)
-	{
-		env->c = (i[2] > env->play.x) ? 0 : 1;
-		r[1] = (h(env, i[2], i[3]));
-		r[2] = i[2];
-		r[3] = i[3];
-		drawcol1(env, r);
-		return (dray_angle_sprite(env, r[1]));
-	}
-	if (h(env, i[2], i[3]) >= h(env, i[0], i[1])\
-	|| a == env->var[3] || a == env->var[4])
-	{
-		env->c = (i[1] > env->play.y) ? 2 : 3;
-		r[1] = (h(env, i[0], i[1]));
-		r[2] = i[0];
-		r[3] = i[1];
-		drawcol1(env, r);
-		return (dray_angle_sprite(env, r[1]));
-	}
-	return ;
+	if (c[0] == 2 && c[1] == 2 && (fabs(i[0] - env->play.x) + fabs(i[1] - \
+	env->play.y)) > (fabs(i[2] - env->play.x) + fabs(i[3] - env->play.y)))
+		c[0] = 0;
+	else if (c[0] == 2 && c[1] == 2)
+		c[1] = 0;
+	couleur_r(r, i, env, c);
+	drawcol1(env, r);
+	return (dray_angle_sprite(env, r[1]));
 }
 
 void		drawcol1(struct s_env *env, double *r)
@@ -103,8 +91,10 @@ void		drawfov_bis(struct s_env *env)
 	double	angle;
 	int		n;
 
-	env->play.pa += (env->play.pa < 0) ? 2 * M_PI : 0;
-	env->play.pa -= (env->play.pa > 2 * M_PI) ? 2 * M_PI : 0;
+	if (env->play.pa < 0)
+		env->play.pa += 2 * M_PI;
+	if (env->play.pa > 2 * M_PI)
+		env->play.pa -= 2 * M_PI;
 	env->nbray = 0;
 	angle = env->play.pa - M_PI / 4;
 	while (env->nbray <= env->l.r[0] / 2)
@@ -120,5 +110,4 @@ void		drawfov_bis(struct s_env *env)
 		env->nbray++;
 		angle += fabs(env->fov[--n]);
 	}
-	return ;
 }
