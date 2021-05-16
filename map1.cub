@@ -1,10 +1,10 @@
-R 1511110 11510
+R 1500 1500
 NO ./sprite/1.xpm
 SO ./sprite/mur1.xpm
 WE ./sprite/a4.xpm
 EA ./sprite/a5.xpm
 S ./sprite/2.xpm
-F 100,100,100
+F 10,100,100
 C 225,60,230
 
 

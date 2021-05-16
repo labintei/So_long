@@ -6,7 +6,7 @@
 /*   By: labintei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 10:12:07 by labintei          #+#    #+#             */
-/*   Updated: 2021/05/16 15:08:08 by user42           ###   ########.fr       */
+/*   Updated: 2021/05/16 22:51:58 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,8 @@ typedef struct	s_env
 	double		*fov;
 }				t_env;
 
+char			checkbe_bis(struct s_list *l, struct s_params *i, int *r);
+void			init_angle(struct s_env *env, int *i);
 void			couleur_r(double *r, double *i, struct s_env *env, char *c);
 void			init_p(struct s_env *env);
 int				key_press(int keycode, struct s_env *env);
@@ -129,7 +131,7 @@ void			drawray(struct s_env *env);
 void			ft_map_cut_2(struct s_list *l, int *y, int j);
 void			draw_minimap(struct s_env *env);
 void			ft_dir_bis(struct s_list *l, char *c, char *t);
-void			stock_number(char *s, int *i, int *val);
+void			stock_number(char *s, int *i, int *val, char c);
 int				treat_map_1(struct s_list *l, int *i, int *j);
 int				open_window(struct s_env	*env);
 int				create_trtgb(int t, int r, int g, int b);

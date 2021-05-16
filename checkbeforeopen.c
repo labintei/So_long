@@ -6,7 +6,7 @@
 /*   By: labintei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/13 12:48:04 by labintei          #+#    #+#             */
-/*   Updated: 2021/05/16 15:15:51 by user42           ###   ########.fr       */
+/*   Updated: 2021/05/16 23:26:04 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,7 @@ void		init_p(struct s_env *env)
 				env->play.x = i[1] + 0.5;
 				env->play.y = i[0] + 0.5;
 				env->play.pa = 0;
-				if (env->l.map[i[0]][i[1]] == 'S')
-					env->play.pa = M_PI / 2;
-				if (env->l.map[i[0]][i[1]] == 'N')
-					env->play.pa = 3 * M_PI / 2;
-				if (env->l.map[i[0]][i[1]] == 'W')
-					env->play.pa = M_PI;
-				env->l.map[i[0]][i[1]] = '0';
+				init_angle(env, i);
 			}
 	}
 	env->pas = (env->l.r[0] / env->xmax) / 2;
@@ -75,11 +69,8 @@ char		checkbe(struct s_list *l, struct s_params *i)
 	int			r[2];
 	void		*k;
 
-	mlx_get_screen_size(i->mlx, &r[0], &r[1]);
-	if (r[0] < l->r[0] || l->r[0] <= 0)
-		l->r[0] = r[0];
-	if (r[1] < l->r[1] || l->r[1] <= 0)
-		l->r[1] = r[1];
+	if (!(checkbe_bis(l, i, r)))
+		return (0);
 	if ((l->f[0] > 255 || l->f[1] > 255 || l->f[2] > 255) || \
 	(l->f[0] > 255 || l->f[1] > 255 || l->f[2] > 255) || \
 	(!(k = mlx_xpm_file_to_image(i->mlx, l->s, &r[0], &r[1]))))

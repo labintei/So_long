@@ -6,7 +6,7 @@
 /*   By: labintei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/26 10:50:11 by labintei          #+#    #+#             */
-/*   Updated: 2021/05/16 15:16:35 by user42           ###   ########.fr       */
+/*   Updated: 2021/05/16 19:33:24 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,9 @@ void		drawcol1(struct s_env *env, double *r)
 	i[0] = (env->l.r[1] / 2) - (hmur / 2);
 	i[1] = (env->l.r[1] / 2) + (hmur / 2);
 	if (env->c == 0 || env->c == 1)
-		drawcols(env, i, r[3]);
-	else
 		drawcols(env, i, r[2]);
+	else
+		drawcols(env, i, r[3]);
 	return ;
 }
 

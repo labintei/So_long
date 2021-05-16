@@ -6,7 +6,7 @@
 /*   By: labintei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/26 10:50:11 by labintei          #+#    #+#             */
-/*   Updated: 2021/05/16 15:11:59 by user42           ###   ########.fr       */
+/*   Updated: 2021/05/16 23:50:31 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,18 +16,18 @@ void		couleur_r(double *r, double *i, struct s_env *env, char *c)
 {
 	if (c[1] == 2)
 	{
-		env->c = 1;
+		env->c = 2;
 		if (i[2] > env->play.x)
-			env->c = 0;
+			env->c = 3;
 		r[1] = (h(env, i[2], i[3]));
 		r[2] = i[2];
 		r[3] = i[3];
 	}
-	else
+	if (c[0] == 2)
 	{
-		env->c = 2;
+		env->c = 0;
 		if (i[1] > env->play.y)
-			env->c = 3;
+			env->c = 1;
 		r[1] = (h(env, i[0], i[1]));
 		r[2] = i[0];
 		r[3] = i[1];
@@ -91,57 +91,55 @@ void		ft_number(struct s_list *l, char *s, int *i)
 {
 	int		z[5];
 
-	z[4] = 0;
 	if (s[*i] == 'R')
 	{
-		stock_number(s, i, &(l->r[z[4]]));
-		z[4]++;
-		stock_number(s, i, &(l->r[z[4]]));
+		++(*i);
+		stock_number(s, i, &(l->r[0]), 0);
+		stock_number(s, i, &(l->r[1]), 0);
 	}
 	if ((s[*i] == 'C' || s[*i] == 'F') && (s[*i]))
 	{
 		z[3] = (int)(s[*i]);
+		(*i)++;
+		while (s[(*i)] == ' ')
+			(*i)++;
+		stock_number(s, i, &(z[0]), 1);
+		stock_number(s, i, &(z[1]), 1);
+		stock_number(s, i, &(z[2]), 1);
 		z[4] = -1;
-		while (s[*i] && ++z[4] <= 2)
-			stock_number(s, i, &(z[z[4]]));
-		z[4] = -1;
-		while (++z[4] <= 2 && z[z[4]])
-		{
-			if ((char)z[3] == 'F')
-				l->f[z[4]] = z[z[4]];
-			else
-				l->c[z[4]] = z[z[4]];
-		}
+		while (((char)z[3] == 'F') && ++z[4] <= 2 && z[z[4]])
+			l->f[z[4]] = z[z[4]];
+		while ((char)z[3] == 'C' && ++z[4] <= 2 && z[z[4]])
+			l->c[z[4]] = z[z[4]];
 	}
 	l->n += 1;
 }
 
 char		check_map(struct s_list *l)
 {
-	int		i;
-	int		j;
-	char	u;
+	int		c[3];
 
-	u = 0;
-	i = -1;
-	while (l->map[++i])
+	c[2] = 0;
+	c[0] = -1;
+	while (l->map[++c[0]])
 	{
-		j = -1;
-		while (l->map[i][++j])
+		c[1] = -1;
+		while (l->map[c[0]][++c[1]])
 		{
-			if (ft_find(l->map[i][j], "02NSWE"))
+			if (ft_find(l->map[c[0]][c[1]], "02NSWE"))
 			{
-				if (j == 0 || (!(l->map[i][j + 1])) || i == 0 || \
-				!(l->map[i + 1]) || (!(ft_find(l->map[i][j + 1], "012NSWE"))) \
-				|| (!(ft_find(l->map[i][j + 1], "012NSWE"))) || \
-				(!(ft_find(l->map[i + 1][j], "012NSWE"))) || \
-				(!(ft_find(l->map[i - 1][j], "012NSWE"))))
+				if (c[1] == 0 || (!(l->map[c[0]][c[1] + 1])) || c[0] == 0 || \
+				!(l->map[c[0] + 1]) || (!(ft_find(l->map[c[0]][c[1]\
+				+ 1], "012NSWE"))) || (!(ft_find(l->map[c[0]][c[1] + 1],\
+				"012NSWE"))) || (!(ft_find(l->map[c[0] + 1][c[1]], "012NSWE")))\
+				|| (!(ft_find(l->map[c[0] - 1][c[1]], "012NSWE"))))
 					return (0);
-				u += (ft_find(l->map[i][j], "NSWE")) ? 1 : 0;
+				if (ft_find(l->map[c[0]][c[1]], "NSWE"))
+					c[2] += 1;
 			}
 		}
 	}
-	if (u > 1 || u == 0)
+	if (c[2] > 1 || c[2] == 0)
 		return (0);
 	return (1);
 }

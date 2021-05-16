@@ -1,8 +1,8 @@
 R 2000 1280
 NO ./sprite/mur.xpm
 SO ./sprite/mur.xpm
-WE ./sprite/mur1.xpm
-EA ./sprite/mur3.xpm
+WE ./sprite/mur.xpm
+EA ./sprite/mur.xpm
 S ./sprite/2.xpm
 F 220,100,2
 C 225,30,2
