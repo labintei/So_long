@@ -6,13 +6,13 @@
 /*   By: labintei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/26 10:50:11 by labintei          #+#    #+#             */
-/*   Updated: 2021/05/16 23:50:31 by user42           ###   ########.fr       */
+/*   Updated: 2021/05/17 12:02:18 by labintei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "map.h"
 
-void		couleur_r(double *r, double *i, struct s_env *env, char *c)
+void	couleur_r(double *r, double *i, struct s_env *env, char *c)
 {
 	if (c[1] == 2)
 	{
@@ -34,7 +34,7 @@ void		couleur_r(double *r, double *i, struct s_env *env, char *c)
 	}
 }
 
-void		checkboth_mur(struct s_env *env, char *c, double a, double *i)
+void	checkboth_mur(struct s_env *env, char *c, double a, double *i)
 {
 	if (c[0] == 0)
 	{
@@ -58,7 +58,7 @@ void		checkboth_mur(struct s_env *env, char *c, double a, double *i)
 		checkboth_mur(env, c, a, i);
 }
 
-void		dray(struct s_env *env, double a)
+void	dray(struct s_env *env, double a)
 {
 	double	i[5];
 	char	c[2];
@@ -87,7 +87,7 @@ void		dray(struct s_env *env, double a)
 	f_compare(env, i, c, a);
 }
 
-void		ft_number(struct s_list *l, char *s, int *i)
+void	ft_number(struct s_list *l, char *s, int *i)
 {
 	int		z[5];
 
@@ -115,7 +115,7 @@ void		ft_number(struct s_list *l, char *s, int *i)
 	l->n += 1;
 }
 
-char		check_map(struct s_list *l)
+char	check_map(struct s_list *l)
 {
 	int		c[3];
 
@@ -128,10 +128,10 @@ char		check_map(struct s_list *l)
 		{
 			if (ft_find(l->map[c[0]][c[1]], "02NSWE"))
 			{
-				if (c[1] == 0 || (!(l->map[c[0]][c[1] + 1])) || c[0] == 0 || \
-				!(l->map[c[0] + 1]) || (!(ft_find(l->map[c[0]][c[1]\
-				+ 1], "012NSWE"))) || (!(ft_find(l->map[c[0]][c[1] + 1],\
-				"012NSWE"))) || (!(ft_find(l->map[c[0] + 1][c[1]], "012NSWE")))\
+				if (c[1] == 0 || (!(l->map[c[0]][c[1] + 1])) || c[0] == 0 \
+				|| !(l->map[c[0] + 1]) || (!(ft_find(l->map[c[0]][c[1] + 1], \
+				"012NSWE"))) || (!(ft_find(l->map[c[0]][c[1] + 1], "012NSWE"\
+					))) || (!(ft_find(l->map[c[0] + 1][c[1]], "012NSWE"))) \
 				|| (!(ft_find(l->map[c[0] - 1][c[1]], "012NSWE"))))
 					return (0);
 				if (ft_find(l->map[c[0]][c[1]], "NSWE"))

@@ -6,13 +6,13 @@
 /*   By: labintei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/13 12:48:04 by labintei          #+#    #+#             */
-/*   Updated: 2021/05/16 23:26:04 by user42           ###   ########.fr       */
+/*   Updated: 2021/05/17 12:30:09 by labintei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "map.h"
 
-void		init_p(struct s_env *env)
+void	init_p(struct s_env *env)
 {
 	int		i[2];
 
@@ -25,6 +25,7 @@ void		init_p(struct s_env *env)
 	{
 		i[1] = -1;
 		while (++i[1] < env->xmax)
+		{
 			if (ft_find(env->l.map[i[0]][i[1]], "NSWE"))
 			{
 				env->play.x = i[1] + 0.5;
@@ -32,13 +33,14 @@ void		init_p(struct s_env *env)
 				env->play.pa = 0;
 				init_angle(env, i);
 			}
+		}
 	}
 	env->pas = (env->l.r[0] / env->xmax) / 2;
 	if (env->l.r[1] / env->ymax < (env->l.r[0] / env->xmax))
 		env->pas = (env->l.r[1] / env->ymax) / 2;
 }
 
-void		draw_minimap(struct s_env *env)
+void	draw_minimap(struct s_env *env)
 {
 	int		x;
 	int		y;
@@ -64,7 +66,15 @@ void		draw_minimap(struct s_env *env)
 	return ;
 }
 
-char		checkbe(struct s_list *l, struct s_params *i)
+char	check(void *k, struct s_list *l, struct s_params *i, char **s)
+{
+	k = mlx_xpm_file_to_image(i->mlx, *s, &(l->r[0]), &(l->r[1]));
+	if (!k)
+		return (0);
+	return (1);
+}
+
+char	checkbe(struct s_list *l, struct s_params *i)
 {
 	int			r[2];
 	void		*k;
@@ -72,57 +82,52 @@ char		checkbe(struct s_list *l, struct s_params *i)
 	if (!(checkbe_bis(l, i, r)))
 		return (0);
 	if ((l->f[0] > 255 || l->f[1] > 255 || l->f[2] > 255) || \
-	(l->f[0] > 255 || l->f[1] > 255 || l->f[2] > 255) || \
-	(!(k = mlx_xpm_file_to_image(i->mlx, l->s, &r[0], &r[1]))))
+	(l->f[0] > 255 || l->f[1] > 255 || l->f[2] > 255))
 		return (0);
-	mlx_destroy_image(i->mlx, k);
-	if ((!(k = mlx_xpm_file_to_image(i->mlx, l->so, &r[0], &r[1]))))
-		return (0);
-	mlx_destroy_image(i->mlx, k);
-	if ((!(k = mlx_xpm_file_to_image(i->mlx, l->we, &r[0], &r[1]))))
-		return (0);
-	mlx_destroy_image(i->mlx, k);
-	if ((!(k = mlx_xpm_file_to_image(i->mlx, l->ea, &r[0], &r[1]))))
-		return (0);
-	mlx_destroy_image(i->mlx, k);
-	if ((!(k = mlx_xpm_file_to_image(i->mlx, l->no, &r[0], &r[1]))))
+	if (!(check(k, l, i, &(l->s))) || !(check(k, l, i, &(l->no)) || \
+				!(check(k, l, i, &(l->so))) || !(check(k, l, i, &(l->ea))) \
+				|| !(check(k, l, i, &(l->we)))))
 		return (0);
 	mlx_destroy_image(i->mlx, k);
 	return (1);
 }
 
-int			f_key(struct s_env *env)
+int	f_key(struct s_env *env)
 {
 	double	i[4];
 
 	init_spe(env, i);
 	if (env->key[0])
-		if (env->l.map[(int)(env->play.y - i[3])]\
-		[(int)(env->play.x - i[2])] != '1')
+	{
+		if ((env->l.map[(int)(env->play.y - i[3])][(int)(env->play.x - i[2])] \
+			) != '1')
 		{
 			env->play.x -= i[2];
 			env->play.y -= i[3];
 		}
+	}
 	if (env->key[2])
-		if (env->l.map[(int)(env->play.y + i[3])]\
-		[(int)(env->play.x + i[2])] != '1')
+	{
+		if (env->l.map[(int)(env->play.y + i[3])] \
+		 [(int)(env->play.x + i[2])] != '1')
 		{
 			env->play.x += i[2];
 			env->play.y += i[3];
 		}
+	}
 	return (1);
 }
 
-int			open_window(struct s_env	*env)
+int	open_window(struct s_env	*env)
 {
 	env->p.mlx = mlx_init();
 	if (checkbe(&(env->l), &(env->p)))
 	{
 		if (env->save != 1)
-			env->p.mlx_win = mlx_new_window(env->p.mlx, env->l.r[0],\
+			env->p.mlx_win = mlx_new_window(env->p.mlx, env->l.r[0], \
 			env->l.r[1], "F");
 		env->i.img = mlx_new_image(env->p.mlx, env->l.r[0], env->l.r[1]);
-		env->i.addr = mlx_get_data_addr(env->i.img, &(env->i.bits_per_pixels),\
+		env->i.addr = mlx_get_data_addr(env->i.img, &(env->i.bits_per_pixels), \
 		&(env->i.line_lenght), &(env->i.endian));
 		f_load_texture(env);
 		stock_drawfov(env);

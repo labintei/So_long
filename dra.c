@@ -6,13 +6,13 @@
 /*   By: labintei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/01 11:41:40 by labintei          #+#    #+#             */
-/*   Updated: 2021/05/16 15:04:33 by user42           ###   ########.fr       */
+/*   Updated: 2021/05/17 12:07:28 by labintei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "map.h"
 
-void		tri_w(struct s_env *env, double **w, int n)
+void	tri_w(struct s_env *env, double **w, int n)
 {
 	double	temp[2];
 	int		d[2];
@@ -41,17 +41,17 @@ void		tri_w(struct s_env *env, double **w, int n)
 	return ;
 }
 
-void		print_w(struct s_env *env, double *w)
+void	print_w(struct s_env *env, double *w)
 {
 	int		i[2];
 	double	dist;
 	double	d;
 	double	hmur;
 
-	d = sqrt(pow(fabs(w[0] - (int)w[0]) - (1 - fabs((1 - env->sp[2]) / 2)), 2)\
-	+ pow(fabs(w[1] - (int)w[1]) - \
+	d = sqrt(pow(fabs(w[0] - (int)w[0]) - (1 - fabs((1 - env->sp[2]) / \
+						2)), 2) + pow(fabs(w[1] - (int)w[1]) - \
 	(1 - fabs((1 - env->sp[3]) / 2)), 2));
-	dist = sqrt(pow(w[0] - env->play.x, 2) + pow(w[1] - env->play.y, 2)) *\
+	dist = sqrt(pow(w[0] - env->play.x, 2) + pow(w[1] - env->play.y, 2)) * \
 	env->sp[4];
 	hmur = (double)env->l.r[1] / (dist);
 	i[0] = (env->l.r[1] / 2) - (hmur / 2);
@@ -63,7 +63,7 @@ void		print_w(struct s_env *env, double *w)
 	return ;
 }
 
-void		stock_w(struct s_env *env, double **w, double *i)
+void	stock_w(struct s_env *env, double **w, double *i)
 {
 	double		j[5];
 
@@ -76,9 +76,9 @@ void		stock_w(struct s_env *env, double **w, double *i)
 		j[0] = i[0];
 		j[1] = i[1];
 	}
-	j[3] = ((env->play.y * env->sp[0] - env->play.x * env->sp[1]) * env->sp[2]\
-	- (env->sp[0] * (((int)j[1] + 0.5) * env->sp[2] - ((int)j[0] + 0.5) *\
-	env->sp[3]))) / env->de;
+	j[3] = ((env->play.y * env->sp[0] - env->play.x * env->sp[1]) * \
+			env->sp[2] - (env->sp[0] * (((int)j[1] + 0.5) * env->sp[2] - \
+					((int)j[0] + 0.5) * env->sp[3]))) / env->de;
 	j[4] = (-env->sp[1] * (((int)j[1] + 0.5) * env->sp[2] - ((int)j[0] + \
 	0.5) * env->sp[3]) + (env->play.y * env->sp[0] - env->play.x * \
 	env->sp[1]) * env->sp[3]) / env->de;
@@ -92,7 +92,7 @@ void		stock_w(struct s_env *env, double **w, double *i)
 	(i[4])++;
 }
 
-void		checkboth(struct s_env *env, double *i, double **w)
+void	checkboth(struct s_env *env, double *i, double **w)
 {
 	i[6] = -1;
 	ajout_diff(env, i);
@@ -107,7 +107,7 @@ void		checkboth(struct s_env *env, double *i, double **w)
 	return ;
 }
 
-void		dray_angle_sprite(struct s_env *env, double d)
+void	dray_angle_sprite(struct s_env *env, double d)
 {
 	double	i[7];
 	double	**w;
@@ -116,7 +116,8 @@ void		dray_angle_sprite(struct s_env *env, double d)
 	i[5] = d;
 	i[6] = -1;
 	env->de = (env->sp[0] * env->sp[3] - (env->sp[2] * env->sp[1]));
-	if (!(w = malloc(sizeof(double *) * (2 * (ceil(d + 1))))))
+	w = malloc(sizeof(double *) * (2 * (ceil(d + 1))));
+	if (!(w))
 		return ;
 	init_i(env, i);
 	if (h(env, i[0], i[1]) < d && env->l.map[(int)i[1]][(int)i[0]] == '2')

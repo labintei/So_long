@@ -6,13 +6,13 @@
 /*   By: labintei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/27 14:40:24 by labintei          #+#    #+#             */
-/*   Updated: 2021/05/16 15:00:15 by user42           ###   ########.fr       */
+/*   Updated: 2021/05/17 11:08:58 by labintei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "map.h"
 
-int			destroy_ta_vie(struct s_env		*env)
+int	destroy_ta_vie(struct s_env		*env)
 {
 	mlx_destroy_image(env->p.mlx, env->t[0].img);
 	mlx_destroy_image(env->p.mlx, env->t[1].img);
@@ -25,7 +25,7 @@ int			destroy_ta_vie(struct s_env		*env)
 	return (1);
 }
 
-void		write_header(struct s_env *env, int fd, int *u)
+void	write_header(struct s_env *env, int fd, int *u)
 {
 	write(fd, &env->l.r[0], 4);
 	write(fd, &env->l.r[1], 4);
@@ -54,13 +54,13 @@ void		write_header(struct s_env *env, int fd, int *u)
 	}
 }
 
-int			bmp_save_file(struct s_env *env)
+int	bmp_save_file(struct s_env *env)
 {
 	int		fd;
 	int		u[5];
 
-	if ((fd = open("cube3d.bmp", O_WRONLY | O_CREAT | O_TRUNC, S_IRUSR | \
-	S_IWUSR)) < 0)
+	fd = open("cube3d.bmp", O_WRONLY | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR);
+	if (fd < 0)
 		return (ft_putstr_err("Error fail to open a BMP_file \n"));
 	u[4] = 1;
 	u[3] = (env->l.r[0] * env->l.r[1]);
@@ -78,7 +78,7 @@ int			bmp_save_file(struct s_env *env)
 	return (1);
 }
 
-void		ft_dir(struct s_list *l, char *s, int *i)
+void	ft_dir(struct s_list *l, char *s, int *i)
 {
 	char	*t;
 	char	c[2];
@@ -104,7 +104,7 @@ void		ft_dir(struct s_list *l, char *s, int *i)
 	free(t);
 }
 
-void		ft_dir_bis(struct s_list *l, char *c, char *t)
+void	ft_dir_bis(struct s_list *l, char *c, char *t)
 {
 	l->n++;
 	if (c[0] == 'N' && c[1] == 'O' && (!(l->no)))

@@ -6,27 +6,27 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/04 15:44:26 by user42            #+#    #+#             */
-/*   Updated: 2021/05/07 17:55:16 by user42           ###   ########.fr       */
+/*   Updated: 2021/05/17 11:31:32 by labintei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "map.h"
 
-int			create_trtgb(int t, int r, int g, int b)
+int	create_trtgb(int t, int r, int g, int b)
 {
 	return (t << 24 | r << 16 | g << 8 | b);
 }
 
-void		my_put_pixel(struct s_img *i, int x, int y, int color)
+void	my_put_pixel(struct s_img *i, int x, int y, int color)
 {
 	char	*dest;
 
 	dest = i->addr + (y * i->line_lenght + x * (i->bits_per_pixels / 8));
-	*(unsigned int*)dest = color;
+	*(unsigned int *)dest = color;
 	return ;
 }
 
-int			index_color(int x, int y, struct s_texture *text)
+int	index_color(int x, int y, struct s_texture *text)
 {
 	int		index;
 
@@ -34,7 +34,7 @@ int			index_color(int x, int y, struct s_texture *text)
 	return (((int *)text->addr)[index / 4]);
 }
 
-void		f_load_texture(struct s_env *env)
+void	f_load_texture(struct s_env *env)
 {
 	env->t[0].img = mlx_xpm_file_to_image(env->p.mlx, env->l.no, \
 	&(env->t[0].width), &(env->t[0].height));
@@ -61,7 +61,7 @@ void		f_load_texture(struct s_env *env)
 	return ;
 }
 
-int			ft_putstr_err(char *s)
+int	ft_putstr_err(char *s)
 {
 	int		i;
 

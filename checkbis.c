@@ -6,13 +6,13 @@
 /*   By: labintei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/13 12:48:04 by labintei          #+#    #+#             */
-/*   Updated: 2021/05/16 23:26:49 by user42           ###   ########.fr       */
+/*   Updated: 2021/05/17 12:09:44 by labintei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "map.h"
 
-void		stock_number(char *s, int *i, int *val, char c)
+void	stock_number(char *s, int *i, int *val, char c)
 {
 	*val = 0;
 	while (s[(*i)] == ' ' && c == 0)
@@ -29,7 +29,7 @@ void		stock_number(char *s, int *i, int *val, char c)
 	}
 }
 
-char		ft_find(char c, char *s)
+char	ft_find(char c, char *s)
 {
 	while (*s)
 	{
@@ -40,18 +40,18 @@ char		ft_find(char c, char *s)
 	return (0);
 }
 
-double		h(struct s_env *env, double x, double y)
+double	h(struct s_env *env, double x, double y)
 {
 	return (sqrt(pow(x - env->play.x, 2) + pow(y - env->play.y, 2)));
 }
 
-void		drawcarre(int x, int y, int largeur, struct s_env *env)
+void	drawcarre(int x, int y, int largeur, struct s_env *env)
 {
 	int		a;
 	int		b;
 
-	if (x >= 0 && y >= 0 && (x + largeur) < env->l.r[0] && (y + largeur) <\
-	env->l.r[1])
+	if (x >= 0 && y >= 0 && (x + largeur) < env->l.r[0] && (y + largeur) < \
+			env->l.r[1])
 	{
 		a = -1;
 		while (++a < largeur)
@@ -64,7 +64,7 @@ void		drawcarre(int x, int y, int largeur, struct s_env *env)
 	return ;
 }
 
-int			print_background(struct s_env	*env)
+int	print_background(struct s_env *env)
 {
 	t(env);
 	mlx_put_image_to_window(env->p.mlx, env->p.mlx_win, env->i.img, 0, 0);

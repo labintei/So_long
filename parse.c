@@ -6,13 +6,13 @@
 /*   By: labintei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 10:06:25 by labintei          #+#    #+#             */
-/*   Updated: 2021/05/16 23:33:12 by user42           ###   ########.fr       */
+/*   Updated: 2021/05/17 11:41:33 by labintei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "map.h"
 
-void		ft_map_cut(struct s_list *l, int j)
+void	ft_map_cut(struct s_list *l, int j)
 {
 	int		y[5];
 
@@ -28,8 +28,8 @@ void		ft_map_cut(struct s_list *l, int j)
 	while (l->stock[y[4]] && y[4] <= j)
 	{
 		y[3] = 0;
-		while (l->stock[++y[4]] && l->stock[y[4]] == ' ' && l->stock[y[4]]\
-		!= '\n' && y[4] <= j)
+		while (l->stock[++y[4]] && l->stock[y[4]] == ' ' && l->stock[y[4]] !=\
+				'\n' && y[4] <= j)
 			y[3]++;
 		if (y[3] < 0)
 			y[3] = 0;
@@ -41,7 +41,7 @@ void		ft_map_cut(struct s_list *l, int j)
 	ft_map_cut_2(l, y, j);
 }
 
-void		ft_map_cut_2(struct s_list *l, int *y, int j)
+void	ft_map_cut_2(struct s_list *l, int *y, int j)
 {
 	y[4] = 0;
 	while (l->stock[y[4]] && y[4] <= j)
@@ -53,7 +53,8 @@ void		ft_map_cut_2(struct s_list *l, int *y, int j)
 			y[4]++;
 			y[3]++;
 		}
-		y[1] = (y[1] > y[3]) ? y[1] : y[3];
+		if (y[1] < y[3])
+			y[1] = y[3];
 		while (l->stock[y[4]] != '\n' && l->stock[y[4]] && y[4] <= j)
 			y[4]++;
 		if (l->stock[y[4]] == '\n' && y[4] <= j)
@@ -63,10 +64,11 @@ void		ft_map_cut_2(struct s_list *l, int *y, int j)
 	return ;
 }
 
-int			main_bis(struct s_env *env, char **s)
+int	main_bis(struct s_env *env, char **s)
 {
 	env->l.n = 0;
-	if ((env->l.fd = open(s[1], O_RDONLY)) < 0)
+	env->l.fd = open(s[1], O_RDONLY);
+	if (env->l.fd < 0)
 		return (ft_putstr_err("Error fail to open the map\n"));
 	if (treat_map(&(env->l)) == 0)
 		return (ft_putstr_err("Error wrong configuration of the map\n"));
@@ -75,7 +77,7 @@ int			main_bis(struct s_env *env, char **s)
 	return (ft_putstr_err("Error wrong configuration of the map\n"));
 }
 
-void		main_bis_bis(struct s_env *env, int *i, char **argv)
+void	main_bis_bis(struct s_env *env, int *i, char **argv)
 {
 	char	*sbis;
 
@@ -88,7 +90,7 @@ void		main_bis_bis(struct s_env *env, int *i, char **argv)
 		env->save = 0;
 }
 
-int			main(int argc, char **argv)
+int	main(int argc, char **argv)
 {
 	char				*s;
 	int					i[2];

@@ -6,7 +6,7 @@
 /*   By: labintei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 10:06:25 by labintei          #+#    #+#             */
-/*   Updated: 2021/05/16 15:15:02 by user42           ###   ########.fr       */
+/*   Updated: 2021/05/17 11:44:45 by labintei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,23 +80,25 @@ void	ft_put_map(struct s_list *l, int *y, int j)
 	i[0] = 0;
 	i[1] = 0;
 	i[2] = 0;
-	if (!(l->map = malloc(sizeof(char *) * (y[2] + 1))))
+	l->map = malloc(sizeof(char *) * (y[2] + 1));
+	if (!(l->map))
 		return ;
 	while (l->stock[i[1]] && i[1] <= j && i[0] <= y[2])
 	{
-		if (!(((l->map)[i[0]]) = (malloc(sizeof(char) * ((y[1] - y[0]) + 1)))))
+		l->map[i[0]] = malloc(sizeof(char) * ((y[1] - y[0]) + 1));
+		if (!(l->map)[i[0]])
 			return ;
 		i[1] += y[0] - 1;
 		i[2] = -1;
-		while (l->stock[++i[1]] && ++i[2] <= (y[1] - y[0]) && l->stock[i[1]]\
-		!= '\n' && i[1] <= j)
+		while (l->stock[++i[1]] && ++i[2] <= (y[1] - y[0]) && l->stock[i[1]] \
+				!= '\n' && i[1] <= j)
 			l->map[i[0]][i[2]] = l->stock[i[1]];
 		ft_put_map_1(l, y, j, i);
 	}
 	(l->map)[y[2]] = 0;
 }
 
-int		treat_map_1(struct s_list *l, int *i, int *j)
+int	treat_map_1(struct s_list *l, int *i, int *j)
 {
 	while (l->stock[*i] != '\0')
 	{

@@ -6,13 +6,13 @@
 /*   By: labintei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/26 10:50:11 by labintei          #+#    #+#             */
-/*   Updated: 2021/05/16 19:33:24 by user42           ###   ########.fr       */
+/*   Updated: 2021/05/17 11:52:12 by labintei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "map.h"
 
-void		f_compare(struct s_env *env, double *i, char *c, double a)
+void	f_compare(struct s_env *env, double *i, char *c, double a)
 {
 	double		r[4];
 
@@ -27,7 +27,7 @@ void		f_compare(struct s_env *env, double *i, char *c, double a)
 	return (dray_angle_sprite(env, r[1]));
 }
 
-void		drawcol1(struct s_env *env, double *r)
+void	drawcol1(struct s_env *env, double *r)
 {
 	double	hmur;
 	int		i[2];
@@ -44,7 +44,7 @@ void		drawcol1(struct s_env *env, double *r)
 	return ;
 }
 
-void		dvarconst(struct s_env *env)
+void	dvarconst(struct s_env *env)
 {
 	env->sp[2] = cos(env->play.pa + M_PI / 2);
 	env->sp[3] = sin(env->play.pa + M_PI / 2);
@@ -57,21 +57,22 @@ void		dvarconst(struct s_env *env)
 	return ;
 }
 
-void		stock_drawfov(struct s_env *env)
+void	stock_drawfov(struct s_env *env)
 {
-	double	i[2];
-	int		n;
+	double	i[3];
 	double	*l;
+	int		n;
 
 	l = malloc(sizeof(double) * (((int)(env->l.r[0] / 2)) + 2));
 	init_p(env);
-	if (!l || !(env->fov = malloc(sizeof(double) * ((env->l.r[0] / 2) + 2))))
+	env->fov = malloc(sizeof(double) * ((env->l.r[0] / 2) + 2));
+	if (!l || !(env->fov))
 		return ;
 	i[1] = M_PI / 4;
 	l[0] = 0;
 	n = 0;
 	i[0] = env->l.r[0] / (2 * tan(M_PI / 4));
-	while (n <= (env->l.r[0] / 2))
+	while (i[2] <= (env->l.r[0] / 2))
 	{
 		n++;
 		l[n] = i[1] - fabs((atan(abs(((int)env->l.r[0] / 2) - n) / i[0])));
@@ -80,13 +81,13 @@ void		stock_drawfov(struct s_env *env)
 	n = -1;
 	while (++n <= ((int)(env->l.r[0] / 2)))
 	{
-		env->fov[n] = l[n];
+		env->fov[(int)i[2]] = l[n];
 		l[n] = 0;
 	}
 	free(l);
 }
 
-void		drawfov_bis(struct s_env *env)
+void	drawfov_bis(struct s_env *env)
 {
 	double	angle;
 	int		n;

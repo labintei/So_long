@@ -6,13 +6,13 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/04 15:56:03 by user42            #+#    #+#             */
-/*   Updated: 2021/05/16 23:39:05 by user42           ###   ########.fr       */
+/*   Updated: 2021/05/17 11:37:30 by labintei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "map.h"
 
-void		drawcol_sprite(struct s_env *env, int *i, double d)
+void	drawcol_sprite(struct s_env *env, int *i, double d)
 {
 	double	c[3];
 	int		start;
@@ -34,7 +34,7 @@ void		drawcol_sprite(struct s_env *env, int *i, double d)
 	return ;
 }
 
-void		drawcols(struct s_env *env, int *i, double y)
+void	drawcols(struct s_env *env, int *i, double y)
 {
 	int		start;
 	int		color;
@@ -44,7 +44,7 @@ void		drawcols(struct s_env *env, int *i, double y)
 	start = i[0];
 	if (i[0] < 0)
 		i[0] = 0;
-	c[0] = ((float)(y - ((int)y)) * env->t[env->c].width);
+	c[0] = ((float)(y - ((int)y)) *(env->t[(env->c)].width));
 	while (i[0] >= 0 && i[0] < env->l.r[1] && i[0] <= i[1])
 	{
 		c[2] = (i[0] - start) * c[1];
@@ -55,7 +55,7 @@ void		drawcols(struct s_env *env, int *i, double y)
 	return ;
 }
 
-void		init_angle(struct s_env *env, int *i)
+void	init_angle(struct s_env *env, int *i)
 {
 	env->play.pa = 0;
 	if (env->l.map[i[0]][i[1]] == 'S')
@@ -67,7 +67,7 @@ void		init_angle(struct s_env *env, int *i)
 	env->l.map[i[0]][i[1]] = '0';
 }
 
-char		checkbe_bis(struct s_list *l, struct s_params *i, int *r)
+char	checkbe_bis(struct s_list *l, struct s_params *i, int *r)
 {
 	if (l->r[0] <= 0 || l->r[1] <= 0 || l->f[0] < 0 || l->f[1] < 0 ||\
 	l->f[2] < 0 || l->c[0] < 0 || l->c[1] < 0 || l->c[2] < 0 ||\
@@ -82,7 +82,7 @@ char		checkbe_bis(struct s_list *l, struct s_params *i, int *r)
 	return (1);
 }
 
-void		stockdir(char **s1, char *s)
+void	stockdir(char **s1, char *s)
 {
 	int		n;
 
@@ -91,7 +91,8 @@ void		stockdir(char **s1, char *s)
 	{
 		while (s[n])
 			n++;
-		if (!(*s1 = malloc(sizeof(char) * (n + 1))))
+		*s1 = malloc(sizeof(char) * (n + 1));
+		if (!(*s1))
 			return ;
 		n = -1;
 		while (s[++n])
