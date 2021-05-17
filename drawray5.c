@@ -6,7 +6,7 @@
 /*   By: labintei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/26 10:50:11 by labintei          #+#    #+#             */
-/*   Updated: 2021/05/17 11:52:12 by labintei         ###   ########.fr       */
+/*   Updated: 2021/05/17 12:39:47 by labintei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void	stock_drawfov(struct s_env *env)
 	l[0] = 0;
 	n = 0;
 	i[0] = env->l.r[0] / (2 * tan(M_PI / 4));
-	while (i[2] <= (env->l.r[0] / 2))
+	while (n <= (env->l.r[0] / 2))
 	{
 		n++;
 		l[n] = i[1] - fabs((atan(abs(((int)env->l.r[0] / 2) - n) / i[0])));
@@ -81,7 +81,7 @@ void	stock_drawfov(struct s_env *env)
 	n = -1;
 	while (++n <= ((int)(env->l.r[0] / 2)))
 	{
-		env->fov[(int)i[2]] = l[n];
+		env->fov[n] = l[n];
 		l[n] = 0;
 	}
 	free(l);

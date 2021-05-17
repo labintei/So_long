@@ -6,7 +6,7 @@
 /*   By: labintei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/13 12:48:04 by labintei          #+#    #+#             */
-/*   Updated: 2021/05/17 12:30:09 by labintei         ###   ########.fr       */
+/*   Updated: 2021/05/17 12:59:37 by labintei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,11 +66,18 @@ void	draw_minimap(struct s_env *env)
 	return ;
 }
 
-char	check(void *k, struct s_list *l, struct s_params *i, char **s)
+char	check(void **k, struct s_list *l, struct s_params *i, char **s, int *r)
 {
-	k = mlx_xpm_file_to_image(i->mlx, *s, &(l->r[0]), &(l->r[1]));
-	if (!k)
+	(void)l;
+	*k = mlx_xpm_file_to_image(i->mlx, *s, &(r[0]), &(r[1]));
+	if (!(*k))
+	{
+		if(*k)
+			mlx_destroy_image(i->mlx, *k);
 		return (0);
+	}
+	if(*k)
+		mlx_destroy_image(i->mlx, *k);
 	return (1);
 }
 
@@ -84,11 +91,10 @@ char	checkbe(struct s_list *l, struct s_params *i)
 	if ((l->f[0] > 255 || l->f[1] > 255 || l->f[2] > 255) || \
 	(l->f[0] > 255 || l->f[1] > 255 || l->f[2] > 255))
 		return (0);
-	if (!(check(k, l, i, &(l->s))) || !(check(k, l, i, &(l->no)) || \
-				!(check(k, l, i, &(l->so))) || !(check(k, l, i, &(l->ea))) \
-				|| !(check(k, l, i, &(l->we)))))
+	if (!(check(&k, l, i, &(l->s), r)) || !(check(&k, l, i, &(l->no), r) || \
+				!(check(&k, l, i, &(l->so), r)) || !(check(&k, l, i, &(l->ea), r)) \
+				|| !(check(&k, l, i, &(l->we), r))))
 		return (0);
-	mlx_destroy_image(i->mlx, k);
 	return (1);
 }
 
