@@ -6,7 +6,7 @@
 /*   By: labintei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/26 10:50:11 by labintei          #+#    #+#             */
-/*   Updated: 2021/05/19 14:31:05 by labintei         ###   ########.fr       */
+/*   Updated: 2021/05/20 00:39:19 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,8 @@ void	ft_number(struct s_list *l, char *s, int *i)
 
 	if (s[*i] == 'R')
 	{
+		if(l->r[0])
+			l->re = 1;
 		++(*i);
 		stock_number(s, i, &(l->r[0]), 0);
 		stock_number(s, i, &(l->r[1]), 0);
@@ -108,9 +110,17 @@ void	ft_number(struct s_list *l, char *s, int *i)
 		stock_number(s, i, &(z[2]), 1);
 		z[4] = -1;
 		while (((char)z[3] == 'F') && ++z[4] <= 2 && z[z[4]])
+		{
+			if(l->f[0])
+				l->re = 1;
 			l->f[z[4]] = z[z[4]];
+		}
 		while ((char)z[3] == 'C' && ++z[4] <= 2 && z[z[4]])
+		{
+			if(l->c[0])
+				l->re = 1;
 			l->c[z[4]] = z[z[4]];
+		}
 	}
 	l->n += 1;
 }

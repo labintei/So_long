@@ -6,7 +6,7 @@
 /*   By: labintei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/27 14:40:24 by labintei          #+#    #+#             */
-/*   Updated: 2021/05/17 11:08:58 by labintei         ###   ########.fr       */
+/*   Updated: 2021/05/20 00:37:07 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,15 +107,40 @@ void	ft_dir(struct s_list *l, char *s, int *i)
 void	ft_dir_bis(struct s_list *l, char *c, char *t)
 {
 	l->n++;
-	if (c[0] == 'N' && c[1] == 'O' && (!(l->no)))
-		stockdir((&(l->no)), t);
-	if (c[0] == 'S' && c[1] == 'O' && (!(l->so)))
-		stockdir((&(l->so)), t);
-	if (c[0] == 'S' && c[1] != 'O' && (!(l->s)))
-		stockdir((&(l->s)), t);
-	if (c[0] == 'W' && c[1] == 'E' && (!(l->we)))
-		stockdir((&(l->we)), t);
-	if (c[0] == 'E' && c[1] == 'A' && (!(l->ea)))
-		stockdir((&(l->ea)), t);
+	if (c[0] == 'N' && c[1] == 'O')
+	{
+		if(!l->no)
+			stockdir((&(l->no)), t);
+		else
+			l->re = 1;
+	}
+	if (c[0] == 'S' && c[1] == 'O')
+	{
+		if(!l->so)
+			stockdir((&(l->so)), t);
+		else
+			l->re = 1;
+	}
+	if (c[0] == 'S' && c[1] != 'O')
+	{
+		if(!l->s)
+			stockdir((&(l->s)), t);
+		else
+			l->re = 1;
+	}
+	if (c[0] == 'W' && c[1] == 'E')
+	{
+		if(!l->we)
+			stockdir((&(l->we)), t);
+		else
+			l->re = 1;
+	}
+	if (c[0] == 'E' && c[1] == 'A')
+	{
+		if(!l->ea)
+			stockdir((&(l->ea)), t);
+		else
+			l->re = 1;
+	}
 	return ;
 }
