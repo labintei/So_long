@@ -6,7 +6,7 @@
 /*   By: labintei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 10:12:07 by labintei          #+#    #+#             */
-/*   Updated: 2021/05/16 22:51:58 by user42           ###   ########.fr       */
+/*   Updated: 2021/05/19 09:44:20 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ typedef struct	s_list
 	char	*we;
 	char	*ea;
 	char	*s;
+	char	save;
 	int		r[2];
 	int		f[3];
 	int		c[3];
@@ -158,5 +159,10 @@ void			stock_drawfov(struct	s_env *env);
 void			drawfov_bis(struct	s_env *env);
 int				bmp_save_file(struct s_env *env);
 int				destroy_ta_vie(struct s_env *env);
+
+int				ft_strlen(char *s);;
+char			*ft_join(char *s1, char *s2, int v);
+void			test(int fd, char **s, char **n);
+
 
 #endif

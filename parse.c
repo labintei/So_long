@@ -6,7 +6,7 @@
 /*   By: labintei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 10:06:25 by labintei          #+#    #+#             */
-/*   Updated: 2021/05/17 11:41:33 by labintei         ###   ########.fr       */
+/*   Updated: 2021/05/19 09:45:47 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,9 +85,15 @@ void	main_bis_bis(struct s_env *env, int *i, char **argv)
 	while (argv[2][(int)i[0]] && argv[2][i[0]] == sbis[i[0]])
 		i[0]++;
 	if (argv[2][(int)i[0]] == '\0')
+	{
 		env->save = 1;
+		env->l.save = 1;
+	}
 	else
+	{
 		env->save = 0;
+		env->l.save = 0;
+	}
 }
 
 int	main(int argc, char **argv)

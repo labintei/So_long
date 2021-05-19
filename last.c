@@ -6,12 +6,12 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/06 01:03:13 by user42            #+#    #+#             */
-/*   Updated: 2021/05/17 11:46:35 by labintei         ###   ########.fr       */
+/*   Updated: 2021/05/19 10:42:10 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "map.h"
-
+/*
 int	treat_map(struct s_list *l)
 {
 	int		i;
@@ -35,7 +35,36 @@ int	treat_map(struct s_list *l)
 	j = i;
 	i = 0;
 	return (treat_map_1(l, &i, &j));
+}*/
+
+int	treat_map(struct s_list *l)
+{
+	int		i;
+	int		j;
+	int		k;
+	char	*s;
+
+	s = "";
+	l->stock = NULL;
+	test(l->fd, &s, &(l->stock));
+	if (!(l->stock))
+		return (0);
+	i = -1;
+	//while (s[++i] && s[i] != '\0')
+	//	s[i] = 0;
+	k = 0;
+	while(l->stock[k])
+		k++;
+	l->stock[k] = '\0';
+	//if(s)
+	//	free(s);
+	j = k;
+	i = 0;
+	return (treat_map_1(l, &i, &j));
 }
+
+
+
 
 int	t(struct s_env *env)
 {
