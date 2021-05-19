@@ -6,7 +6,7 @@
 /*   By: labintei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 10:12:07 by labintei          #+#    #+#             */
-/*   Updated: 2021/05/19 13:34:49 by labintei         ###   ########.fr       */
+/*   Updated: 2021/05/19 15:02:09 by labintei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@
 # include "mlx.h"
 # include <math.h>
 
-typedef struct	s_list
+typedef struct s_list
 {
 	char	n;
 	int		fd;
@@ -45,7 +45,7 @@ typedef struct	s_list
 	char	**map;
 }				t_list;
 
-typedef struct	s_img
+typedef struct s_img
 {
 	void	*img;
 	char	*addr;
@@ -54,20 +54,20 @@ typedef struct	s_img
 	int		endian;
 }				t_img;
 
-typedef	struct	s_params
+typedef struct s_params
 {
 	void	*mlx;
 	void	*mlx_win;
 }				t_params;
 
-typedef	struct	s_player
+typedef struct s_player
 {
 	double	x;
 	double	y;
 	double	pa;
 }				t_player;
 
-typedef	struct	s_texture
+typedef struct s_texture
 {
 	void	*img;
 	char	*addr;
@@ -78,7 +78,7 @@ typedef	struct	s_texture
 	int		height;
 }				t_texture;
 
-typedef struct	s_env
+typedef struct s_env
 {
 	char		key[7];
 	int			c;
@@ -159,10 +159,8 @@ void			stock_drawfov(struct	s_env *env);
 void			drawfov_bis(struct	s_env *env);
 int				bmp_save_file(struct s_env *env);
 int				destroy_ta_vie(struct s_env *env);
-
 int				ft_strlen(char *s);;
 char			*ft_join(char *s1, char *s2, int v);
 void			test(int fd, char **s, char **n);
-
 
 #endif
