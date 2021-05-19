@@ -1,9 +1,9 @@
-R 100 800
-NO ./sprite/blob.xpm
-SO ./sprite/blob.xpm
-WE ./sprite/blob.xpm
-EA ./sprite/blob.xpm
-S ./sprite/blob.xpm
+R 1500 1700
+NO ./sprite/Blob.xpm
+SO ./sprite/Blob.xpm
+WE ./sprite/Blob.xpm
+EA ./sprite/Blob.xpm
+S ./sprite/Blob.xpm
 F 125,0,0
 C 90,0,0
 
