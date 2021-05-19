@@ -6,7 +6,7 @@
 /*   By: labintei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/26 10:50:11 by labintei          #+#    #+#             */
-/*   Updated: 2021/05/17 12:02:18 by labintei         ###   ########.fr       */
+/*   Updated: 2021/05/19 14:31:05 by labintei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,13 +72,13 @@ void	dray(struct s_env *env, double a)
 		i[4] += env->var[2];
 	dvar(env, i[4]);
 	init_i(env, i);
-	if (!(i[0] > 0 && i[0] < env->xmax && i[1] > 0 &&\
-	i[1] < env->ymax) || a == 0 || a == M_PI)
+	if (!(i[0] > 0 && i[0] < env->xmax && i[1] > 0 && i[1] < env->ymax) || \
+			a == 0 || a == M_PI)
 		c[0] = 1;
 	else if (env->l.map[(int)i[1]][(int)i[0]] == '1')
 		c[0] = 2;
-	if (!(i[2] > 0 && i[2] < env->xmax && i[3] > 0 &&\
-	i[3] < env->ymax) || a == env->var[3] || a == env->var[4])
+	if (!(i[2] > 0 && i[2] < env->xmax && i[3] > 0 && \
+				i[3] < env->ymax) || a == env->var[3] || a == env->var[4])
 		c[1] = 1;
 	else if (env->l.map[(int)i[3]][(int)i[2]] == '1')
 		c[1] = 2;

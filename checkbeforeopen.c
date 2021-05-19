@@ -6,39 +6,11 @@
 /*   By: labintei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/13 12:48:04 by labintei          #+#    #+#             */
-/*   Updated: 2021/05/17 12:59:37 by labintei         ###   ########.fr       */
+/*   Updated: 2021/05/19 14:30:06 by labintei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "map.h"
-
-void	init_p(struct s_env *env)
-{
-	int		i[2];
-
-	while (env->l.map[env->ymax][env->xmax] != '\0')
-		(env->xmax)++;
-	while (env->l.map[env->ymax] != 0)
-		(env->ymax)++;
-	i[0] = -1;
-	while (++i[0] < env->ymax)
-	{
-		i[1] = -1;
-		while (++i[1] < env->xmax)
-		{
-			if (ft_find(env->l.map[i[0]][i[1]], "NSWE"))
-			{
-				env->play.x = i[1] + 0.5;
-				env->play.y = i[0] + 0.5;
-				env->play.pa = 0;
-				init_angle(env, i);
-			}
-		}
-	}
-	env->pas = (env->l.r[0] / env->xmax) / 2;
-	if (env->l.r[1] / env->ymax < (env->l.r[0] / env->xmax))
-		env->pas = (env->l.r[1] / env->ymax) / 2;
-}
 
 void	draw_minimap(struct s_env *env)
 {
@@ -66,17 +38,16 @@ void	draw_minimap(struct s_env *env)
 	return ;
 }
 
-char	check(void **k, struct s_list *l, struct s_params *i, char **s, int *r)
+char	check(void **k, struct s_params *i, char **s, int *r)
 {
-	(void)l;
 	*k = mlx_xpm_file_to_image(i->mlx, *s, &(r[0]), &(r[1]));
 	if (!(*k))
 	{
-		if(*k)
+		if (*k)
 			mlx_destroy_image(i->mlx, *k);
 		return (0);
 	}
-	if(*k)
+	if (*k)
 		mlx_destroy_image(i->mlx, *k);
 	return (1);
 }
@@ -91,9 +62,9 @@ char	checkbe(struct s_list *l, struct s_params *i)
 	if ((l->f[0] > 255 || l->f[1] > 255 || l->f[2] > 255) || \
 	(l->f[0] > 255 || l->f[1] > 255 || l->f[2] > 255))
 		return (0);
-	if (!(check(&k, l, i, &(l->s), r)) || !(check(&k, l, i, &(l->no), r) || \
-				!(check(&k, l, i, &(l->so), r)) || !(check(&k, l, i, &(l->ea), r)) \
-				|| !(check(&k, l, i, &(l->we), r))))
+	if (!(check(&k, i, &(l->s), r)) || !(check(&k, i, &(l->no), r) || \
+				!(check(&k, i, &(l->so), r)) || !(check(&k, i, &(l->ea), r)) \
+				|| !(check(&k, i, &(l->we), r))))
 		return (0);
 	return (1);
 }

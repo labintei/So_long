@@ -6,36 +6,11 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/06 01:03:13 by user42            #+#    #+#             */
-/*   Updated: 2021/05/19 10:42:10 by user42           ###   ########.fr       */
+/*   Updated: 2021/05/19 14:32:45 by labintei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "map.h"
-/*
-int	treat_map(struct s_list *l)
-{
-	int		i;
-	int		j;
-	char	*s;
-
-	s = malloc(sizeof(char) * 10001);
-	i = read(l->fd, s, 10000);
-	s[i] = '\0';
-	l->stock = malloc((sizeof(char)) * (++i));
-	if (!i || !(l->stock) || !s)
-		return (0);
-	i = -1;
-	while (s[++i] && s[i] != '\0')
-	{
-		(l->stock)[i] = s[i];
-		s[i] = 0;
-	}
-	(l->stock)[i] = '\0';
-	free(s);
-	j = i;
-	i = 0;
-	return (treat_map_1(l, &i, &j));
-}*/
 
 int	treat_map(struct s_list *l)
 {
@@ -50,21 +25,14 @@ int	treat_map(struct s_list *l)
 	if (!(l->stock))
 		return (0);
 	i = -1;
-	//while (s[++i] && s[i] != '\0')
-	//	s[i] = 0;
 	k = 0;
-	while(l->stock[k])
+	while (l->stock[k])
 		k++;
 	l->stock[k] = '\0';
-	//if(s)
-	//	free(s);
 	j = k;
 	i = 0;
 	return (treat_map_1(l, &i, &j));
 }
-
-
-
 
 int	t(struct s_env *env)
 {

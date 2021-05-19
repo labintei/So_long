@@ -6,7 +6,7 @@
 /*   By: labintei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 10:06:25 by labintei          #+#    #+#             */
-/*   Updated: 2021/05/17 11:44:45 by labintei         ###   ########.fr       */
+/*   Updated: 2021/05/19 14:33:14 by labintei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,8 @@ void	ft_map_define(struct s_list *l)
 	i[1] = 0;
 	while (i[1] == 0)
 	{
-		while (l->stock[i[0]] && l->stock[i[0]] != '\n' &&\
-		l->stock[i[0]] == ' ')
+		while (l->stock[i[0]] && l->stock[i[0]] != '\n' && \
+				l->stock[i[0]] == ' ')
 			i[0]++;
 		if (l->stock[i[0]] != '\n')
 			i[1] = 1;

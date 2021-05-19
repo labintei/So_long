@@ -6,7 +6,7 @@
 /*   By: labintei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 10:06:25 by labintei          #+#    #+#             */
-/*   Updated: 2021/05/19 09:45:47 by user42           ###   ########.fr       */
+/*   Updated: 2021/05/19 14:33:44 by labintei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	ft_map_cut(struct s_list *l, int j)
 	while (l->stock[y[4]] && y[4] <= j)
 	{
 		y[3] = 0;
-		while (l->stock[++y[4]] && l->stock[y[4]] == ' ' && l->stock[y[4]] !=\
+		while (l->stock[++y[4]] && l->stock[y[4]] == ' ' && l->stock[y[4]] != \
 				'\n' && y[4] <= j)
 			y[3]++;
 		if (y[3] < 0)
