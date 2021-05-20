@@ -6,7 +6,7 @@
 /*   By: labintei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/13 12:48:04 by labintei          #+#    #+#             */
-/*   Updated: 2021/05/19 14:30:06 by labintei         ###   ########.fr       */
+/*   Updated: 2021/05/20 13:21:17 by labintei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@ void	draw_minimap(struct s_env *env)
 			drawcarre(x * env->pas, y * env->pas, env->pas, env);
 		}
 	}
-	env->c = create_trtgb(0, 150, 150, 150);
-	drawcarre(env->play.x * env->pas, env->play.y * env->pas, 10, env);
+	env->c = create_trtgb(0, 0, 0, 0);
+	drawcarre(env->play.x * env->pas, env->play.y * env->pas, 5, env);
 	return ;
 }
 

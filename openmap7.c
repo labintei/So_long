@@ -6,7 +6,7 @@
 /*   By: labintei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 10:06:25 by labintei          #+#    #+#             */
-/*   Updated: 2021/05/20 00:41:10 by user42           ###   ########.fr       */
+/*   Updated: 2021/05/20 14:33:11 by labintei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,9 @@ void	ft_put_map(struct s_list *l, int *y, int j)
 int	treat_map_1(struct s_list *l, int *i, int *j)
 {
 	l->re = 0;
+	l->check[0] = 0;
+	l->check[1] = 0;
+	l->check[2] = 0;
 	while (l->stock[*i] != '\0' && l->n < 8)
 	{
 		while (l->n < 8 && *i < *j && l->stock[*i] != '\0')
@@ -115,7 +118,7 @@ int	treat_map_1(struct s_list *l, int *i, int *j)
 				return (0);
 		}
 	}
-	if (l->n == 8 && *i < *j && l->re == 0)
+	if (l->n == 8 && *i < *j  && !l->re && l->check[0] == 1 && l->check[1] == 1 && l->check[2] == 1)
 	{
 		l->stock += *i;
 		ft_map_define(l);

@@ -6,7 +6,7 @@
 /*   By: labintei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 10:12:07 by labintei          #+#    #+#             */
-/*   Updated: 2021/05/20 00:32:48 by user42           ###   ########.fr       */
+/*   Updated: 2021/05/20 13:01:26 by labintei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@
 typedef struct s_list
 {
 	char	re;
+	char	check[3];
 	char	n;
 	int		fd;
 	char	*stock;

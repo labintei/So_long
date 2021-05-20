@@ -1,11 +1,16 @@
-R 1200000 12000000
-NO ./sprite/1.xpm
-SO ./sprite/mur1.xpm
-WE ./sprite/a4.xpm
-EA ./sprite/a5.xpm
+R 2000 1280
+NO ./sprite/mur.xpm
+NO ./sprite/mur.xpm
+NO ./sprite/mur.xpm
+NO ./sprite/mur.xpm
+NO ./sprite/mur.xpm
+
+SO ./sprite/mur.xpm
+EA ./sprite/mur.xpm
+WE ./sprite/Blob.xpm
 S ./sprite/2.xpm
-F 10,100,100
-C 225,60,230
+F 220,100,2
+C 225,30,2
 
 
 
@@ -26,12 +31,5 @@ C 225,60,230
            1111111110111111111111
            1000200000000020000011
            10000000011000000011
-           11111111111111111111
-
-
-
-
-
-
-
+           111111111111111111111
 

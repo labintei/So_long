@@ -6,7 +6,7 @@
 /*   By: labintei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/26 10:50:11 by labintei          #+#    #+#             */
-/*   Updated: 2021/05/20 00:39:19 by user42           ###   ########.fr       */
+/*   Updated: 2021/05/20 14:22:48 by labintei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,10 @@ void	ft_number(struct s_list *l, char *s, int *i)
 			l->re = 1;
 		++(*i);
 		stock_number(s, i, &(l->r[0]), 0);
+		if(s[*i] != ' ')
+			l->check[0]++;
 		stock_number(s, i, &(l->r[1]), 0);
+		l->check[0]++;
 	}
 	if ((s[*i] == 'C' || s[*i] == 'F') && (s[*i]))
 	{
@@ -106,21 +109,21 @@ void	ft_number(struct s_list *l, char *s, int *i)
 		while (s[(*i)] == ' ')
 			(*i)++;
 		stock_number(s, i, &(z[0]), 1);
+		if(s[*i] != ',')
+			l->check[0]++;
 		stock_number(s, i, &(z[1]), 1);
+		if(s[*i] != ',')
+			l->check[0]++;
 		stock_number(s, i, &(z[2]), 1);
 		z[4] = -1;
+		if((char)z[3] == 'F')
+			l->check[1]++;
+		else
+			l->check[2]++;
 		while (((char)z[3] == 'F') && ++z[4] <= 2 && z[z[4]])
-		{
-			if(l->f[0])
-				l->re = 1;
 			l->f[z[4]] = z[z[4]];
-		}
 		while ((char)z[3] == 'C' && ++z[4] <= 2 && z[z[4]])
-		{
-			if(l->c[0])
-				l->re = 1;
 			l->c[z[4]] = z[z[4]];
-		}
 	}
 	l->n += 1;
 }
