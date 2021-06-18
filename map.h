@@ -6,7 +6,7 @@
 /*   By: labintei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 10:12:07 by labintei          #+#    #+#             */
-/*   Updated: 2021/05/20 13:01:26 by labintei         ###   ########.fr       */
+/*   Updated: 2021/06/18 19:03:20 by labintei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,13 +62,6 @@ typedef struct s_params
 	void	*mlx_win;
 }				t_params;
 
-typedef struct s_player
-{
-	double	x;
-	double	y;
-	double	pa;
-}				t_player;
-
 typedef struct s_texture
 {
 	void	*img;
@@ -79,6 +72,14 @@ typedef struct s_texture
 	int		width;
 	int		height;
 }				t_texture;
+
+typedef struct s_player
+{
+	double	x;
+	double	y;
+	double	pa;
+	t_texture	i[];
+}				t_player;
 
 typedef struct s_env
 {
