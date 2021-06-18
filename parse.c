@@ -6,7 +6,7 @@
 /*   By: labintei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 10:06:25 by labintei          #+#    #+#             */
-/*   Updated: 2021/06/18 19:33:52 by labintei         ###   ########.fr       */
+/*   Updated: 2021/06/18 22:09:28 by labintei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,12 +46,13 @@ int	key_release(int keycode, struct s_env *env)
 
 void	putsprite(struct s_env *env)
 {
+	(void)env;
 	return ;
 }
 
 int		destroy(struct s_env	*env)
 {
-
+	(void)env;
 	return(0);
 }
 
@@ -95,7 +96,7 @@ void	drawcarre(int x, int y, int color, struct s_env *env)
 
 void	print_player(struct s_env *env)
 {
-
+	drawcarre((int)((env->play.x) * env->pas), (int)((env->play.y) * env->pas), create_trtgb(150,170,140,230), env);
 }
 
 void	print_background(struct s_env *env)
@@ -125,48 +126,52 @@ void	print_wall(struct s_env *env)
 		while(env->map[y][++x])
 		{
 			if(env->map[y][x] == '1')
-				drawcarre(x * env->pas, y * env->pas, create_trtgb(0, 120, 130, 140), env);
+				drawcarre(x * env->pas, y * env->pas, create_trtgb(0, 120, 230, 140), env);
 			if(env->map[y][x] == 'E')
-				drawcarre(x * env->pas, y * env->pas, create_trtgb(0, 150, 130, 110), env);
+				drawcarre(x * env->pas, y * env->pas, create_trtgb(0, 250, 130, 110), env);
 			if(env->map[y][x] == 'C')
 				drawcarre(x * env->pas, y * env->pas, create_trtgb(0, 150, 130, 210), env);
+			if(env->map[y][x] == '0')
+				drawcarre(x * env->pas, y * env->pas, create_trtgb(0, 201, 130, 150), env);
 		}
 	}
 }
 
-void	player_exit(struct s_env *env)
-{
-
-}
 
 void		f_key(struct s_env *env)
 {
+	if(env->key[4] == 1)
+		clear_all(env);
 	if(env->key[0] == 1)
 	{
 		env->play.o = 0;
-		if(env->map[(int)(env->play.y - 0.25)][env->play.x] != '1')
-			env->play.y -= 0.25;
+		if(env->map[env->play.y][(int)(env->play.x - 0.005)] != '1')
+			env->play.x -= 0.005;
 	}
 	if(env->key[1] == 1)
 	{
 		env->play.o = 1;
-		if(env->map[(int)(env->play.y - 0.25)][env->play.x] != '1')
-			env->play.y -= 0.25;
+		if(env->map[(int)(env->play.y - 0.005)][env->play.x] != '1')
+			env->play.y -= 0.005;
 	}
 	if(env->key[2] == 1)
 	{
 		env->play.o = 2;
-		if(env->map[env->play.y][(int)(env->play.x + 0.25)] != '1')
-			env->play.x += 0.25;
+		//if(env->map[env->play.y][(int)(env->play.x + 0.005)] != '1')
+		env->play.x += 0.5;
+		write(1,"a", 1);
 	}
 	if(env->key[3] == 1)
 	{
 		env->play.o = 3;
-		if(env->map[(int)(env->play.y + 0.25)][env->play.x] != '1')
-			env->play.y += 0.25;
+		//if(env->map[(int)(env->play.y + 0.005)][env->play.x] != '1')
+		env->play.y += 0.5;
+		write(1, "b", 1);
 	}
-	if(env->map[(int)(env->play.y)][env->play.x] != 'C')
+	if(env->map[env->play.y][env->play.x] == 'C')
 		env->map[env->play.y][env->play.x] = '0';
+	if(env->map[env->play.y][env->play.x] == 'E')
+		clear_all(env);
 }
 
 int		print_ecran(struct s_env	*env)
@@ -174,7 +179,8 @@ int		print_ecran(struct s_env	*env)
 	f_key(env);
 	print_background(env);
 	print_wall(env);
-	//print_player(env);
+	print_player(env);
+	mlx_put_image_to_window(env->p.mlx, env->p.mlx_win, env->i.img, 0, 0);
 	return(0);
 }
 
@@ -183,7 +189,6 @@ void	calcul_pas(struct s_env *env)
 	float	pastock;
 	float	pastock1;
 
-	int		i;
 	pastock = (float)env->y / (float)env->sizemapy;
 	pastock1 = (float)env->x / (float)env->sizemapx;
 	if(pastock1 < pastock)
@@ -193,10 +198,10 @@ void	calcul_pas(struct s_env *env)
 
 void	afficher_map(struct s_env *env)
 {
-	mlx_get_screen_size(env->p.mlx, &env->x, &env->y);
 	env->p.mlx = mlx_init();
-	putsprite(env);
-	env->color = create_trtgb(150, 190, 210, 120);
+	mlx_get_screen_size(env->p.mlx, &env->x, &env->y);
+	//f_load_texture(env);
+	env->color = create_trtgb(150, 180, 170, 140);
 	env->p.mlx_win = mlx_new_window(env->p.mlx, env->x, env->y, "Window");
 	env->i.img = mlx_new_image(env->p.mlx, env->x, env->y);
 	env->i.addr = mlx_get_data_addr(env->i.img, &(env->i.bits_per_pixels), \
@@ -216,6 +221,7 @@ void	posjoueur(struct s_env *env, int i, int j)
 	env->play.y = 0.5 + i;
 	env->play.x = 0.5 + j;
 	env->play.o = 0;
+	env->map[i][j] = '0';
 }
 
 
@@ -260,7 +266,7 @@ int	checkmap(struct s_env *env)
 		write(1, "\n", 1);
 		i++;
 	}
-	//printf("\n%d\n",p);
+	printf("\n%d\n",p);
 	if(p == 1 && e >= 1)
 		return(1);
 	else
@@ -295,9 +301,7 @@ int	ft_find(char c, char *s)
 int	parse_map(int fd, struct s_env *env)
 {
 	char **s;
-	char *f;
 	int			i;
-	int			j;
 	int			r;
 	int max;
 

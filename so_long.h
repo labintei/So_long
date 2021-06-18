@@ -6,7 +6,7 @@
 /*   By: labintei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 12:00:46 by labintei          #+#    #+#             */
-/*   Updated: 2021/06/18 19:35:07 by labintei         ###   ########.fr       */
+/*   Updated: 2021/06/18 21:25:08 by labintei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,5 +89,7 @@ typedef struct s_env
 
 int	get_next_line(int fd, char **line);
 void	f_load_texture(struct s_env *env);
+void	clear_all(struct s_env *env);
+
 
 #endif

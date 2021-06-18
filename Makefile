@@ -6,18 +6,18 @@
 #    By: labintei <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/01/11 14:05:41 by labintei          #+#    #+#              #
-#    Updated: 2021/05/20 13:24:18 by labintei         ###   ########.fr        #
+#    Updated: 2021/06/18 22:03:55 by labintei         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SRCS		=	bmp.c checkbeforeopen.c checkbis.c dra.c drawray4.c drawray5.c\
-				last.c openmap7.c parse.c texture.c utils.c variables.c stock.c
+#SRCS		=	test.c
+SRCS		=	parse.c get_next_line.c get_next_line_utils.c load_texture.c
 DIR_MLX		=	./minilibx/
 
 OBJS		= $(SRCS:.c=.o)
 
 CC				= gcc
-CFLAGS			= -g -fsanitize=address -Wall -Wextra -Werror -I includes.
+CFLAGS			= -Wall -Wextra -Werror -I includes.
 LIBS			= -L ./minilibx/ -lmlx -lXext -lX11 -lm
 RM				= rm -f
 NAME			= cub3D

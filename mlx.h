@@ -148,4 +148,7 @@ int	mlx_do_sync(void *mlx_ptr);
 
 int	mlx_get_screen_size(void *mlx_ptr, int *sizex, int *sizey);
 
+int mlx_destroy_display(void *mlx_ptr);
+
+
 #endif /* MLX_H */
