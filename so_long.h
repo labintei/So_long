@@ -6,7 +6,7 @@
 /*   By: labintei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 12:00:46 by labintei          #+#    #+#             */
-/*   Updated: 2021/06/18 21:25:08 by labintei         ###   ########.fr       */
+/*   Updated: 2021/06/19 16:59:12 by labintei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,10 +56,14 @@ typedef struct s_texture
 
 typedef struct s_player
 {
-	t_texture	p[9];
+	t_texture	p[12];
 	int		x;
 	int		y;
+	int		pa;
+	float	x_s;
+	float	y_s;
 	char	o;
+	char	action;
 }				t_player;
 
 typedef struct s_sprite
@@ -74,8 +78,9 @@ typedef struct s_env
 	t_player		play;
 	t_sprite		c;
 	t_texture		w;
+	t_texture		f;
 	t_texture		e;
-	t_img		i;
+	t_texture		i;
 	int			fd;
 	int			sizemapx;
 	int			sizemapy;
@@ -83,13 +88,16 @@ typedef struct s_env
 	int			y;
 	int			color;
 	int			pas;
+	int			delay;
 	char		**map;
 	char		key[5];
+	int			frame;
+	int			count;
 }				t_env;
 
 int	get_next_line(int fd, char **line);
 void	f_load_texture(struct s_env *env);
-void	clear_all(struct s_env *env);
+int		clear_all(struct s_env *env);
 
 
 #endif

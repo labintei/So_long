@@ -150,5 +150,7 @@ int	mlx_get_screen_size(void *mlx_ptr, int *sizex, int *sizey);
 
 int mlx_destroy_display(void *mlx_ptr);
 
+void	mlx_set_font(void *mlx_ptr, void *win_ptr, char *name);
+
 
 #endif /* MLX_H */
