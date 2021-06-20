@@ -6,7 +6,7 @@
 /*   By: labintei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 10:06:25 by labintei          #+#    #+#             */
-/*   Updated: 2021/06/19 19:06:58 by labintei         ###   ########.fr       */
+/*   Updated: 2021/06/20 19:01:29 by labintei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -261,15 +261,12 @@ void	print_wall(struct s_env *env)
 		x = -1;
 		while(env->map[y][++x])
 		{
-			if(env->map[y][x] == '0' || env->map[y][x] == 'C')
+			if(env->map[y][x] == '0' || env->map[y][x] == 'C' || env->map[y][x] == 'E')
 				drawcarre_texture(x * env->pas, y * env->pas, &(env->f), env);
-			if(env->map[y][x] == '1')
-			{
-				//drawcarre(x * env->pas, y * env->pas, create_trtgb(0, 120, 230, 140), env);
-				drawcarre_texture(x * env->pas, y * env->pas, &(env->w), env);
-			}
+			//if(env->map[y][x] == '1')
+			//	drawcarre_texture(x * env->pas, y * env->pas, &(env->w), env);
 			if(env->map[y][x] == 'E')
-				drawcarre(x * env->pas, y * env->pas, create_trtgb(0, 250, 130, 110), env);
+				drawcarre_texture(x * env->pas, y * env->pas, &(env->e), env);
 			if(env->map[y][x] == 'C')
 				print_collect(env, x, y);
 			//	drawcarre(x * env->pas, y * env->pas, create_trtgb(0, 150, 130, 210), env);
@@ -278,6 +275,61 @@ void	print_wall(struct s_env *env)
 }
 
 
+void	drawcarre_texture_wall(int i[4], t_texture *text, struct s_env *env)
+{
+	int		a;
+	int		b;
+	unsigned int		color;
+
+	a = -1;
+	color = create_trtgb(250, 260, 150, 130);
+	while (++a < env->pas)
+	{
+		b = -1;
+		while (++b < env->pas)
+		{	
+			if(i[0] + b < env->i.width && i[0] + b > 0 && i[1] + a < env->i.height && i[1] + a > 0)
+			{
+				int rx = (int)(((float)b / (float)env->pas) * text->width);
+				int ry = (int)(((float)a / (float)env->pas) * text->height);
+				if (i[3])
+					rx = (text->width - 1) - rx;
+				if(i[4])
+					ry = (text->height - 1) - ry;
+				if(text->img)
+					color = get_pixel(text, rx, ry);
+				if(color != 0xFF000000)
+					set_pixel(&(env->i), (i[0] + b), (i[1] + a), color);
+			}
+		}
+	}
+	return ;
+}
+
+/*
+void	draw_wall(struct s_env *env)
+{
+	int		i;
+	int		j;
+
+	i = -1;
+	while(env->map[++i])
+	{
+		j = -1;
+		while(env->map[i][++j])
+		{
+			if(env->map[i][j] == '1')
+			{
+				
+
+
+			}
+
+		}
+
+	}
+}
+*/
 int		f_key(struct s_env *env)
 {
 	int delay = 12;

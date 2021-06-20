@@ -6,7 +6,7 @@
 /*   By: labintei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 18:09:19 by labintei          #+#    #+#             */
-/*   Updated: 2021/06/19 19:03:40 by labintei         ###   ########.fr       */
+/*   Updated: 2021/06/20 18:50:13 by labintei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,6 @@ void	f_load_texture(struct s_env *env)
 	f_load_colect(env);
 	f_load_player(env);
 	load(env, &(env->w), "./sprite/wall/0.xpm");
-	load(env, &(env->e), "./sprite/exit/6.xpm");
+	load(env, &(env->e), "./sprite/exit/10.xpm");
 	load(env, &(env->f), "./sprite/floor/0.xpm");
 }
