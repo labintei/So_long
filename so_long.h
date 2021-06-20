@@ -6,7 +6,7 @@
 /*   By: labintei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 12:00:46 by labintei          #+#    #+#             */
-/*   Updated: 2021/06/19 16:59:12 by labintei         ###   ########.fr       */
+/*   Updated: 2021/06/20 20:23:59 by labintei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,14 @@ typedef struct s_texture
 	int		height;
 }				t_texture;
 
+typedef struct s_ennemy
+{
+	float x;
+	float y;
+	t_texture	t[3];
+
+}				t_ennemy;
+
 typedef struct s_player
 {
 	t_texture	p[12];
@@ -77,10 +85,11 @@ typedef struct s_env
 	t_params		p;
 	t_player		play;
 	t_sprite		c;
-	t_texture		w;
+	t_texture		w[5];
 	t_texture		f;
 	t_texture		e;
 	t_texture		i;
+	t_ennemy		ennemy[10];
 	int			fd;
 	int			sizemapx;
 	int			sizemapy;

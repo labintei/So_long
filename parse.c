@@ -6,7 +6,7 @@
 /*   By: labintei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 10:06:25 by labintei          #+#    #+#             */
-/*   Updated: 2021/06/20 19:01:29 by labintei         ###   ########.fr       */
+/*   Updated: 2021/06/20 20:26:04 by labintei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -263,8 +263,8 @@ void	print_wall(struct s_env *env)
 		{
 			if(env->map[y][x] == '0' || env->map[y][x] == 'C' || env->map[y][x] == 'E')
 				drawcarre_texture(x * env->pas, y * env->pas, &(env->f), env);
-			//if(env->map[y][x] == '1')
-			//	drawcarre_texture(x * env->pas, y * env->pas, &(env->w), env);
+			if(env->map[y][x] == '1')
+				drawcarre_texture(x * env->pas, y * env->pas, &(env->w[0]), env);
 			if(env->map[y][x] == 'E')
 				drawcarre_texture(x * env->pas, y * env->pas, &(env->e), env);
 			if(env->map[y][x] == 'C')
@@ -274,11 +274,13 @@ void	print_wall(struct s_env *env)
 	}
 }
 
-
-void	drawcarre_texture_wall(int i[4], t_texture *text, struct s_env *env)
+/*
+void	drawcarre_texture_wall(int i[6], t_texture *text, struct s_env *env)
 {
 	int		a;
 	int		b;
+	int		c;
+	int		d;
 	unsigned int		color;
 
 	a = -1;
@@ -290,11 +292,17 @@ void	drawcarre_texture_wall(int i[4], t_texture *text, struct s_env *env)
 		{	
 			if(i[0] + b < env->i.width && i[0] + b > 0 && i[1] + a < env->i.height && i[1] + a > 0)
 			{
+				c = b;
+				d = a;
+				if(i[4])
+					c = env->pas - b;
+				if(i[5])
+					d = env->pas - a;
 				int rx = (int)(((float)b / (float)env->pas) * text->width);
 				int ry = (int)(((float)a / (float)env->pas) * text->height);
-				if (i[3])
+				if (i[2])
 					rx = (text->width - 1) - rx;
-				if(i[4])
+				if(i[3])
 					ry = (text->height - 1) - ry;
 				if(text->img)
 					color = get_pixel(text, rx, ry);
@@ -304,32 +312,71 @@ void	drawcarre_texture_wall(int i[4], t_texture *text, struct s_env *env)
 		}
 	}
 	return ;
+}*/
+/*
+void	init_4(int (*i)[4])
+{
+	(*i)[0] = 0;
+	(*i)[1] = 0;
+	(*i)[2] = 0;
+	(*i)[3] = 0;
 }
 
-/*
+void	drawdir_wall(int (*i)[2], int (*j)[4], struct s_env *env)
+{
+	int		f[6];
+	int		d;
+	int		g;
+	f[0] = (*i)[0];
+	f[1] = (*i)[1];
+	f[2] = 0;
+	f[3] = 0;
+	f[4] = 0;
+	f[5] = 0;
+	d = 5;
+	g = 0;
+
+	while(--d >= 0)
+	{
+		if((*j)[d])
+			g++;
+	}
+	if(g == 2 && (*j)[])
+	drawcarre_texture_wall(f[6], env->w[g], env);
+}
+
 void	draw_wall(struct s_env *env)
 {
-	int		i;
-	int		j;
+	int		i[2];
+	int		j[4];
 
-	i = -1;
-	while(env->map[++i])
+	i[0] = -1;
+	init_4(&j);
+	while(env->map[++(i[0])])
 	{
-		j = -1;
-		while(env->map[i][++j])
+		i[1] = -1;
+		while(env->map[i[0]][++(i[1])])
 		{
-			if(env->map[i][j] == '1')
+			init_4(&j);
+			if(env->map[i[0]][i[1]] == '1')
 			{
-				
-
-
+				if(i[1] != 0)
+					if(env->map[i[0]][i[1] - 1] == '1')
+						j[1] = 1;
+				if(i[0] != 0)
+					if(env->map[(i[0]) - 1][i[1]] == '1')
+						j[0] = 1;
+				if(env->map[i[0] + 1])
+					if(env->map[i[0] + 1][i[1]] == '1')
+						j[3] = 1;
+				if(env->map[i[0]][i[1] + 1] == '1')
+					j[2] = 1;
+				drawdir_wall(&i, &j, env);
 			}
-
 		}
-
 	}
-}
-*/
+}*/
+
 int		f_key(struct s_env *env)
 {
 	int delay = 12;

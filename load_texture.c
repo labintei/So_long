@@ -6,7 +6,7 @@
 /*   By: labintei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 18:09:19 by labintei          #+#    #+#             */
-/*   Updated: 2021/06/20 18:50:13 by labintei         ###   ########.fr       */
+/*   Updated: 2021/06/20 20:27:00 by labintei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,10 @@ int		clear_all(struct s_env *env)
 	clear_image(env, env->c.p[1]);
 	clear_image(env, env->c.p[2]);
 	clear_image(env, env->c.p[3]);
-	clear_image(env, env->w);
+	clear_image(env, env->w[0]);
+	clear_image(env, env->w[1]);
+	clear_image(env, env->w[2]);
+	clear_image(env, env->w[3]);
 	clear_image(env, env->e);
 	clear_image(env, env->f);
 	mlx_destroy_image(env->p.mlx, env->i.img);
@@ -79,11 +82,21 @@ void	f_load_player(struct s_env *env)
 	load(env, &(env->play.p[11]), "./sprite/player/3.xpm");
 }
 
+void	f_load_wall(struct s_env *env)
+{
+	load(env, &(env->w[0]), "./sprite/wall/0.xpm");
+	load(env, &(env->w[1]), "./sprite/wall/a1.xpm");
+	load(env, &(env->w[2]), "./sprite/wall/a2.xpm");
+	load(env, &(env->w[3]), "./sprite/wall/a3.xpm");
+	load(env, &(env->w[4]), "./sprite/wall/a4.xpm");
+}
+
+
 void	f_load_texture(struct s_env *env)
 {
 	f_load_colect(env);
 	f_load_player(env);
-	load(env, &(env->w), "./sprite/wall/0.xpm");
+	f_load_wall(env);
 	load(env, &(env->e), "./sprite/exit/10.xpm");
 	load(env, &(env->f), "./sprite/floor/0.xpm");
 }
